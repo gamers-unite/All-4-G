@@ -78,6 +78,17 @@ module.exports = {
             });
     },
 
+    getUser: (req, res) => {
+        const { user_id } = req.body;
+        req.app
+            .get("db")
+            .auth.get_user(user_id)
+            .then(response => {
+                res.status(200).json(response);
+            })
+            .catch(err => console.log(err));
+    },
+
     logout: (req, res) => {
         req.session.destroy();
         return res.status(200).json("okay");
