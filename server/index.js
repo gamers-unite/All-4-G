@@ -16,9 +16,23 @@ const {
     logout
 } = require("./controllers/authController");
 const { getGame, getGames } = require("./controllers/gameController");
+const {
+    getRequest,
+    getRequests,
+    addRequest,
+    editRequest,
+    deleteRequest,
+    deactivateRequest
+} = require("./controllers/requestController");
+const {
+    getTeams,
+    addTeam,
+    deleteTeam
+} = require("./controllers/teamController");
+const { getReports, addReport } = require("./controllers/reportController");
 app.use(json());
 app.use(cors());
-app.use(express.static(`${__dirname}/../build`));
+// app.use(express.static(`${__dirname}/../build`));
 
 massive(process.env.CONNECTION_STRING)
     .then(db => {
@@ -50,15 +64,24 @@ app.get("api/allgames", getGames);
 app.get("api/game", getGame);
 
 //REQUEST ENDPOINTS
-app.get("/api/requests");
-app.post("/api/request");
-app.put("/api/request");
-app.delete("/api.requests");
+app.get("/api/requests/request", getRequest);
+app.get("/api/requests", getRequests);
+app.post("/api/request", addRequest);
+app.put("/api/request", editRequest);
+app.delete("/api/requests", deleteRequest);
+app.put("api/requests/deactivate", deactivateRequest);
 
 //TEAM ENDPOINTS
+app.get("api/teams", getTeams);
+app.post("api/teams", addTeam);
+app.delete("api/teams", deleteTeam);
 
-app.app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../build/index.html"));
-});
+//REPORT ENDPOINTS
+app.get("api/reports", getReports);
+app.post("api/reports", addReport);
+
+// app.app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "../build/index.html"));
+// });
 
 app.listen(port, console.log(`Listening on ${port}`));

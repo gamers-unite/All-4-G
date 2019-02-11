@@ -1,0 +1,2 @@
+SELCECT * FROM REQUESTS
+WHERE req_id = $1;
