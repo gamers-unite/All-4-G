@@ -10,7 +10,6 @@ module.exports = {
             display_name,
             email,
             password,
-            avatar,
             blizzard,
             epic,
             ps4,
@@ -25,7 +24,6 @@ module.exports = {
                 display_name,
                 email,
                 hash,
-                avatar,
                 blizzard,
                 epic,
                 ps4,
@@ -38,6 +36,7 @@ module.exports = {
                 req.session.user = {
                     id: user.user_id,
                     display_name: user.display_name,
+                    email: user.email,
                     avatar: user.avatar
                 };
                 res.status(201).json(req.session.user);
@@ -69,6 +68,7 @@ module.exports = {
                             req.session.user = {
                                 id: user.user_id,
                                 display_name: user.display_name,
+                                email: user.email,
                                 avatar: user.avatar
                             };
                             res.status(200).json(req.session.user);
