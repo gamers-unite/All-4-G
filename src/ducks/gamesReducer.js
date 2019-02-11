@@ -27,13 +27,13 @@ export default function reducer(state=initialState, action){
     console.log(action.type, action.payload)
     switch(action.type){
         case GAME + '_FULFILLED':
-        return{...state, user: action.payload.data};
+        return{...state, game: action.payload.data};
 
         case GAME + '_REJECTED':
         return{...state, error: 'Unable to log in'};
 
         case ALL_GAMES + '_FULFILLED':
-        return{...state, user: action.payload.data};
+        return{...state, allGames: action.payload.data};
 
         case ALL_GAMES + '_REJECTED':
         return{...state, error: 'invalid'};

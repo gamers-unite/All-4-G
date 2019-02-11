@@ -14,8 +14,10 @@
     "massive": "^5.7.5",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
+    "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.3",
+    "redux": "^4.0.1",
     "redux-promise-middleware": "^6.0.1"
   },
   "scripts": {
@@ -32,5 +34,7 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "proxy": "http://Localhost:3001",
+  "main": "server"
 }
