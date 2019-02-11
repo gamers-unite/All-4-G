@@ -11,6 +11,7 @@ const { currentSession } = require("./middleware/authMiddleware");
 const {
     addUser,
     logInUser,
+    getUser,
     authAccount,
     updateUser,
     logout
@@ -53,15 +54,16 @@ app.use(
 );
 
 //AUTH ENDPOINTS
-app.post("/user/register", addUser);
-app.post("/user/login", logInUser);
-app.get("/user/current", currentSession, authAccount);
-app.put("/user/update", updateUser);
-app.post("/user/logout", logout);
+app.post("/users/register", addUser);
+app.post("/users/login", logInUser);
+app.get("/users", getUser);
+app.get("/users/current", currentSession, authAccount);
+app.put("/users/update", updateUser);
+app.post("/users/logout", logout);
 
 //GAMES ENPOINTS
-app.get("api/allgames", getGames);
-app.get("api/game", getGame);
+app.get("/api/games/all", getGames);
+app.get("/api/games", getGame);
 
 //REQUEST ENDPOINTS
 app.get("/api/requests/request", getRequest);
@@ -69,16 +71,16 @@ app.get("/api/requests", getRequests);
 app.post("/api/request", addRequest);
 app.put("/api/request", editRequest);
 app.delete("/api/requests", deleteRequest);
-app.put("api/requests/deactivate", deactivateRequest);
+app.put("/api/requests/deactivate", deactivateRequest);
 
 //TEAM ENDPOINTS
-app.get("api/teams", getTeams);
-app.post("api/teams", addTeam);
-app.delete("api/teams", deleteTeam);
+app.get("/api/teams", getTeams);
+app.post("/api/teams", addTeam);
+app.delete("/api/teams", deleteTeam);
 
 //REPORT ENDPOINTS
-app.get("api/reports", getReports);
-app.post("api/reports", addReport);
+app.get("/api/reports", getReports);
+app.post("/api/reports", addReport);
 
 // app.app.get("*", (req, res) => {
 //     res.sendFile(path.join(__dirname, "../build/index.html"));
