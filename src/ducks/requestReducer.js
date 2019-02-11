@@ -1,23 +1,32 @@
 import axios from 'axios';
 
 const initialState={
-    request: {}
+    request: {},
+    allRequests: []
 }
 
 const REQUEST = 'REQUEST';
-const EDIT_REQUEST = 'EDIT_REQUEST';
+const REQUEST_EDIT = 'EDIT_REQUEST';
+const ALL_REQUESTS = 'ALL_REQUESTS';
 
 export function request(display_name){
     return{
         type: REQUEST,
-    payload: axios.post('/auth/register', {display_name})
+    payload: axios.post('/auth/request', {display_name})
     }
 }
 
 export function requestEdit(display_name){
     return{
         type: REQUEST_EDIT,
-        payload: axios.put('/auth/edit', {display_name})
+        payload: axios.put('/api/request_edit', {display_name})
+    }
+}
+
+export function allRequests(game){
+    return{
+        type: ALL_REQUESTS,
+        payload: axios.get('/api/requests')
     }
 }
 
