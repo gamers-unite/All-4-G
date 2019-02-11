@@ -44,6 +44,10 @@ Carousel = () => {
         }
     }, [state.currentIndex, state.playing]);
 
+    handleClick=(e)=>{
+      dispatch({type: e.target.name})
+  }
+
     return(
         <Carousel>
             <Games>
@@ -69,23 +73,19 @@ Carousel = () => {
                 )}
             </GameNav>
     
-            <Nav>
-                <button className= 'Play'>
-                    onclick={()=>{dispatch({type: 'PLAY'})}}
-                </button>
+            {/* <Div name='PLAY' onClick={handleClick}> */}
 
-                <button className= 'Pause'>
-                    onclick={()=>{dispatch({type: 'PAUSE'})}}
-                </button>
+            <Nav className= 'CarouselNav'>
+                <button name='PLAY' onClick={{handleClick}}></button>
+                
+                <button name='PAUSE' onClick={{handleClick}}></button>
 
-                <button className= 'Prev'>
-                    onClick={()=>{dispatch({type: 'PREV'})}}
-                </button>
+                <button name='PREV' onClick={{handleClick}}></button>
 
-                <button className= 'Next'>
-                    onClick={()=>{dispatch({type: 'NEXT'})}}
-                </button>
+                <button name='NEXT' onClick={{handleClick}}></button>
             </Nav>
         </Carousel>
     )
 }
+
+export default Carousel;

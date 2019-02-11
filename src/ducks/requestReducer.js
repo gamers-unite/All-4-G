@@ -30,7 +30,7 @@ export function addRequest(){
 
 export function editRequest(){
     return{
-        type: REQUEST_EDIT,
+        type: EDIT_REQUEST,
         payload: axios.put('/api/request', {})
     }
 }
