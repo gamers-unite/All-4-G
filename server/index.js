@@ -11,6 +11,7 @@ const { currentSession } = require("./middleware/authMiddleware");
 const {
     addUser,
     logInUser,
+    getUser,
     authAccount,
     updateUser,
     logout
@@ -55,13 +56,14 @@ app.use(
 //AUTH ENDPOINTS
 app.post("/users/register", addUser);
 app.post("/users/login", logInUser);
+app.get("/users", getUser);
 app.get("/users/current", currentSession, authAccount);
 app.put("/users/update", updateUser);
 app.post("/users/logout", logout);
 
 //GAMES ENPOINTS
-app.get("/api/allgames", getGames);
-app.get("/api/game", getGame);
+app.get("/api/games/all", getGames);
+app.get("/api/games", getGame);
 
 //REQUEST ENDPOINTS
 app.get("/api/requests/request", getRequest);

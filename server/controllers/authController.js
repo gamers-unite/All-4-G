@@ -10,7 +10,6 @@ module.exports = {
             display_name,
             email,
             password,
-            avatar,
             blizzard,
             epic,
             ps4,
@@ -25,7 +24,6 @@ module.exports = {
                 display_name,
                 email,
                 hash,
-                avatar,
                 blizzard,
                 epic,
                 ps4,
@@ -38,22 +36,27 @@ module.exports = {
                 req.session.user = {
                     id: user.user_id,
                     display_name: user.display_name,
+                    email: user.email,
                     avatar: user.avatar
                 };
+                console.log(req.session);
                 res.status(201).json(req.session.user);
             })
             .catch(err => console.log(err));
     },
 
     logInUser: (req, res) => {
+        console.log(req.body);
         const { email, password } = req.body;
         req.app
             .get("db")
             .auth.get_user(email)
             .then(response => {
+                console.log(response);
                 const foundUser = response;
                 const user = foundUser[0];
                 if (!user) {
+                    // console.log("user not found");
                     res.status(401).json({
                         error: "Incorrect email or password"
                     });
@@ -69,13 +72,26 @@ module.exports = {
                             req.session.user = {
                                 id: user.user_id,
                                 display_name: user.display_name,
+                                email: user.email,
                                 avatar: user.avatar
                             };
+                            console.log(req.session);
                             res.status(200).json(req.session.user);
                         }
                     });
                 }
             });
+    },
+
+    getUser: (req, res) => {
+        const { user_id } = req.body;
+        req.app
+            .get("db")
+            .auth.get_user(user_id)
+            .then(response => {
+                res.status(200).json(response);
+            })
+            .catch(err => console.log(err));
     },
 
     logout: (req, res) => {
