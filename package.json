@@ -1,40 +1,41 @@
 {
-  "name": "all-4-g",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@material-ui/core": "^3.9.2",
-    "axios": "^0.18.0",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.5",
-    "dotenv": "^6.2.0",
-    "express": "^4.16.4",
-    "express-session": "^1.15.6",
-    "massive": "^5.7.5",
-    "react": "^16.8.1",
-    "react-dom": "^16.8.1",
-    "react-redux": "^6.0.0",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.3",
-    "redux": "^4.0.1",
-    "redux-promise-middleware": "^6.0.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "proxy": "http://Localhost:3001",
-  "main": "server"
+    "name": "all-4-g",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@material-ui/core": "^3.9.2",
+        "axios": "^0.18.0",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.18.3",
+        "cors": "^2.8.5",
+        "dotenv": "^6.2.0",
+        "express": "^4.16.4",
+        "express-session": "^1.15.6",
+        "firebase": "^5.8.2",
+        "massive": "^5.7.5",
+        "react": "^16.8.1",
+        "react-dom": "^16.8.1",
+        "react-redux": "^6.0.0",
+        "react-router-dom": "^4.3.1",
+        "react-scripts": "2.1.3",
+        "redux": "^4.0.1",
+        "redux-promise-middleware": "^6.0.1"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "proxy": "http://Localhost:3001",
+    "main": "server"
 }
