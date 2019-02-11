@@ -5,44 +5,79 @@ const initialState={
 }
 
 const LOGIN = 'LOGIN';
-const REGISTER = 'REGISTER';
-const EDIT = 'EDIT';
+const ADD_USER = 'ADD_USER';
+const UPDATE = 'UPDATE';
 const GET_USER = 'GET_USER';
 const CHANGE_USER = 'CHANGE_USER';
 
-export function login(username, password){
+export function login(email, password){
     return{
         type: LOGIN,
-        payload: axios.post('/auth/login', {username, password})
+        payload: axios.post('/user/login', {
+            display_name,
+            email,
+            password,
+            avatar,
+            blizzard,
+            epic,
+            ps4,
+            riot,
+            steam,
+            xbox
+        })
     }
 }
 
-export function register(username, password, display_name, email){
+export function addUser(
+    display_name, email, password, blizzard, epic, ps4, riot, steam, xbox
+    ){
     return{
-        type: REGISTER,
-    payload: axios.post('/auth/register', {username, password, display_name, email})
+        type: ADD_USER,
+        payload: axios.post('/user/register', {
+            display_name,
+            email,
+            password,
+            avatar,
+            blizzard,
+            epic,
+            ps4,
+            riot,
+            steam,
+            xbox
+        })
     }
 }
 
-export function edit(username, password, display_name, email){
+export function update(email){
     return{
-        type: EDIT,
-        payload: axios.put('/auth/edit', {username, password, display_name, email})
+        type: UPDATE,
+        payload: axios.put('/user/update', {
+            display_name,
+            email,
+            password,
+            avatar,
+            blizzard,
+            epic,
+            ps4,
+            riot,
+            steam,
+            xbox
+        })
     }
 }
 
 export function getUser(id){
     console.log(id)
     return{
-        type: getUser,
-        payload: axios.get('/auth/users', id)
+        type: GET_USER,
+        payload: axios.get('/user/current', id)
     }
 }
 
-export function changeUser(){
+export function logout(){
 return{
     type: CHANGE_USER,
-    payload: {}
+    payload: axios.post('/user/logout')
     }
 }
 
@@ -61,10 +96,10 @@ export default function reducer(state=initialState, action){
         case REGISTER + '_REJECTED':
         return{...state, error: 'invalid'}
 
-        case EDIT + '_FULFILLED':
+        case UPDATE + '_FULFILLED':
         return{...state, user: action.payload.data};
 
-        case EDIT + '_REJECTED':
+        case UPDATE + '_REJECTED':
         return{...state, error: 'invalid'}
 
         case GET_USER + '_FULFILLED':
@@ -73,7 +108,7 @@ export default function reducer(state=initialState, action){
         case GET_USER - '_REJECTED':
         return{...state, error: 'no user'}
 
-        case CHANGE_USER:
+        case logout:
         return{...state, user: action.payload}
 
         default:
