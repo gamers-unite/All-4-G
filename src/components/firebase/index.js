@@ -1,8 +1,10 @@
 import firebase from "firebase/app";
 import "firebase/storage";
+import FIREBASE_API_KEY from "./keys";
 
 // Initialize Firebase
 var config = {
+    apiKey: FIREBASE_API_KEY,
     authDomain: "all-4-g.firebaseapp.com",
     databaseURL: "https://all-4-g.firebaseio.com",
     projectId: "all-4-g",

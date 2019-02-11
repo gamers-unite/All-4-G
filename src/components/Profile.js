@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { storage } from "../../firebase";
+import ImageUpload from "./ImageUpload";
 
 const Profile = () => {
     const [edit, toggleEdit] = useState(false);
     const [inputs, setInputs] = useState({
         display_name: props.display_name,
+        avatar: props.avatar,
+        image: null,
+        newImg: "",
         blizzard: props.blizzard,
         epic: props.epic,
         ps4: props.ps4,
@@ -17,11 +22,52 @@ const Profile = () => {
         setInputs({ ...inputs, [name]: value });
     };
 
+    const handleFileChange = e => {
+        if (e.target.files[0]) {
+            const image = e.target.files[0];
+            setInputs({ image });
+        }
+    };
+
+    handleUpload = event => {
+        event.preventDefault();
+        const { email } = props;
+        const uploadTask = storage.ref(`images/avatars/${email}`).put(image);
+        uploadTask.on(
+            "state_changed",
+            snapshot => {
+                //progress function
+            },
+            error => {
+                //error function
+                console.log(error);
+            },
+            () => {
+                //complete function
+                storage
+                    .ref("images")
+                    .child(email)
+                    .getDownloadURL()
+                    .then(url => setInputs({ newImg: url }));
+            }
+        );
+    };
+
     const submitEdit = e => {
         e.preventDefault();
-        const { display_name, blizzard, epic, ps4, riot, steam, xbox } = inputs;
+        const {
+            display_name,
+            avatar,
+            blizzard,
+            epic,
+            ps4,
+            riot,
+            steam,
+            xbox
+        } = inputs;
         axios.post("./users/update", {
             display_name,
+            avatar,
             blizzard,
             epic,
             ps4,
@@ -75,6 +121,12 @@ const Profile = () => {
             {edit && (
                 <div>
                     <form onSubmit={submitEdit}>
+                        <ImageUpload
+                            handleFileChange={handleFileChange}
+                            handleUpload={handleUpload}
+                            avatar={props.avatar}
+                            newImg={newImg}
+                        />
                         <p>Display Name</p>
                         <input
                             name="display_name"
