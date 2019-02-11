@@ -39,20 +39,24 @@ module.exports = {
                     email: user.email,
                     avatar: user.avatar
                 };
+                console.log(req.session);
                 res.status(201).json(req.session.user);
             })
             .catch(err => console.log(err));
     },
 
     logInUser: (req, res) => {
+        console.log(req.body);
         const { email, password } = req.body;
         req.app
             .get("db")
             .auth.get_user(email)
             .then(response => {
+                console.log(response);
                 const foundUser = response;
                 const user = foundUser[0];
                 if (!user) {
+                    // console.log("user not found");
                     res.status(401).json({
                         error: "Incorrect email or password"
                     });
@@ -71,6 +75,7 @@ module.exports = {
                                 email: user.email,
                                 avatar: user.avatar
                             };
+                            console.log(req.session);
                             res.status(200).json(req.session.user);
                         }
                     });

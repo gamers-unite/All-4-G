@@ -6,6 +6,7 @@ import gamesReducer from "./ducks/gamesReducer";
 import requestReducer from "./ducks/requestReducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const combinedReducers = combineReducers({
     user: userReducer,
     games: gamesReducer,
@@ -13,7 +14,6 @@ const combinedReducers = combineReducers({
 });
 
 export default createStore(
-    composeEnhancers,
     combinedReducers,
-    applyMiddleware(promiseMiddleware())
+    composeEnhancers(applyMiddleware(promiseMiddleware))
 );

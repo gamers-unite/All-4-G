@@ -13,17 +13,9 @@ const CHANGE_USER = "CHANGE_USER";
 export function login(email, password) {
     return {
         type: LOGIN,
-        payload: axios.post("/user/login", {
-            display_name,
+        payload: axios.post("/users/login", {
             email,
-            password,
-            avatar,
-            blizzard,
-            epic,
-            ps4,
-            riot,
-            steam,
-            xbox
+            password
         })
     };
 }
@@ -41,7 +33,7 @@ export function addUser(
 ) {
     return {
         type: ADD_USER,
-        payload: axios.post("/user/register", {
+        payload: axios.post("/users/register", {
             display_name,
             email,
             password,
@@ -55,10 +47,21 @@ export function addUser(
     };
 }
 
-export function update(email) {
+export function update(
+    display_name,
+    email,
+    password,
+    avatar,
+    blizzard,
+    epic,
+    ps4,
+    riot,
+    steam,
+    xbox
+) {
     return {
         type: UPDATE,
-        payload: axios.put("/user/update", {
+        payload: axios.put("/users/update", {
             display_name,
             email,
             password,
@@ -77,14 +80,14 @@ export function getUser(id) {
     console.log(id);
     return {
         type: GET_USER,
-        payload: axios.get("/user/current", id)
+        payload: axios.get("/users/current", id)
     };
 }
 
 export function logout() {
     return {
         type: CHANGE_USER,
-        payload: axios.post("/user/logout")
+        payload: axios.post("/users/logout")
     };
 }
 
@@ -97,10 +100,10 @@ export default function reducer(state = initialState, action) {
         case LOGIN + "_REJECTED":
             return { ...state, error: "Unable to log in" };
 
-        case REGISTER + "_FULFILLED":
+        case ADD_USER + "_FULFILLED":
             return { ...state, user: action.payload.data };
 
-        case REGISTER + "_REJECTED":
+        case ADD_USER + "_REJECTED":
             return { ...state, error: "invalid" };
 
         case UPDATE + "_FULFILLED":

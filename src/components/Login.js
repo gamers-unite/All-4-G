@@ -5,17 +5,19 @@ const Login = () => {
     const [inputs, setInputs] = useState({ email: "", password: "" });
 
     const onChange = (e, name) => {
-        setInputs({ ...inputs, [name]: e.target.value });
+        setInputs({ ...inputs, [e.target.name]: e.target.value });
     };
 
     return (
         <div>
-            <form onSubmit={() => login(inputs.email, inputs.password)}>
+            <form>
                 <p>Email</p>
                 <input name="email" onChange={e => onChange(e)} />
                 <p>Password</p>
                 <input name="password" onChange={e => onChange(e)} />
-                <button onClick={() => login(email, password)}>Sign In</button>
+                <button onClick={() => login(inputs.email, inputs.password)}>
+                    Sign In
+                </button>
             </form>
         </div>
     );

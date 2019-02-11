@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addUser } from "./ducks/userReducer";
+import { addUser } from "../ducks/userReducer";
 
 const Register = () => {
     const [inputs, setInputs] = useState({
@@ -14,27 +14,13 @@ const Register = () => {
         xbox: ""
     });
 
-    const onChange = (name, value) => {
-        setInputs({ ...inputs, [name]: value });
+    const onChange = e => {
+        setInputs({ ...inputs, [e.target.name]: e.target.value });
     };
 
     return (
         <div>
-            <form
-                onSubmit={() =>
-                    addUser(
-                        email,
-                        display_name,
-                        password,
-                        blizzard,
-                        epic,
-                        ps4,
-                        riot,
-                        steam,
-                        xbox
-                    )
-                }
-            >
+            <form>
                 <p> Email</p>
                 <input name="email" onChange={onChange} />
                 <p>Display Name</p>
@@ -52,19 +38,19 @@ const Register = () => {
                 <p>Steam</p>
                 <input name="steam" onChange={onChange} />
                 <p>Xbox</p>
-                <input name="riot" onChange={onChange} />
+                <input name="xbox" onChange={onChange} />
                 <button
                     onClick={() =>
                         addUser(
-                            email,
-                            display_name,
-                            password,
-                            blizzard,
-                            epic,
-                            ps4,
-                            riot,
-                            steam,
-                            xbox
+                            inputs.email,
+                            inputs.display_name,
+                            inputs.password,
+                            inputs.blizzard,
+                            inputs.epic,
+                            inputs.ps4,
+                            inputs.riot,
+                            inputs.steam,
+                            inputs.xbox
                         )
                     }
                 >

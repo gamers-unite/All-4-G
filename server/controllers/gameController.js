@@ -13,7 +13,8 @@ module.exports = {
     getGames: (req, res) => {
         req.app
             .get("db")
-            .games.get_games.then(response => {
+            .games.get_games()
+            .then(response => {
                 res.status(200).json(response);
             })
             .catch(err => console.log(err));
