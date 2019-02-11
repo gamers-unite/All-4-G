@@ -2,7 +2,7 @@ import React, {useEffect, useReducer} from 'react';
 
 //HOOKS AND REDUCER
 
-App = () => {
+Carousel = () => {
     let [state, dispatch] = useReducer(
         (state, action)=>{
             switch(action.type){
@@ -68,7 +68,7 @@ App = () => {
                     />
                 )}
             </GameNav>
-        
+    
             <Nav>
                 <button className= 'Play'>
                     onclick={()=>{dispatch({type: 'PLAY'})}}
