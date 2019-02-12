@@ -1,25 +1,26 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 import { storage } from "../../firebase";
 import ImageUpload from "./ImageUpload";
 
 const Profile = () => {
     const [edit, toggleEdit] = useState(false);
     const [inputs, setInputs] = useState({
-        display_name: props.display_name,
-        avatar: props.avatar,
+        display_name: props.user.display_name,
+        avatar: props.user.avatar,
         image: null,
         newImg: "",
-        blizzard: props.blizzard,
-        epic: props.epic,
-        ps4: props.ps4,
-        riot: props.riot,
-        steam: props.steam,
-        xbox: props.xbox
+        blizzard: props.user.blizzard,
+        epic: props.user.epic,
+        ps4: props.user.ps4,
+        riot: props.user.riot,
+        steam: props.user.steam,
+        xbox: props.user.xbox
     });
 
-    const onChange = (name, value) => {
-        setInputs({ ...inputs, [name]: value });
+    const onChange = e => {
+        setInputs({ ...inputs, [e.target.name]: e.target.value });
     };
 
     const handleFileChange = e => {
@@ -31,7 +32,7 @@ const Profile = () => {
 
     handleUpload = event => {
         event.preventDefault();
-        const { email } = props;
+        const { email } = props.user;
         const uploadTask = storage.ref(`images/avatars/${email}`).put(image);
         uploadTask.on(
             "state_changed",
@@ -78,46 +79,46 @@ const Profile = () => {
     };
     return (
         <div>
-            <img src={props.avatar} alt="avatar" />
-            <h1>{props.display_name}</h1>
-            <h2>{props.email}</h2>
-            {props.blizzard && (
+            <img src={props.user.avatar} alt="avatar" />
+            <h1>{props.user.display_name}</h1>
+            <h2>{props.user.email}</h2>
+            {props.user.blizzard && (
                 <>
                     <p>Blizzard:</p>
                     <p>{props.blizzard}</p>
                 </>
             )}
-            {props.epic && (
+            {props.user.epic && (
                 <>
                     <p>Epic:</p>
-                    <p>{props.epic}</p>
+                    <p>{props.user.epic}</p>
                 </>
             )}
-            {props.ps4 && (
+            {props.user.ps4 && (
                 <>
                     <p>PlayStation:</p>
-                    <p>{props.ps4}</p>
+                    <p>{props.user.ps4}</p>
                 </>
             )}
-            {props.riot && (
+            {props.user.riot && (
                 <>
                     <p>Riot:</p>
-                    <p>{props.riot}</p>
+                    <p>{props.user.riot}</p>
                 </>
             )}
-            {props.steam && (
+            {props.user.steam && (
                 <>
                     <p>Steam:</p>
-                    <p>{props.steam}</p>
+                    <p>{props.user.steam}</p>
                 </>
             )}
-            {props.xbox && (
+            {props.user.xbox && (
                 <>
                     <p>Steam:</p>
-                    <p>{props.xbox}</p>
+                    <p>{props.user.xbox}</p>
                 </>
             )}
-            <button onClick={toggleEdit(true)}>Edit</button>
+            <button onClick={() => toggleEdit(true)}>Edit</button>
             {edit && (
                 <div>
                     <form onSubmit={submitEdit}>
@@ -178,4 +179,8 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+const mapStateToProps = state => {
+    return ({ user } = state);
+};
+
+export default connect(mapStateToProps)(Profile);
