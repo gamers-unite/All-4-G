@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 
 module.exports = {
     authAccount: (req, res) => {
+        console.log("session:", req.session);
         res.status(201).json(req.session.user);
     },
 
@@ -37,22 +38,28 @@ module.exports = {
                     id: user.user_id,
                     display_name: user.display_name,
                     email: user.email,
-                    avatar: user.avatar
+                    avatar: user.avatar,
+                    blizzard: user.blizzard,
+                    epic: user.epic,
+                    ps4: user.ps4,
+                    riot: user.riot,
+                    steam: user.steam,
+                    xbox: user.xbox
                 };
-                console.log(req.session);
+                // console.log(req.session);
                 res.status(201).json(req.session.user);
             })
             .catch(err => console.log(err));
     },
 
     logInUser: (req, res) => {
-        console.log(req.body);
+        // console.log(req.body);
         const { email, password } = req.body;
         req.app
             .get("db")
             .auth.get_user(email)
             .then(response => {
-                console.log(response);
+                // console.log(response);
                 const foundUser = response;
                 const user = foundUser[0];
                 if (!user) {
@@ -73,9 +80,15 @@ module.exports = {
                                 id: user.user_id,
                                 display_name: user.display_name,
                                 email: user.email,
-                                avatar: user.avatar
+                                avatar: user.avatar,
+                                blizzard: user.blizzard,
+                                epic: user.epic,
+                                ps4: user.ps4,
+                                riot: user.riot,
+                                steam: user.steam,
+                                xbox: user.xbox
                             };
-                            console.log(req.session);
+                            console.log("logged in session:", req.session);
                             res.status(200).json(req.session.user);
                         }
                     });
@@ -100,6 +113,7 @@ module.exports = {
     },
 
     updateUser: (req, res) => {
+        console.log(req.body);
         const {
             display_name,
             avatar,
