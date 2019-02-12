@@ -34,7 +34,6 @@ Carousel = () => {
         },{currentIndex: 0, playing: false}
     )
 
-
     useEffect(()=>{
         if(state.playing){
             let timeout = setTimeout(()=>{
@@ -43,6 +42,8 @@ Carousel = () => {
             return () => clearTimeout(timeout)
         }
     }, [state.currentIndex, state.playing]);
+
+    let { games } = props
 
     return(
         <Carousel>
@@ -89,3 +90,5 @@ Carousel = () => {
         </Carousel>
     )
 }
+
+export default Carousel;
