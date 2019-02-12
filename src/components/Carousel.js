@@ -1,8 +1,11 @@
 import React, {useEffect, useReducer} from 'react';
+import styled from 'styled-components';
+
 
 //HOOKS AND REDUCER
 
-Carousel = () => {
+const Carousel = (props) => {
+  console.log(props)
     let [state, dispatch] = useReducer(
         (state, action)=>{
             switch(action.type){
@@ -10,16 +13,16 @@ Carousel = () => {
                 case 'NEXT':
                 return{
                     ...state, playing: action.type === 'PROGRESS',
-                    currentIndex: (state.currentIndex + 1) % games.length
+                    currentIndex: (state.currentIndex + 1) % props.games.length
                 }
                 case 'PREV':
                 return{
                     ...state, playing: false,
-                    currentIndex: (state.currentIndex - 1 + games.length) % games.length
+                    currentIndex: (state.currentIndex - 1 + props.games.length) % props.games.length
                 }
                 case 'PLAY':
                 return{
-                    ...state, playing: true, takeFocus: false
+                    ...state, playing: true
                 }
                 case 'PAUSE':
                 return{
@@ -38,53 +41,67 @@ Carousel = () => {
         if(state.playing){
             let timeout = setTimeout(()=>{
                 dispatch({type: 'PROGRESS'})
-            }, SLIDE_DURATION);
+            }, 3000);
             return () => clearTimeout(timeout)
         }
     }, [state.currentIndex, state.playing]);
 
-    handleClick=(e)=>{
+    const handleClick=(e)=>{
       dispatch({type: e.target.name})
   }
 
+  console.log(props.games)
     return(
-        <Carousel>
-            <Games>
-            {games.map((image, index)=>(
-                <Game
-                key={index}
-                id={`image${index}`}
-                image={games.img}
-                title={games.title}
-                current={index === state.currentIndex}
-                info={gmaes.info}
-                />
+        <GameWrap>
+            <div>
+            {props.games.map((e , i)=>(
+                <div>
+                  <img src={props.games.background_img}></img>
+                // id={e.game_id}
+                // image={e.background_image}
+                // title={e.title}
+                // current={i === state.currentIndex}
+                // info={e.info}
+                </div>
             ))}
-            </Games>
+            </div>
         
-            <GameNav>
-                {games.map((games, index)=>
-                <GameItem
-                    key={index}
-                    current={index === state.currentIndex}
-                    onClick={()=>{dispatch({type: 'GOTO', index})}}
+            <div>
+                {/* {props.games.map((e , i)=>
+                <div
+                    key={i}
+                    current={i === state.currentIndex}
+                    onClick={()=>{dispatch({type: 'GOTO', i})}}
                     />
-                )}
-            </GameNav>
+                )} */}
+            </div>
     
             {/* <Div name='PLAY' onClick={handleClick}> */}
 
-            <Nav className= 'CarouselNav'>
-                <button name='PLAY' onClick={{handleClick}}></button>
+            <div className= 'CarouselNav'>
+                <button name='PLAY' onClick={handleClick}></button>
                 
-                <button name='PAUSE' onClick={{handleClick}}></button>
+                <button name='PAUSE' onClick={handleClick}></button>
 
-                <button name='PREV' onClick={{handleClick}}></button>
+                <button name='PREV' onClick={handleClick}></button>
 
-                <button name='NEXT' onClick={{handleClick}}></button>
-            </Nav>
-        </Carousel>
+                <button name='NEXT' onClick={handleClick}></button>
+            </div>
+        </GameWrap>
     )
 }
 
+
+
 export default Carousel;
+
+const GameWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow: scroll;
+  height: 92vh;
+  width: 100vw;
+  margin: 0 auto;
+  background: #333333;
+`;

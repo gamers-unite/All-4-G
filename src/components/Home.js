@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { allGames } from '../ducks/gamesReducer';
 import styled from 'styled-components';
-// import Carousel from './Carousel';
+import Carousel from './Carousel';
 import Game from './Game';
 import User from './User';
 
@@ -28,7 +28,7 @@ if(props.games){
 
   return (
     <>
-      {/* <Carousel games={props.games}/> */}
+      <Carousel games={props.games}/>
       <GameWrap>
         { gameMap }
       </GameWrap>
@@ -50,7 +50,7 @@ const GameWrap = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   overflow: scroll;
-  height: 60vh;
+  height: 92vh;
   width: 100vw;
   margin: 0 auto;
   background: #333333;

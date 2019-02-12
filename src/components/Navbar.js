@@ -16,9 +16,6 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import dark from '@material-ui/core/colors';
 
 const styles = theme => ({
-  palette: {
-    type: dark
-  },
   root: {
     width: '100%',
   },
