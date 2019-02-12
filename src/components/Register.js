@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import { addUser } from "../ducks/userReducer";
 
 const Register = () => {
@@ -20,7 +21,7 @@ const Register = () => {
 
     return (
         <div>
-            <form>
+            <form onSubmit={e => e.preventDefault()}>
                 <p> Email</p>
                 <input name="email" onChange={onChange} />
                 <p>Display Name</p>
@@ -41,7 +42,7 @@ const Register = () => {
                 <input name="xbox" onChange={onChange} />
                 <button
                     onClick={() =>
-                        addUser(
+                        props.addUser(
                             inputs.email,
                             inputs.display_name,
                             inputs.password,
@@ -61,4 +62,9 @@ const Register = () => {
     );
 };
 
-export default Register;
+const mapStateToProps = state => state;
+
+export default connect(
+    mapStateToProps,
+    { addUser }
+)(Register);

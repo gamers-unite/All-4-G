@@ -55,7 +55,14 @@ app.use(
 
 //AUTH ENDPOINTS
 app.post("/users/register", addUser);
-app.post("/users/login", logInUser);
+app.post(
+    "/users/login",
+    (req, res, next) => {
+        console.log("hit");
+        next();
+    },
+    logInUser
+);
 app.get("/users", getUser);
 app.get("/users/current", currentSession, authAccount);
 app.put("/users/update", updateUser);
@@ -68,8 +75,8 @@ app.get("/api/games", getGame);
 //REQUEST ENDPOINTS
 app.get("/api/requests/request", getRequest);
 app.get("/api/requests", getRequests);
-app.post("/api/request", addRequest);
-app.put("/api/request", editRequest);
+app.post("/api/requests", addRequest);
+app.put("/api/requests", editRequest);
 app.delete("/api/requests", deleteRequest);
 app.put("/api/requests/deactivate", deactivateRequest);
 
