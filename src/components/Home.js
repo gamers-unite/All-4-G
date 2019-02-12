@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { allGames } from '../ducks/gamesReducer';
 import styled from 'styled-components';
-// import Carousel from './Carousel';
+import Carousel from './Carousel';
 import Game from './Game';
 import User from './User';
 
@@ -28,9 +28,7 @@ if(props.games){
 
   return (
     <>
-    <p>Navbar</p>
-    <p>Carousel</p>
-      {/* <Carousel games={props.games}/> */}
+      {props.games[0] && <Carousel games={props.games}/>}
       <GameWrap>
         { gameMap }
       </GameWrap>
