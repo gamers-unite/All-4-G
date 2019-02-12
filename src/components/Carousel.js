@@ -34,7 +34,6 @@ Carousel = () => {
         },{currentIndex: 0, playing: false}
     )
 
-
     useEffect(()=>{
         if(state.playing){
             let timeout = setTimeout(()=>{
@@ -44,9 +43,13 @@ Carousel = () => {
         }
     }, [state.currentIndex, state.playing]);
 
+<<<<<<< HEAD
     handleClick=(e)=>{
       dispatch({type: e.target.name})
   }
+=======
+    let { games } = props
+>>>>>>> master
 
     return(
         <Carousel>
@@ -88,6 +91,9 @@ Carousel = () => {
     )
 }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> master
 export default Carousel;

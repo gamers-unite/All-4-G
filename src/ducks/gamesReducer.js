@@ -19,7 +19,7 @@ export function game(game){
 export function allGames(){
     return{
         type: ALL_GAMES,
-        payload: axios.get('/api/allgames')
+        payload: axios.get('/api/games/all')
     }
 }
 
