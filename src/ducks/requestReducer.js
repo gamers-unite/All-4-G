@@ -55,7 +55,7 @@ export function getRequests(game) {
 }
 
 export default function reducer(state = initialState, action) {
-    console.log(action.type, action.payload);
+    // console.log(action.type, action.payload);
     switch (action.type) {
         case REQUEST + "_FULFILLED":
             return { ...state, user: action.payload.data };
