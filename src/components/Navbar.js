@@ -1,5 +1,4 @@
 import React from 'react';
-<<<<<<< HEAD
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,8 +13,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import dark from '@material-ui/core/colors';
 
 const styles = theme => ({
+  palette: {
+    type: dark
+  },
   root: {
     width: '100%',
   },
@@ -85,7 +88,7 @@ const styles = theme => ({
   },
 });
 
-class PrimarySearchAppBar extends React.Component {
+class Nav extends React.Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
@@ -193,38 +196,37 @@ class PrimarySearchAppBar extends React.Component {
   }
 }
 
-PrimarySearchAppBar.propTypes = {
+Nav.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PrimarySearchAppBar);
-=======
-import { connect } from 'react-redux';
-import { getUser } from '../ducks/user/userReducer.js'; 
+export default withStyles(styles)(Nav);
 
-const Navbar = () => {
+// import { connect } from 'react-redux';
+// import { getUser } from '../ducks/user/userReducer.js'; 
 
-  useEffect( getUser(), [])
+// const Navbar = () => {
 
-  return (
-    <div>
-      <div>
-        <img src='Logo?' alt='Logo'/>
-        <img src={props.user.avatar} alt='profile'/>
-        <h2>{props.user.display_name}</h2>
-        {
-          // Hanburger for logout and edit user function?
-        }
-      </div>
-    </div>
-  )
-}
+//   useEffect( getUser(), [])
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user
-  }
-}
+//   return (
+//     <div>
+//       <div>
+//         <img src='Logo?' alt='Logo'/>
+//         <img src={props.user.avatar} alt='profile'/>
+//         <h2>{props.user.display_name}</h2>
+//         {
+//           // Hanburger for logout and edit user function?
+//         }
+//       </div>
+//     </div>
+//   )
+// }
 
-export default connect( mapStateToProps, { getUser } )(Navbar);
->>>>>>> master
+// const mapStateToProps = state => {
+//   return {
+//     user: state.user.user
+//   }
+// }
+
+// export default connect( mapStateToProps, { getUser } )(Navbar);

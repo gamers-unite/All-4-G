@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import PrimarySearchAppBar from './Navbar';
-=======
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { allGames } from '../ducks/gamesReducer';
@@ -12,7 +8,7 @@ import User from './User';
 
 const Home = (props) => {
 
-  useEffect( () => props.allGames(), []);
+  useEffect( () => {props.allGames()}, []);
 
 let gameMap = []
 if(props.games){
@@ -29,15 +25,8 @@ if(props.games){
   })
 }
 
->>>>>>> master
 
   return (
-<<<<<<< HEAD
-    <div>
-      <PrimarySearchAppBar />
-      Home
-    </div>
-=======
     <>
       {/* <Carousel games={props.games}/> */}
       <GameWrap>
@@ -45,7 +34,6 @@ if(props.games){
       </GameWrap>
       <User/>
     </>
->>>>>>> master
   )
 }
 
@@ -63,7 +51,7 @@ const GameWrap = styled.div`
   flex-wrap: wrap;
   overflow: scroll;
   height: 60vh;
-  width: 90vw;
+  width: 100vw;
   margin: 0 auto;
   background: #333333;
 `;
