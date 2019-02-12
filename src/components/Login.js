@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import { login } from "../ducks/userReducer";
 
-const Login = () => {
+const Login = props => {
     const [inputs, setInputs] = useState({ email: "", password: "" });
 
     const onChange = (e, name) => {
@@ -10,17 +11,20 @@ const Login = () => {
 
     return (
         <div>
-            <form>
-                <p>Email</p>
-                <input name="email" onChange={e => onChange(e)} />
-                <p>Password</p>
-                <input name="password" onChange={e => onChange(e)} />
-                <button onClick={() => login(inputs.email, inputs.password)}>
-                    Sign In
-                </button>
-            </form>
+            <p>Email</p>
+            <input name="email" onChange={e => onChange(e)} />
+            <p>Password</p>
+            <input name="password" onChange={e => onChange(e)} />
+            <button onClick={() => props.login(inputs.email, inputs.password)}>
+                Sign In
+            </button>
         </div>
     );
 };
 
-export default Login;
+const mapStateToProps = state => state;
+
+export default connect(
+    mapStateToProps,
+    { login }
+)(Login);

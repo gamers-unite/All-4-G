@@ -6,7 +6,7 @@ const Request = (props) => {
   const mapTeam = props.team.map( ( e, i ) => {
     const user = (
       <div name={e.id}>
-        <img src={e.avatar || 'default'}/>
+        <img src={e.avatar || 'default'} alt='team'/>
       </div>
     )
     return user.repeat(props.teamLength)
@@ -15,7 +15,7 @@ const Request = (props) => {
   return (
     <>
       <div>
-        <img src={props.request.avatar}/>
+        <img src={props.request.avatar} alt='avatar'/>
         <h3>{props.request.user}</h3>
       </div>
       <p>{props.request.info}</p>

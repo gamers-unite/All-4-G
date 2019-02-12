@@ -33,7 +33,7 @@ module.exports = {
     },
 
     editRequest: (req, res) => {
-        const { req_id } = req.body;
+        const { req_id, info } = req.body;
         req.app
             .get("db")
             .requests.edit_request(req_id, info)
@@ -44,10 +44,10 @@ module.exports = {
     },
 
     deleteRequest: (req, res) => {
-        const { req_id } = req.body;
+        const { id } = req.params;
         req.app
             .get("db")
-            .requests.delete_request(req_id, info)
+            .requests.delete_request(id)
             .then(response => {
                 res.status(200).json(response);
             })
