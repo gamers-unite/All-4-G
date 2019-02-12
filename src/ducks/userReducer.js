@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const initialState = {
-    user: {}
+    user: {},
+    otherUser: {}
 };
 
 const LOGIN = "LOGIN";
@@ -121,7 +122,7 @@ export default function reducer(state = initialState, action) {
             return { ...state, error: "invalid" };
 
         case GET_USER + "_FULFILLED":
-            return { ...state, user: action.payload.data };
+            return { ...state, otherUser: action.payload.data };
 
         case GET_USER - "_REJECTED":
             return { ...state, error: "no user" };

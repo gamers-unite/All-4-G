@@ -8,20 +8,33 @@ import ImageUpload from "./ImageUpload";
 const Profile = props => {
     const [edit, setEdit] = useState(false);
     const [inputs, setInputs] = useState({
-        display_name: props.user.display_name,
-        avatar: props.user.avatar,
-        image: null,
-        newImg: "",
-        blizzard: props.user.blizzard,
-        epic: props.user.epic,
-        ps4: props.user.ps4,
-        riot: props.user.riot,
-        steam: props.user.steam,
-        xbox: props.user.xbox
+        // display_name: props.user.display_name,
+        // avatar: props.user.avatar,
+        // image: null,
+        // newImg: "",
+        // blizzard: props.user.blizzard,
+        // epic: props.user.epic,
+        // ps4: props.user.ps4,
+        // riot: props.user.riot,
+        // steam: props.user.steam,
+        // xbox: props.user.xbox
     });
 
     useEffect(() => {
         getCurrentUser();
+        setInputs({
+            ...inputs,
+            display_name: props.user.display_name,
+            avatar: props.user.avatar,
+            image: null,
+            newImg: "",
+            blizzard: props.user.blizzard,
+            epic: props.user.epic,
+            ps4: props.user.ps4,
+            riot: props.user.riot,
+            steam: props.user.steam,
+            xbox: props.user.xbox
+        });
     });
 
     const toggleEdit = () => {
@@ -125,7 +138,7 @@ const Profile = props => {
             )}
             {props.user.xbox && (
                 <>
-                    <p>Steam:</p>
+                    <p>Xbox:</p>
                     <p>{props.user.xbox}</p>
                 </>
             )}
@@ -142,43 +155,43 @@ const Profile = props => {
                         <p>Display Name</p>
                         <input
                             name="display_name"
-                            defaultValue={inputs.display_name}
+                            defaultValue={props.user.display_name}
                             onChange={onChange}
                         />
                         <p>Blizzard</p>
                         <input
                             name="blizzard"
-                            defaultValue={inputs.blizzard}
+                            defaultValue={props.user.blizzard}
                             onChange={onChange}
                         />
                         <p>Epic</p>
                         <input
                             name="epic"
-                            defaultValue={inputs.epic}
+                            defaultValue={props.user.epic}
                             onChange={onChange}
                         />
                         <p>Playstation</p>
                         <input
                             name="ps4"
-                            defaultValue={inputs.ps4}
+                            defaultValue={props.user.ps4}
                             onChange={onChange}
                         />
                         <p>Riot</p>
                         <input
                             name="riot"
-                            defaultValue={inputs.riot}
+                            defaultValue={props.user.riot}
                             onChange={onChange}
                         />
                         <p>Steam</p>
                         <input
                             name="steam"
-                            defaultValue={inputs.steam}
+                            defaultValue={props.user.steam}
                             onChange={onChange}
                         />
                         <p>Xbox</p>
                         <input
                             name="riot"
-                            defaultValue={inputs.xbox}
+                            defaultValue={props.user.xbox}
                             onChange={onChange}
                         />
                         <button onClick={submitEdit}>Submit</button>
