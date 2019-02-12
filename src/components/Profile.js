@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { storage } from "../../firebase";
+import { storage } from "./firebase";
+import { getCurrentUser } from "../ducks/userReducer";
 import ImageUpload from "./ImageUpload";
 
-const Profile = () => {
-    const [edit, toggleEdit] = useState(false);
+const Profile = props => {
+    const [edit, setEdit] = useState(false);
     const [inputs, setInputs] = useState({
         display_name: props.user.display_name,
         avatar: props.user.avatar,
@@ -19,6 +20,14 @@ const Profile = () => {
         xbox: props.user.xbox
     });
 
+    useEffect(() => {
+        getCurrentUser();
+    });
+
+    const toggleEdit = () => {
+        setEdit(!edit);
+    };
+
     const onChange = e => {
         setInputs({ ...inputs, [e.target.name]: e.target.value });
     };
@@ -30,10 +39,12 @@ const Profile = () => {
         }
     };
 
-    handleUpload = event => {
+    const handleUpload = event => {
         event.preventDefault();
         const { email } = props.user;
-        const uploadTask = storage.ref(`images/avatars/${email}`).put(image);
+        const uploadTask = storage
+            .ref(`images/avatars/${email}`)
+            .put(inputs.image);
         uploadTask.on(
             "state_changed",
             snapshot => {
@@ -118,7 +129,7 @@ const Profile = () => {
                     <p>{props.user.xbox}</p>
                 </>
             )}
-            <button onClick={() => toggleEdit(true)}>Edit</button>
+            {!edit && <button onClick={toggleEdit}>Edit</button>}
             {edit && (
                 <div>
                     <form onSubmit={submitEdit}>
@@ -126,7 +137,7 @@ const Profile = () => {
                             handleFileChange={handleFileChange}
                             handleUpload={handleUpload}
                             avatar={props.avatar}
-                            newImg={newImg}
+                            newImg={inputs.newImg}
                         />
                         <p>Display Name</p>
                         <input
@@ -172,7 +183,7 @@ const Profile = () => {
                         />
                         <button onClick={submitEdit}>Submit</button>
                     </form>
-                    <button onSubmit={() => toggleEdit(false)}>Cancel</button>
+                    <button onClick={toggleEdit}>Cancel</button>
                 </div>
             )}
         </div>
@@ -180,7 +191,7 @@ const Profile = () => {
 };
 
 const mapStateToProps = state => {
-    return ({ user } = state);
+    return { user: state.user.user };
 };
 
 export default connect(mapStateToProps)(Profile);

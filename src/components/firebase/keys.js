@@ -1,3 +1,3 @@
-const FIREBASE_API_KEY = "AIzaSyDXZ2rhpkS8hVxcObuyBLJUN8Y-BIxOwMI";
+export const FIREBASE_API_KEY = "AIzaSyDXZ2rhpkS8hVxcObuyBLJUN8Y-BIxOwMI";
 
-export { FIREBASE_API_KEY };
+export default { FIREBASE_API_KEY };

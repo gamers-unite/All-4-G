@@ -55,7 +55,14 @@ app.use(
 
 //AUTH ENDPOINTS
 app.post("/users/register", addUser);
-app.post("/users/login", logInUser);
+app.post(
+    "/users/login",
+    (req, res, next) => {
+        console.log("hit");
+        next();
+    },
+    logInUser
+);
 app.get("/users", getUser);
 app.get("/users/current", currentSession, authAccount);
 app.put("/users/update", updateUser);
