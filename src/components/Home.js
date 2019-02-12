@@ -7,21 +7,30 @@ import User from './User';
 
 const Home = (props) => {
 
-  useEffect(allGames, []);
+  useEffect( () => props.allGames(), []);
 
-  const gameMap = props.games.map( ( e, i ) => {
-    return (
-      <Games key={i} game_id={e.game_id} title={e.title} platform={e.platform} background_img={e.background_img} info={e.info} logo={e.logo}/>
-    )
+if(props.games){
+  var filterGames = props.games.filter( ( e, i ) => {
+    for(let j=i+1; j < props.games.length; j++){
+      if( e[i] === props.games[j]){
+        return e[i]
+      }
+    }
   })
+  console.log(filterGames)
+}
 
-  console.log(props)
+
+  // const gameMap = filterGame.map( ( e, i ) => {
+  //   return (
+  //     <Games key={i} game_id={e.game_id} title={e.title} platform={e.platform} background_img={e.background_img} info={e.info} logo={e.logo}/>
+  //   )
+  // })
 
   return (
     <>
       {/* <Carousel/> */}
       <div>
-        {gameMap}
       </div>
       <User/>
     </>
