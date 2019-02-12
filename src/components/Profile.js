@@ -27,7 +27,6 @@ const Profile = props => {
     const openEdit = () => {
         setEdit(true);
         setInputs({
-            ...inputs,
             display_name: props.user.display_name,
             avatar: props.user.avatar,
             image: null,
@@ -47,7 +46,7 @@ const Profile = props => {
     };
 
     const onChange = e => {
-        setInputs({ [e.target.name]: e.target.value });
+        setInputs({ ...inputs, [e.target.name]: e.target.value });
     };
 
     const handleFileChange = e => {
@@ -96,7 +95,7 @@ const Profile = props => {
             xbox
         } = inputs;
         axios
-            .post("./users/update", {
+            .put("./users/update", {
                 display_name,
                 avatar,
                 blizzard,
@@ -118,7 +117,7 @@ const Profile = props => {
             {props.user.blizzard && (
                 <>
                     <p>Blizzard:</p>
-                    <p>{props.blizzard}</p>
+                    <p>{props.user.blizzard}</p>
                 </>
             )}
             {props.user.epic && (

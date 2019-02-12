@@ -28,16 +28,19 @@ const Home = props => {
 
     return (
         <>
+            <p>Navbar</p>
+            <p>Carousel</p>
             {/* <Carousel games={props.games}/> */}
             <GameWrap>{gameMap}</GameWrap>
-            {/* <User/> */}
+            <User email={props.user.email} />
         </>
     );
 };
 
 const mapStateToProps = state => {
     return {
-        games: state.games.allGames
+        games: state.games.allGames,
+        user: state.user.user
     };
 };
 
@@ -52,7 +55,7 @@ const GameWrap = styled.div`
     flex-wrap: wrap;
     overflow: scroll;
     height: 60vh;
-    width: 90vw;
+    width: 100vw;
     margin: 0 auto;
     background: #333333;
 `;

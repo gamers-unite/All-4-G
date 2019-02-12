@@ -113,6 +113,7 @@ module.exports = {
     },
 
     updateUser: (req, res) => {
+        console.log(req.body);
         const {
             display_name,
             avatar,
