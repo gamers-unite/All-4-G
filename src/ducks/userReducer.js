@@ -13,22 +13,16 @@ const CHANGE_USER = "CHANGE_USER";
 export function login(email, password) {
     return {
         type: LOGIN,
-<<<<<<< HEAD
-=======
         payload: axios.post("/users/login", {
             email,
             password
         })
->>>>>>> master
     };
 }
 
 export function addUser(
     display_name,
-<<<<<<< HEAD
-=======
     email,
->>>>>>> master
     password,
     blizzard,
     epic,
