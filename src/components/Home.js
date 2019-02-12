@@ -8,7 +8,7 @@ import User from './User';
 
 const Home = (props) => {
 
-  useEffect(() => {props.allGames()}, []);
+  useEffect( () => {props.allGames()}, []);
 
 let gameMap = []
 if(props.games){
@@ -54,7 +54,7 @@ const GameWrap = styled.div`
   flex-wrap: wrap;
   overflow: scroll;
   height: 60vh;
-  width: 90vw;
+  width: 100vw;
   margin: 0 auto;
   background: #333333;
 `;
