@@ -8,7 +8,7 @@ import { getUser } from "../ducks/userReducer";
 const User = props => {
     useEffect(() => {
         props.getUser(props.email);
-    });
+    }, []);
 
     return (
         <div>

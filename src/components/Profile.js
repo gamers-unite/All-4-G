@@ -6,22 +6,26 @@ import { getCurrentUser } from "../ducks/userReducer";
 import ImageUpload from "./ImageUpload";
 
 const Profile = props => {
-    const [edit, setEdit] = useState(false);
     const [inputs, setInputs] = useState({
-        // display_name: props.user.display_name,
-        // avatar: props.user.avatar,
-        // image: null,
-        // newImg: "",
-        // blizzard: props.user.blizzard,
-        // epic: props.user.epic,
-        // ps4: props.user.ps4,
-        // riot: props.user.riot,
-        // steam: props.user.steam,
-        // xbox: props.user.xbox
+        display_name: "",
+        avatar: "",
+        image: null,
+        newImg: "",
+        blizzard: "",
+        epic: "",
+        ps4: "",
+        riot: "",
+        steam: "",
+        xbox: ""
     });
+    const [edit, setEdit] = useState(false);
 
     useEffect(() => {
         getCurrentUser();
+    }, []);
+
+    const openEdit = () => {
+        setEdit(true);
         setInputs({
             ...inputs,
             display_name: props.user.display_name,
@@ -35,14 +39,15 @@ const Profile = props => {
             steam: props.user.steam,
             xbox: props.user.xbox
         });
-    });
+    };
 
-    const toggleEdit = () => {
-        setEdit(!edit);
+    const closeEdit = () => {
+        setEdit(false);
+        setInputs({});
     };
 
     const onChange = e => {
-        setInputs({ ...inputs, [e.target.name]: e.target.value });
+        setInputs({ [e.target.name]: e.target.value });
     };
 
     const handleFileChange = e => {
@@ -90,16 +95,20 @@ const Profile = props => {
             steam,
             xbox
         } = inputs;
-        axios.post("./users/update", {
-            display_name,
-            avatar,
-            blizzard,
-            epic,
-            ps4,
-            riot,
-            steam,
-            xbox
-        });
+        axios
+            .post("./users/update", {
+                display_name,
+                avatar,
+                blizzard,
+                epic,
+                ps4,
+                riot,
+                steam,
+                xbox
+            })
+            .then(() => {
+                setEdit(false);
+            });
     };
     return (
         <div>
@@ -142,7 +151,7 @@ const Profile = props => {
                     <p>{props.user.xbox}</p>
                 </>
             )}
-            {!edit && <button onClick={toggleEdit}>Edit</button>}
+            {!edit && <button onClick={openEdit}>Edit</button>}
             {edit && (
                 <div>
                     <form onSubmit={submitEdit}>
@@ -196,7 +205,7 @@ const Profile = props => {
                         />
                         <button onClick={submitEdit}>Submit</button>
                     </form>
-                    <button onClick={toggleEdit}>Cancel</button>
+                    <button onClick={closeEdit}>Cancel</button>
                 </div>
             )}
         </div>
@@ -207,4 +216,7 @@ const mapStateToProps = state => {
     return { user: state.user.user };
 };
 
-export default connect(mapStateToProps)(Profile);
+export default connect(
+    mapStateToProps,
+    { getCurrentUser }
+)(Profile);
