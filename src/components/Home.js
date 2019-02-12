@@ -8,7 +8,7 @@ import User from './User';
 
 const Home = (props) => {
 
-  useEffect( () => props.allGames(), []);
+  useEffect(() => {props.allGames()}, []);
 
 let gameMap = []
 if(props.games){
@@ -28,18 +28,21 @@ if(props.games){
 
   return (
     <>
+    <p>Navbar</p>
+    <p>Carousel</p>
       {/* <Carousel games={props.games}/> */}
       <GameWrap>
         { gameMap }
       </GameWrap>
-      <User/>
+      <User email={props.user.email} />
     </>
   )
 }
 
 const mapStateToProps = state => {
   return {
-    games: state.games.allGames
+    games: state.games.allGames,
+    user: state.user.user
   }
 }
 

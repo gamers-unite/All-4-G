@@ -84,10 +84,10 @@ module.exports = {
     },
 
     getUser: (req, res) => {
-        const { user_id } = req.body;
+        const { email } = req.body;
         req.app
             .get("db")
-            .auth.get_user(user_id)
+            .auth.get_user(email)
             .then(response => {
                 res.status(200).json(response);
             })

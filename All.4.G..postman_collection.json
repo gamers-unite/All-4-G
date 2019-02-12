@@ -1,0 +1,371 @@
+{
+	"info": {
+		"_postman_id": "91c96d8e-f117-41c6-9f12-b26df6e5b01a",
+		"name": "All.4.G.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3001/users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "914dbf17-14f5-4bb5-a34d-8bcb8731e04c",
+						"exec": [
+							"const responseJSON = pm.response.json();",
+							"",
+							"pm.test(\"Status code\", () => {",
+							"   pm.response.to.have.status(200); ",
+							"});",
+							"",
+							"pm.test(\"we test stuff\", () => {",
+							"    pm.expect(responseJSON[0].email).to.eql(\"david@fake.com\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"david@fake.com\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/users/login ( error )",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6a86983a-69f7-4795-b1bc-334a8e43afc3",
+						"exec": [
+							"const responseJSON = pm.response.json();",
+							"",
+							"pm.test(\"Status code\", () => {",
+							"   pm.response.to.have.status(401); ",
+							"});",
+							"",
+							"pm.test(\"error msg: \", () => {",
+							"    pm.expect(pm.response.text()).to.eql('{\"error\":\"Incorrect email or password\"}')",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/users/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fb9fbe8-1df5-40c0-8706-6c572cebd702",
+						"exec": [
+							"const responseJSON = pm.response.json();",
+							"",
+							"const obj = {",
+							"    \"id\": 2,",
+							"    \"display_name\": \"David\",",
+							"    \"email\": \"david@fake.com\",",
+							"    \"avatar\": \"https://oyster.ignimgs.com/social/avatars/users2/16/5327783-1352674161.png\"",
+							"}",
+							"",
+							"pm.test(\"obj check\", () => {",
+							"    pm.expect(pm.response.json()).to.eql(obj);",
+							"})",
+							"",
+							"pm.test(\"check id return\", () => {",
+							"    pm.expect(typeof(responseJSON.id)).to.eql('number');",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"david@fake.com\",\n\t\"password\": \"password\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/api/games/all",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "31bd3e18-4317-44a1-a9e5-8058706add26",
+						"exec": [
+							"pm.test(\"Data is Array\", () => {",
+							"    pm.expect(Array.isArray(pm.response.json())).to.eql(true);",
+							"})",
+							"",
+							"pm.test(\"Length of Array\", () => {",
+							"    pm.expect(pm.response.json().length).to.eql( 5 );",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/games/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"games",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/api/requests/request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "28e964ab-1c9d-4e92-a421-ce14cfe6c131",
+						"exec": [
+							"const responseJSON = pm.response.json();",
+							"",
+							"const obj = {",
+							"    \"req_id\": 1,",
+							"    \"creator_id\": 1,",
+							"    \"game_id\": 4,",
+							"    \"info\": \"Hello\",",
+							"    \"active\": true,",
+							"    \"team_length\": 4",
+							"}",
+							"",
+							"pm.test(\"obj check\", () => {",
+							"    pm.expect(responseJSON[0]).to.eql(obj);",
+							"})",
+							"",
+							"pm.test(\"check id return\", () => {",
+							"    pm.expect(typeof(responseJSON[0].req_id)).to.eql(\"number\");",
+							"})",
+							"",
+							"pm.test(\"Length of data\", () => {",
+							"    pm.expect(Array.isArray(responseJSON)).to.eql(true);",
+							"    pm.expect(responseJSON.length).to.eql( 1 );",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"req_id\": 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/requests/request",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"requests",
+						"request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/api/requests/1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "875693ac-e0e1-4c2b-9b4f-b50c5209609e",
+						"exec": [
+							"pm.test(\"deleting\", () => {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"return id\", () => {",
+							"    pm.expect(pm.response.json()[0].req_id).to.eql(1)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/requests/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"requests",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/api/requests",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "29df8af3-5207-40db-9a88-7e6c2eeb6ce9",
+						"exec": [
+							"const responseJSON = pm.response.json();",
+							"",
+							"pm.test(\"info\", () => {",
+							"    pm.expect(responseJSON[0].info).to.eql(\"We test stuff\"); ",
+							"});",
+							"",
+							"pm.test(\"active?\", () => {",
+							"    pm.expect(responseJSON[0].active).to.eql(true); ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"req_id\": 1,\n\t\"info\": \"We test stuff\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/requests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

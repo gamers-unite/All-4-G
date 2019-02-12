@@ -68,9 +68,9 @@ app.get("/api/games", getGame);
 //REQUEST ENDPOINTS
 app.get("/api/requests/request", getRequest);
 app.get("/api/requests", getRequests);
-app.post("/api/request", addRequest);
-app.put("/api/request", editRequest);
-app.delete("/api/requests", deleteRequest);
+app.post("/api/requests", addRequest);
+app.put("/api/requests", editRequest);
+app.delete("/api/requests/:id", deleteRequest);
 app.put("/api/requests/deactivate", deactivateRequest);
 
 //TEAM ENDPOINTS

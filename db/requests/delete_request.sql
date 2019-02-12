@@ -1,4 +1,3 @@
-UPDATE requests
-SET info = $2
+DELETE FROM requests
 WHERE req_id = $1
 RETURNING *;
