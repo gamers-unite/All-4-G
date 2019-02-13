@@ -5,19 +5,23 @@ import { login } from "../ducks/userReducer";
 const Login = props => {
     const [inputs, setInputs] = useState({ email: "", password: "" });
 
-    const onChange = (e, name) => {
+    const onChange = e => {
         setInputs({ ...inputs, [e.target.name]: e.target.value });
+    };
+
+    const handleLogin = () => {
+        props.login(inputs.email, inputs.password);
+        props.closeModal();
+        props.toggleRefresh();
     };
 
     return (
         <div>
             <p>Email</p>
-            <input name="email" onChange={e => onChange(e)} />
+            <input name="email" onChange={onChange} />
             <p>Password</p>
-            <input name="password" onChange={e => onChange(e)} />
-            <button onClick={() => props.login(inputs.email, inputs.password)}>
-                Sign In
-            </button>
+            <input name="password" onChange={onChange} />
+            <button onClick={handleLogin}>Sign In</button>
         </div>
     );
 };
