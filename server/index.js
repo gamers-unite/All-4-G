@@ -22,8 +22,8 @@ const {
     getGameByUrl 
 } = require("./controllers/gameController");
 const {
-    getRequest,
-    getRequests,
+    getRequestsById,
+    getRequestsByGame,
     addRequest,
     editRequest,
     deleteRequest,
@@ -78,8 +78,9 @@ app.get("/api/games", getGame);
 app.post("/api/games/url", getGameByUrl);
 
 //REQUEST ENDPOINTS
-app.get("/api/requests/request", getRequest);
-app.post("/api/requests", getRequests);
+// app.get("/api/requests/request", getRequest);
+app.post("/api/requests/game", getRequestsByGame);
+app.post("/api/requests/id", getRequestsById)
 // app.post("/api/requests", addRequest);
 app.put("/api/requests", editRequest);
 app.delete("/api/requests", deleteRequest);

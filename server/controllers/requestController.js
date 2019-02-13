@@ -1,5 +1,5 @@
 module.exports = {
-    getRequest: (req, res) => {
+    getRequestsById: (req, res) => {
         const { req_id } = req.body;
         req.app
             .get("db")
@@ -10,7 +10,7 @@ module.exports = {
             .catch(err => console.log(err));
     },
 
-    getRequests: (req, res) => {
+    getRequestsByGame: (req, res) => {
         req.app
             .get("db")
             .requests.get_requests(req.body.game_id)
