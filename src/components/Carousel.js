@@ -1,100 +1,10 @@
-<<<<<<< HEAD
-import React, {useEffect, useReducer} from 'react';
-=======
 import React, { useEffect, useReducer } from 'react';
->>>>>>> master
 import styled from 'styled-components';
 
 
 //HOOKS AND REDUCER
 
 const Carousel = (props) => {
-<<<<<<< HEAD
-  console.log(props)
-    let [state, dispatch] = useReducer(
-        (state, action)=>{
-            switch(action.type){
-                case 'PROGRESS':
-                case 'NEXT':
-                return{
-                    ...state, playing: action.type === 'PROGRESS',
-                    currentIndex: (state.currentIndex + 1) % props.games.length
-                }
-                case 'PREV':
-                return{
-                    ...state, playing: false,
-                    currentIndex: (state.currentIndex - 1 + props.games.length) % props.games.length
-                }
-                case 'PLAY':
-                return{
-                    ...state, playing: true
-                }
-                case 'PAUSE':
-                return{
-                    ...state, playing: false
-                }
-                case 'GOTO':
-                return{
-                    ...state, currentIndex: action.index
-                }
-                default: return state
-            }
-        },{currentIndex: 0, playing: false}
-    )
-
-    useEffect(()=>{
-        if(state.playing){
-            let timeout = setTimeout(()=>{
-                dispatch({type: 'PROGRESS'})
-            }, 3000);
-            return () => clearTimeout(timeout)
-        }
-    }, [state.currentIndex, state.playing]);
-
-    const handleClick=(e)=>{
-      dispatch({type: e.target.name})
-  }
-
-  console.log(props.games)
-    return(
-        <GameWrap>
-            <div>
-            {props.games.map((e , i)=>(
-                <div>
-                  <img src={props.games.background_img}></img>
-                // id={e.game_id}
-                // image={e.background_image}
-                // title={e.title}
-                // current={i === state.currentIndex}
-                // info={e.info}
-                </div>
-            ))}
-            </div>
-        
-            <div>
-                {/* {props.games.map((e , i)=>
-                <div
-                    key={i}
-                    current={i === state.currentIndex}
-                    onClick={()=>{dispatch({type: 'GOTO', i})}}
-                    />
-                )} */}
-            </div>
-    
-            {/* <Div name='PLAY' onClick={handleClick}> */}
-
-            <div className= 'CarouselNav'>
-                <button name='PLAY' onClick={handleClick}></button>
-                
-                <button name='PAUSE' onClick={handleClick}></button>
-
-                <button name='PREV' onClick={handleClick}></button>
-
-                <button name='NEXT' onClick={handleClick}></button>
-            </div>
-        </GameWrap>
-    )
-=======
   if( props.games){
     console.log('props: ',props.games)
   }
@@ -141,61 +51,93 @@ const Carousel = (props) => {
 
   const handleClick = (e) => {
     dispatch({ type: e.target.name })
+
   }
   return (
-    <GameWrap>
-      <div>
-        {/* {props.games.map((e , i)=>( */}
-        <div>
-          <img src={props.games[state.currentIndex].background_img}></img>
-          <p>{props.games[state.currentIndex].info}</p>
-          {/* // id={e.game_id}
-               // image={e.background_image}
-               // title={e.title}
-               // current={i === state.currentIndex}
-               // info={e.info} */}
+    <div>
+      <ImageContainer>
+          <CarouselImg>
+            <img src={props.games[state.currentIndex].background_img}  max-width='100%' height='auto'>
+            </img>
+          </CarouselImg>
+          <CarouselInfo>
+            <p>{props.games[state.currentIndex].info}</p>
+          </CarouselInfo>
+      </ImageContainer>
 
-        </div>
-        {/* ))} */}
-      </div>
 
-      <div>
-        {/* {props.games.map((e , i)=>
-               <div
-                   key={i}
-                   current={i === state.currentIndex}
-                   onClick={()=>{dispatch({type: 'GOTO', i})}}
-                   />
-               )} */}
-      </div>
-
-      {/* <Div name='PLAY' onClick={handleClick}> */}
-
-      <div className='CarouselNav'>
+      <CarouselNav>
+        {/* <Play> */}
         <button name='PLAY' onClick={ handleClick }>Play</button>
-
+        {/* </Play> */}
         <button name='PAUSE' onClick={ handleClick }>Pause</button>
 
         <button name='PREV' onClick={ handleClick }>Prev</button>
 
         <button name='NEXT' onClick={ handleClick }>Next</button>
-      </div>
-    </GameWrap>
+      </CarouselNav>
+    </div>
   )
->>>>>>> master
 }
 
 
 
 export default Carousel;
 
-const GameWrap = styled.div`
+// const Play = styled.div`
+// // diplay: flex;
+// // justify-content: center;
+// `
+
+const CarouselNav = styled.div`
+  height: 5vh;
+  width: 90vw;
+  // border: 1px solid black;
+  z-index: 2;
+  position: relative;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  overflow: scroll;
-  height: 92vh;
+  padding-bottom: 10vh;
+`;
+
+const CarouselInfo = styled.div`
+  overflow: hide;
+  height: 30vh;
+  width: 30vw;
+  margin: 0 auto;
+  z-index: 1;
+  position: absolute;
+  font-size: 180%;
+  color: white;
+  padding-bottom: 40vh;
+  padding-left: 10vw;
+`;
+
+const ImageContainer = styled.div`
+  // width: 99vw;
+  // height 100vh;
+  overflow: hidden;
+  // border: 1px solid red;
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  // margin-left: 10vw;
+  // padding-left: 10vw;
+`;
+
+const CarouselImg = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
   width: 100vw;
+  max-width: auto;
+  overflow: hide;
   margin: 0 auto;
   background: #333333;
+  // padding-top: 35vh;
+  image-rendering: auto;
+  // border: 1px solid red;
+  // z-index: -1;
 `;

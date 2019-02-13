@@ -147,7 +147,7 @@ class Nav extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar style={{ background: '#000000' }} position="static">
           <Toolbar>
             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
               <MenuIcon />
@@ -199,31 +199,3 @@ Nav.propTypes = {
 
 export default withStyles(styles)(Nav);
 
-// import { connect } from 'react-redux';
-// import { getUser } from '../ducks/user/userReducer.js'; 
-
-// const Navbar = () => {
-
-//   useEffect( getUser(), [])
-
-//   return (
-//     <div>
-//       <div>
-//         <img src='Logo?' alt='Logo'/>
-//         <img src={props.user.avatar} alt='profile'/>
-//         <h2>{props.user.display_name}</h2>
-//         {
-//           // Hanburger for logout and edit user function?
-//         }
-//       </div>
-//     </div>
-//   )
-// }
-
-// const mapStateToProps = state => {
-//   return {
-//     user: state.user.user
-//   }
-// }
-
-// export default connect( mapStateToProps, { getUser } )(Navbar);
