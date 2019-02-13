@@ -9,15 +9,18 @@ const Login = props => {
         setInputs({ ...inputs, [e.target.name]: e.target.value });
     };
 
+    const handleLogin = () => {
+        props.login(inputs.email, inputs.password);
+        props.closeModal();
+    };
+
     return (
         <div>
             <p>Email</p>
             <input name="email" onChange={e => onChange(e)} />
             <p>Password</p>
             <input name="password" onChange={e => onChange(e)} />
-            <button onClick={() => props.login(inputs.email, inputs.password)}>
-                Sign In
-            </button>
+            <button onClick={handleLogin}>Sign In</button>
         </div>
     );
 };

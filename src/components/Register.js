@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addUser } from "../ducks/userReducer";
 
-const Register = () => {
+const Register = props => {
     const [inputs, setInputs] = useState({
         email: "",
         display_name: "",
@@ -17,6 +17,21 @@ const Register = () => {
 
     const onChange = e => {
         setInputs({ ...inputs, [e.target.name]: e.target.value });
+    };
+
+    const handleRegister = () => {
+        props.addUser(
+            inputs.email,
+            inputs.display_name,
+            inputs.password,
+            inputs.blizzard,
+            inputs.epic,
+            inputs.ps4,
+            inputs.riot,
+            inputs.steam,
+            inputs.xbox
+        );
+        props.closeModal();
     };
 
     return (
@@ -40,23 +55,7 @@ const Register = () => {
                 <input name="steam" onChange={onChange} />
                 <p>Xbox</p>
                 <input name="xbox" onChange={onChange} />
-                <button
-                    onClick={() =>
-                        props.addUser(
-                            inputs.email,
-                            inputs.display_name,
-                            inputs.password,
-                            inputs.blizzard,
-                            inputs.epic,
-                            inputs.ps4,
-                            inputs.riot,
-                            inputs.steam,
-                            inputs.xbox
-                        )
-                    }
-                >
-                    Submit
-                </button>
+                <button onClick={handleRegister}>Submit</button>
             </form>
         </div>
     );
