@@ -224,7 +224,7 @@ class Nav extends React.Component {
 
         return (
             <div className={classes.root}>
-                <AppBar style={{ background: '#00000' }} position="static">
+                <AppBar style={{ background: '#000000' }} position="static">
                     <Toolbar>
                         <IconButton
                             className={classes.menuButton}
