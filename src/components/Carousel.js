@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
@@ -6,10 +7,6 @@ import Button from '@material-ui/core/Button';
 //HOOKS AND REDUCER
 
 const Carousel = (props) => {
-  if( props.games){
-    console.log('props: ',props.games)
-  }
-
   let [state, dispatch] = useReducer(
     (state, action) => {
       switch (action.type) {
@@ -38,14 +35,14 @@ const Carousel = (props) => {
           }
         default: return state
       }
-    }, { currentIndex: 0, playing: false }
+    }, { currentIndex: 0, playing: true }
   )
 
   useEffect(() => {
     if (state.playing) {
       let timeout = setTimeout(() => {
         dispatch({ type: 'PROGRESS' })
-      }, 3000);
+      }, 6000);
       return () => clearTimeout(timeout)
     }
   }, [state.currentIndex, state.playing]);

@@ -11,10 +11,9 @@ module.exports = {
     },
 
     getRequests: (req, res) => {
-        const { game_id } = req.body;
         req.app
             .get("db")
-            .requests.get_requests(game_id)
+            .requests.get_requests(req.body.game_id)
             .then(response => {
                 res.status(200).json(response);
             })

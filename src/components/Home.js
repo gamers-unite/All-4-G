@@ -21,6 +21,7 @@ const Home = props => {
                     title={e.title}
                     background_img={e.background_img}
                     logo={e.logo}
+                    url={e.url}
                 />
             );
         });
@@ -40,7 +41,7 @@ const Home = props => {
 
 const mapStateToProps = state => {
   return {
-    games: state.games.allGames,
+    games: state.games.allOfGames,
     user: state.user.user
   }
 }

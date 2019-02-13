@@ -8,8 +8,8 @@ import Profile from "./components/Profile";
 
 export default (
     <Switch>
-        <Route path="/home" component={Request} />
-        <Route path="/profile" component={Profile} />
-        <Route exact path="/" component={Home} />
+        <Route path="/profile" component={Profile}/>
+        <Route path='/:game' component={Request}/>
+        <Route exact path="/" component={Home}/>
     </Switch>
 );

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const initialState = {
     request: {},
-    allRequests: []
+    gameRequests: []
 };
 
 const REQUEST = "REQUEST";
@@ -47,10 +47,10 @@ export function deactivate() {
     };
 }
 
-export function getRequests(game) {
+export function getRequests(game_id) {
     return {
         type: ALL_REQUESTS,
-        payload: axios.get("/api/requests")
+        payload: axios.post("/api/requests", {game_id})
     };
 }
 
@@ -58,37 +58,37 @@ export default function reducer(state = initialState, action) {
     // console.log(action.type, action.payload);
     switch (action.type) {
         case REQUEST + "_FULFILLED":
-            return { ...state, user: action.payload.data };
+            return { ...state, request: action.payload.data };
 
         case REQUEST + "_REJECTED":
             return { ...state, error: "Unable to create team" };
 
         case ALL_REQUESTS + "_FULFILLED":
-            return { ...state, user: action.payload.data };
+            return { ...state, gameRequests: action.payload.data };
 
         case ALL_REQUESTS + "_REJECTED":
             return { ...state, error: "Unable to create team" };
 
         case ADD_REQUEST + "_FULFILLED":
-            return { ...state, user: action.payload.data };
+            return { ...state, request: action.payload.data };
 
         case ADD_REQUEST + "_REJECTED":
             return { ...state, error: "Unable to create team" };
 
         case EDIT_REQUEST + "_FULFILLED":
-            return { ...state, user: action.payload.data };
+            return { ...state, request: action.payload.data };
 
         case EDIT_REQUEST + "_REJECTED":
             return { ...state, error: "invalid" };
 
         case DELETE_REQUEST + "_FULFILLED":
-            return { ...state, user: action.payload.data };
+            return { ...state, request: action.payload.data };
 
         case DELETE_REQUEST + "_REJECTED":
             return { ...state, error: "Unable to create team" };
 
         case DEACTIVATE + "_FULFILLED":
-            return { ...state, user: action.payload.data };
+            return { ...state, request: action.payload.data };
 
         case DEACTIVATE + "_REJECTED":
             return { ...state, error: "Unable to create team" };
