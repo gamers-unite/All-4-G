@@ -25,7 +25,6 @@ const Request = (props) => {
       </RequestInfo>
     )
   })
-  console.log(props)
 
   return (
     <>
