@@ -22,7 +22,6 @@ import dark from "@material-ui/core/colors";
 import { getUser, logout } from "../ducks/userReducer.js";
 import Login from "./Login";
 import Register from "./Register";
-import { isAbsolute } from "path";
 
 const styles = theme => ({
     palette: {
@@ -127,9 +126,8 @@ class Nav extends React.Component {
     };
 
     loadData = async () => {
-        await getUser();
+        await this.props.getUser();
         if (this.props.user.email) {
-            console.log("hey");
             this.setState({ loggedIn: true });
         }
     };
@@ -139,7 +137,7 @@ class Nav extends React.Component {
     };
 
     componentDidUpdate = prevProps => {
-        if (this.props.user !== prevProps.user) {
+        if (prevProps !== this.props) {
             this.loadData();
         }
     };

@@ -137,7 +137,22 @@ module.exports = {
                 steam,
                 xbox
             )
-            .then(response => res.status(200).json(response))
+            .then(response => {
+                const user = response[0];
+                req.session.user = {
+                    id: user.user_id,
+                    display_name: user.display_name,
+                    email: user.email,
+                    avatar: user.avatar,
+                    blizzard: user.blizzard,
+                    epic: user.epic,
+                    ps4: user.ps4,
+                    riot: user.riot,
+                    steam: user.steam,
+                    xbox: user.xbox
+                };
+                res.status(200).json(response);
+            })
             .catch(err => console.log(err));
     }
 };
