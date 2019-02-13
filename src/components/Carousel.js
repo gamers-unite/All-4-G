@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 
@@ -52,16 +53,19 @@ const Carousel = (props) => {
     <GameCarousel>
       <div>
         {/* {props.games.map((e , i)=>( */}
-        <div>
-          <img src={props.games[state.currentIndex].background_img} alt='background_image'></img>
-          <p>{props.games[state.currentIndex].info}</p>
-          {/* // id={e.game_id}
-                // image={e.background_image}
-                // title={e.title}
-                // current={i === state.currentIndex}
-                // info={e.info} */}
+        <Link to={`/${props.games[state.currentIndex].url}`}>
+          <div>
+            <img src={props.games[state.currentIndex].background_img} alt='background_image'></img>
+            <p>{props.games[state.currentIndex].info}</p>
+            {/* // id={e.game_id}
+                  // image={e.background_image}
+                  // title={e.title}
+                  // current={i === state.currentIndex}
+                  // info={e.info} */}
 
-        </div>
+          </div>
+          
+        </Link>
         {/* ))} */}
       </div>
 

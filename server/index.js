@@ -72,7 +72,7 @@ app.get("/users/current", currentSession, authAccount);
 app.put("/users/update", updateUser);
 app.post("/users/logout", logout);
 
-//GAMES ENPOINTS
+//GAMES ENDPOINTS
 app.get("/api/games/all", getGames);
 app.get("/api/games", getGame);
 app.post("/api/games/url", getGameByUrl);

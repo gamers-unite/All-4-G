@@ -6,26 +6,26 @@ import styled from "styled-components";
 
 const Request = (props) => {
 
-  const startUp = async () => {
+  useEffect( () => { 
     let url = props.location.pathname.replace('/', '');
-    let fillProps = await props.gameByUrl(url);
-    let id = fillProps.value.data[0].game_id
-    if(id){
-      props.getRequests(id)
-      props.allGames()
-    }
-  }
+    props.gameByUrl(url);
+  }, [])
 
-  useEffect( () => { startUp() }, [])
-  
+  useEffect( () => { 
+    props.getRequests(props.game.game_id)
+  }, [props.game])
+
   const requestMap = props.gameRequests.map( (e,i) => {
     return (
-      <div key={i}>
+      <RequestInfo key={i}>
+        <img src={e.avatar} alt='avatar'/>
+        <h3>{e.display_name}</h3>
         <p>{e.info}</p>
         <h2>{e.team_length}</h2>
-      </div>
+      </RequestInfo>
     )
   })
+  console.log(props)
 
   return (
     <>
@@ -80,5 +80,17 @@ const GameInfo = styled.div`
 
   p, h3 {
     color: white;
+  }
+`
+
+const RequestInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  margin: 5px 0;
+
+  img {
+    height: 100px;
+    width: 100px;
   }
 `
