@@ -32,6 +32,7 @@ const Register = props => {
             inputs.xbox
         );
         props.closeModal();
+        props.toggleRefresh();
     };
 
     return (

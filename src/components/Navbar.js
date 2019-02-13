@@ -19,7 +19,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import dark from "@material-ui/core/colors";
-import { getUser, logout } from "../ducks/userReducer.js";
+import { getCurrentUser, logout } from "../ducks/userReducer.js";
 import Login from "./Login";
 import Register from "./Register";
 
@@ -122,13 +122,14 @@ class Nav extends React.Component {
         loggedIn: false,
         modal: false,
         showLogin: false,
-        showRegister: false
+        showRegister: false,
+        refresh: false
     };
 
     loadData = async () => {
-        await this.props.getUser();
-        if (this.props.user.email) {
-            this.setState({ loggedIn: true });
+        await this.props.getCurrentUser();
+        if (this.props.user.id) {
+            this.setState({ loggedIn: true, refresh: false });
         }
     };
 
@@ -137,7 +138,7 @@ class Nav extends React.Component {
     };
 
     componentDidUpdate = prevProps => {
-        if (prevProps !== this.props) {
+        if (this.state.refresh) {
             this.loadData();
         }
     };
@@ -162,7 +163,7 @@ class Nav extends React.Component {
     handleLogout = async () => {
         await logout();
         this.handleMenuClose();
-        this.setState({ loggedIn: false });
+        this.setState({ loggedIn: false, refresh: true });
     };
 
     openLogin = () => {
@@ -175,6 +176,10 @@ class Nav extends React.Component {
 
     closeModal = () => {
         this.setState({ showLogin: false, showRegister: false, modal: false });
+    };
+
+    toggleRefresh = () => {
+        this.setState({ refresh: true });
     };
 
     render() {
@@ -313,10 +318,16 @@ class Nav extends React.Component {
                 >
                     <div className={classes.modal}>
                         {this.state.showLogin && (
-                            <Login closeModal={this.closeModal} />
+                            <Login
+                                closeModal={this.closeModal}
+                                toggleRefresh={this.toggleRefresh}
+                            />
                         )}
                         {this.state.showRegister && (
-                            <Register closeModal={this.closeModal} />
+                            <Register
+                                closeModal={this.closeModal}
+                                toggleRefresh={this.toggleRefresh}
+                            />
                         )}
                     </div>
                 </Modal>
@@ -337,5 +348,5 @@ const mapStateToProps = state => {
 
 export default connect(
     mapStateToProps,
-    { getUser }
+    { getCurrentUser }
 )(withStyles(styles)(Nav));

@@ -12,6 +12,7 @@ const Login = props => {
     const handleLogin = () => {
         props.login(inputs.email, inputs.password);
         props.closeModal();
+        props.toggleRefresh();
     };
 
     return (
