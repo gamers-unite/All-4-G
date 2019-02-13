@@ -18,5 +18,14 @@ module.exports = {
                 res.status(200).json(response);
             })
             .catch(err => console.log(err));
+    },
+    getGameByUrl: (req, res) => {
+        req.app
+            .get("db")
+            .games.get_game_by_url(req.body.url)
+            .then(response => {
+                res.status(200).json(response)
+            })
+            .catch(err => console.log(err));
     }
 };

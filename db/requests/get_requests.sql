@@ -1,2 +1,2 @@
 SELECT * FROM requests
-WHERE req_id = $1;
+WHERE game_id = $1

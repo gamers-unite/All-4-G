@@ -14,7 +14,7 @@ const User = props => {
 
     return (
         <div>
-            <img src={props.user.avatar} />
+            <img src={props.user.avatar} alt='avatar'/>
             <h1>{props.user.display_name}</h1>
             {/* CHECK IF GAME HAS PLATFORM, THEN CHECK IF USER HAS PLATFORM ID */}
             {game.blizzard && props.user.blizzard && (
