@@ -2,17 +2,17 @@ import axios from 'axios';
 
 const initialState={
     game: {},
-    allGames: []
+    allOfGames: []
 }
 
-const GAME = 'GAME';
+const GAME_BY_URL = 'GAME';
 // const EDIT_GAME = 'EDIT_GAME';
 const ALL_GAMES = 'ALL_GAMES';
 
-export function game(game){
+export function gameByUrl(url){
     return{
-        type: game,
-    payload: axios.post('/api/games', game)
+        type: GAME_BY_URL,
+        payload: axios.post('/api/games/url', {url})
     }
 }
 
@@ -26,14 +26,14 @@ export function allGames(){
 export default function reducer(state=initialState, action){
     // console.log(action.type, action.payload)
     switch(action.type){
-        case GAME + '_FULFILLED':
-        return{...state, game: action.payload.data};
+        case GAME_BY_URL + '_FULFILLED':
+        return{...state, game: action.payload.data[0]};
 
-        case GAME + '_REJECTED':
+        case GAME_BY_URL + '_REJECTED':
         return{...state, error: 'Unable to log in'};
 
         case ALL_GAMES + '_FULFILLED':
-        return{...state, allGames: action.payload.data};
+        return{...state, allOfGames: action.payload.data};
 
         case ALL_GAMES + '_REJECTED':
         return{...state, error: 'invalid'};

@@ -79,7 +79,7 @@ export function update(
 }
 
 export function getUser(id) {
-    console.log(id);
+    // console.log(id);
     return {
         type: GET_USER,
         payload: axios.get("/users/", id)
