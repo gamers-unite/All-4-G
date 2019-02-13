@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 
 
 //HOOKS AND REDUCER
@@ -68,13 +69,13 @@ const Carousel = (props) => {
 
       <CarouselNav>
         {/* <Play> */}
-        <button name='PLAY' onClick={ handleClick }>Play</button>
+        <Button variant="contained" name='PLAY' onClick={ handleClick }>Play</Button>
         {/* </Play> */}
-        <button name='PAUSE' onClick={ handleClick }>Pause</button>
+        <Button variant="contained" name='PAUSE' onClick={ handleClick }>Pause</Button>
 
-        <button name='PREV' onClick={ handleClick }>Prev</button>
+        <Button variant="contained" name='PREV' onClick={ handleClick }>Prev</Button>
 
-        <button name='NEXT' onClick={ handleClick }>Next</button>
+        <Button variant="contained" name='NEXT' onClick={ handleClick }>Next</Button>
       </CarouselNav>
     </div>
   )
