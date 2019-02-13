@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
+import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
@@ -21,6 +22,7 @@ import dark from "@material-ui/core/colors";
 import { getUser, logout } from "../ducks/userReducer.js";
 import Login from "./Login";
 import Register from "./Register";
+import { isAbsolute } from "path";
 
 const styles = theme => ({
     palette: {
@@ -92,6 +94,25 @@ const styles = theme => ({
         [theme.breakpoints.up("md")]: {
             display: "none"
         }
+    },
+
+    modalWrapper: {
+        width: "100vw",
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+
+    modal: {
+        position: "absolute",
+        float: "left",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        width: theme.spacing.unit * 50,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing.unit * 4,
+        background: "#fff"
     }
 });
 
@@ -252,7 +273,10 @@ class Nav extends React.Component {
                                     onClick={this.handleProfileMenuOpen}
                                     color="inherit"
                                 >
-                                    <AccountCircle />
+                                    <Avatar
+                                        alt="avatar"
+                                        src={this.props.user.avatar}
+                                    />
                                 </IconButton>
                             )}
                         </div>
@@ -273,7 +297,10 @@ class Nav extends React.Component {
                                     onClick={this.handleMobileMenuOpen}
                                     color="inherit"
                                 >
-                                    <MoreIcon />
+                                    <Avatar
+                                        alt="avatar"
+                                        src={this.props.user.avatar}
+                                    />
                                 </IconButton>
                             )}
                         </div>
@@ -281,15 +308,19 @@ class Nav extends React.Component {
                 </AppBar>
                 {renderMenu}
                 {renderMobileMenu}
-                <Modal open={this.state.modal} onClose={this.closeModal}>
-                    <>
+                <Modal
+                    className={classes.modalWrapper}
+                    open={this.state.modal}
+                    onClose={this.closeModal}
+                >
+                    <div className={classes.modal}>
                         {this.state.showLogin && (
                             <Login closeModal={this.closeModal} />
                         )}
                         {this.state.showRegister && (
                             <Register closeModal={this.closeModal} />
                         )}
-                    </>
+                    </div>
                 </Modal>
             </div>
         );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Avatar from "@material-ui/core/Avatar";
 import { connect } from "react-redux";
 import { storage } from "./firebase";
 import { getCurrentUser } from "../ducks/userReducer";
@@ -111,7 +112,7 @@ const Profile = props => {
     };
     return (
         <div>
-            <img src={props.user.avatar} alt="avatar" />
+            <Avatar src={props.user.avatar} alt="avatar" />
             <h1>{props.user.display_name}</h1>
             <h2>{props.user.email}</h2>
             {props.user.blizzard && (
