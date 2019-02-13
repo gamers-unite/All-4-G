@@ -1,14 +1,11 @@
 import React, { useEffect, useReducer } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 
 //HOOKS AND REDUCER
 
 const Carousel = (props) => {
-  if( props.games){
-    console.log('props: ',props.games)
-  }
-
   let [state, dispatch] = useReducer(
     (state, action) => {
       switch (action.type) {
@@ -37,14 +34,14 @@ const Carousel = (props) => {
           }
         default: return state
       }
-    }, { currentIndex: 0, playing: false }
+    }, { currentIndex: 0, playing: true }
   )
 
   useEffect(() => {
     if (state.playing) {
       let timeout = setTimeout(() => {
         dispatch({ type: 'PROGRESS' })
-      }, 3000);
+      }, 6000);
       return () => clearTimeout(timeout)
     }
   }, [state.currentIndex, state.playing]);
@@ -53,29 +50,32 @@ const Carousel = (props) => {
     dispatch({ type: e.target.name })
   }
   return (
-    <GameWrap>
+    <GameCarousel>
       <div>
         {/* {props.games.map((e , i)=>( */}
-        <div>
-          <img src={props.games[state.currentIndex].background_img}></img>
-          <p>{props.games[state.currentIndex].info}</p>
-          {/* // id={e.game_id}
-               // image={e.background_image}
-               // title={e.title}
-               // current={i === state.currentIndex}
-               // info={e.info} */}
+        <Link to={`/${props.games[state.currentIndex].url}`}>
+          <div>
+            <img src={props.games[state.currentIndex].background_img} alt='background_image'></img>
+            <p>{props.games[state.currentIndex].info}</p>
+            {/* // id={e.game_id}
+                  // image={e.background_image}
+                  // title={e.title}
+                  // current={i === state.currentIndex}
+                  // info={e.info} */}
 
-        </div>
+          </div>
+          
+        </Link>
         {/* ))} */}
       </div>
 
       <div>
         {/* {props.games.map((e , i)=>
-               <div
-                   key={i}
-                   current={i === state.currentIndex}
-                   onClick={()=>{dispatch({type: 'GOTO', i})}}
-                   />
+                <div
+                    key={i}
+                    current={i === state.currentIndex}
+                    onClick={()=>{dispatch({type: 'GOTO', i})}}
+                    />
                )} */}
       </div>
 
@@ -90,7 +90,7 @@ const Carousel = (props) => {
 
         <button name='NEXT' onClick={ handleClick }>Next</button>
       </div>
-    </GameWrap>
+    </GameCarousel>
   )
 }
 
@@ -98,7 +98,7 @@ const Carousel = (props) => {
 
 export default Carousel;
 
-const GameWrap = styled.div`
+const GameCarousel = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

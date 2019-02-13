@@ -16,7 +16,11 @@ const {
     updateUser,
     logout
 } = require("./controllers/authController");
-const { getGame, getGames } = require("./controllers/gameController");
+const { 
+    getGame, 
+    getGames, 
+    getGameByUrl 
+} = require("./controllers/gameController");
 const {
     getRequest,
     getRequests,
@@ -68,14 +72,15 @@ app.get("/users/current", currentSession, authAccount);
 app.put("/users/update", updateUser);
 app.post("/users/logout", logout);
 
-//GAMES ENPOINTS
+//GAMES ENDPOINTS
 app.get("/api/games/all", getGames);
 app.get("/api/games", getGame);
+app.post("/api/games/url", getGameByUrl);
 
 //REQUEST ENDPOINTS
 app.get("/api/requests/request", getRequest);
-app.get("/api/requests", getRequests);
-app.post("/api/requests", addRequest);
+app.post("/api/requests", getRequests);
+// app.post("/api/requests", addRequest);
 app.put("/api/requests", editRequest);
 app.delete("/api/requests", deleteRequest);
 app.put("/api/requests/deactivate", deactivateRequest);
