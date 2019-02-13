@@ -29,11 +29,12 @@ const Home = props => {
 
   return (
     <>
-      {props.games[0] && <Carousel games={props.games}/>}
+      
       <GameWrap>
+       {props.games[0] && <Carousel games={props.games}/>}
         { gameMap }
       </GameWrap>
-      <User email={props.user.email} />
+      {/* <User email={props.user.email} /> */}
     </>
   )
 }
@@ -55,8 +56,9 @@ const GameWrap = styled.div`
     justify-content: center;
     flex-wrap: wrap;
     overflow: scroll;
-    height: 60vh;
+    height: 100vh;
     width: 100vw;
     margin: 0 auto;
     background: #333333;
+    // border: 1px solid green;
 `;
