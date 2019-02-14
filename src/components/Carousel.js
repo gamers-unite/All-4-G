@@ -135,6 +135,7 @@ const ImageContainer = styled.div`
   position: relative;
   height: 93vh;
   width: 100vw
+  height: 93vh;
   overflow: hidden;
   display: flex;
   justify-content: center;
