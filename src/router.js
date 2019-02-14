@@ -3,13 +3,13 @@ import { Route, Switch } from "react-router-dom";
 
 // Components
 import Home from "./components/Home";
-import Request from "./components/Request";
+import GamePage from "./components/GamePage";
 import Profile from "./components/Profile";
 
 export default (
     <Switch>
         <Route path="/profile" component={Profile}/>
-        <Route path='/:game' component={Request}/>
+        <Route path='/:game' component={GamePage}/>
         <Route exact path="/" component={Home}/>
     </Switch>
 );
