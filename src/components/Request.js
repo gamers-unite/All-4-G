@@ -7,10 +7,12 @@ const Request = (props) => {
 
   const [request, updateRequest] = useState([]) 
 
-  useEffect( () => { 
-    axios.post("/api/requests/id", { req_id: props.id })
-      .then( response => updateRequest(response.data)) 
-    }, [])
+  const fillRequest = async () => {
+    let result = await axios.post("/api/requests/id", { req_id: props.id })
+    updateRequest(result.data)
+  }
+
+  useEffect( () => { fillRequest() }, [])
 
   const renderTeam = (num) => {
     let team = []
