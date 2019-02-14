@@ -79,93 +79,85 @@ const Carousel = (props) => {
 export default Carousel;
 
 const Button = styled.button`
- background: none;
- border: none;
- outline: none;
- color: lightgrey;
- font-size: 5em;
- text-shadow: 3px 3px black;
- opacity: .5;
+  background: none;
+  border: none;
+  outline: none;
+  color: lightgrey;
+  font-size: 5em;
+  text-shadow: 3px 3px black;
+  opacity: .5;
+  cursor: pointer;
 `
 
 const Play = styled.div`
- height: 90vh;
- width: 5vw;
- z-index: 2;
- display: flex;
- justify-content: center;
- align-items: flex-end;
- padding-right: 2vw;
-
- // border: 1px solid red;
+  height: 90vh;
+  width: 5vw;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-right: 2vw;
 `;
 
 const Pause = styled.div`
- height: 90vh;
- width: 5vw;
- z-index: 2;
- display: flex;
- justify-content: center;
- align-items: flex-end;
- padding-left: 2vw;
-
- // border: 1px solid red;
+  height: 90vh;
+  width: 5vw;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-left: 2vw;
 `;
 
 const Prev = styled.div`
- height: 5vh;
- width: 40vw;
- z-index: 2;
- display: flex;
-
- // border: 1px solid red;
+  height: 5vh;
+  width: 40vw;
+  z-index: 2;
+  display: flex;
 `;
 
 const Next = styled.div`
- height: 5vh;
- width: 40vw;
- z-index: 2;
- display: flex;
- justify-content: flex-end;
-
- // border: 1px solid red;
+  height: 5vh;
+  width: 40vw;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const CarouselNav = styled.div`
- height: 80vh;
- width: 95vw;
- z-index: 2;
- position: absolute;
- display: flex;
- justify-content: center;
- align-items: center;
-
- // border: 1px solid limegreen;
-`;
-
-const ImageContainer = styled.div`
-  width: 100vw
-  height: 93vh;
-  overflow: hidden;
-  position: relative;
+  height: 80vh;
+  width: 95vw;
+  z-index: 2;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
 
-  // border: 1px solid red;
+const ImageContainer = styled.div`
+  position: relative;
+  height: 93vh;
+  width: 100vw
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CarouselImg = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: auto;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
+
+  img {
+    height: 100%;
+  }
+
   max-width: auto;
   overflow: hide;
   margin: 0 auto;
   background: #333333;
   image-rendering: auto;
-
-  // border: 1px solid red;
 `;
