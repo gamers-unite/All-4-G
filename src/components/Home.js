@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { allGames } from "../ducks/gamesReducer";
 import styled from "styled-components";
-import Carousel from './Carousel';
+import Carousel from "./Carousel";
 import Game from "./Game";
-import User from "./User";
+// import MiniProfile from "./MiniProfile";
 
 const Home = props => {
     useEffect(() => {
@@ -27,24 +27,23 @@ const Home = props => {
         });
     }
 
-  return (
-    <>
-      
-      <GameWrap>
-       {props.games[0] && <Carousel games={props.games}/>}
-        { gameMap }
-      </GameWrap>
-      {/* <User email={props.user.email} /> */}
-    </>
-  )
-}
+    return (
+        <>
+            <GameWrap>
+                {props.games[0] && <Carousel games={props.games} />}
+                {gameMap}
+            </GameWrap>
+            {/* <MiniProfile email={props.user.email} /> */}
+        </>
+    );
+};
 
 const mapStateToProps = state => {
-  return {
-    games: state.games.allOfGames,
-    user: state.user.user
-  }
-}
+    return {
+        games: state.games.allOfGames,
+        user: state.user.user
+    };
+};
 
 export default connect(
     mapStateToProps,
