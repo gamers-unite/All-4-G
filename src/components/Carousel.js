@@ -1,7 +1,8 @@
-import React, { useEffect, useReducer } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import "material-design-icons";
+import React, { useEffect, useReducer } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import 'material-design-icons';
+
 
 //HOOKS AND REDUCER
 
@@ -51,110 +52,119 @@ const Carousel = (props) => {
 
   }
   return (
-    <ImageContainer>
-      <CarouselImg>
-        <img src={props.games[state.currentIndex].background_img}  max-width='100%' height='auto'></img>
+    <div>
+      <ImageContainer>
+        <CarouselImg>
+          <img src={props.games[state.currentIndex].background_img} max-width='100%' height='auto'></img>
           <CarouselNav>
             <Prev >
-              <Button className="material-icons" name='PREV' onClick={ handleClick }>skip_previous</Button>
+              <Button className="material-icons" name='PREV' onClick={handleClick}>skip_previous</Button>
             </Prev>
             <Play>
-              <Button className="material-icons" name='PLAY' onClick={ handleClick }>play_arrow</Button>
+              <Button className="material-icons" name='PLAY' onClick={handleClick}>play_arrow</Button>
             </Play>
             <Pause>
-              <Button className="material-icons" name='PAUSE' onClick={ handleClick }>pause</Button>
+              <Button className="material-icons" name='PAUSE' onClick={handleClick}>pause</Button>
             </Pause>
             <Next>
-              <Button className="material-icons" name='NEXT' onClick={ handleClick }>skip_next</Button>
+              <Button className="material-icons" name='NEXT' onClick={handleClick}>skip_next</Button>
             </Next>
           </CarouselNav>
-      </CarouselImg>
-    </ImageContainer>  
+        </CarouselImg>
+      </ImageContainer>
+    </div>
   )
 }
 
 export default Carousel;
 
 const Button = styled.button`
-  background: none;
-  border: none;
-  outline: none;
-  color: lightgrey;
-  font-size: 5em;
-  text-shadow: 3px 3px black;
-  opacity: .5;
-  cursor: pointer;
+ background: none;
+ border: none;
+ outline: none;
+ color: lightgrey;
+ font-size: 5em;
+ text-shadow: 3px 3px black;
+ opacity: .5;
 `
 
 const Play = styled.div`
-  height: 90vh;
-  width: 5vw;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding-right: 2vw;
+ height: 90vh;
+ width: 5vw;
+ z-index: 2;
+ display: flex;
+ justify-content: center;
+ align-items: flex-end;
+ padding-right: 2vw;
+
+ // border: 1px solid red;
 `;
 
 const Pause = styled.div`
-  height: 90vh;
-  width: 5vw;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding-left: 2vw;
+ height: 90vh;
+ width: 5vw;
+ z-index: 2;
+ display: flex;
+ justify-content: center;
+ align-items: flex-end;
+ padding-left: 2vw;
+
+ // border: 1px solid red;
 `;
 
 const Prev = styled.div`
-  height: 5vh;
-  width: 40vw;
-  z-index: 2;
-  display: flex;
+ height: 5vh;
+ width: 40vw;
+ z-index: 2;
+ display: flex;
+
+ // border: 1px solid red;
 `;
 
 const Next = styled.div`
-  height: 5vh;
-  width: 40vw;
-  z-index: 2;
-  display: flex;
-  justify-content: flex-end;
+ height: 5vh;
+ width: 40vw;
+ z-index: 2;
+ display: flex;
+ justify-content: flex-end;
+
+ // border: 1px solid red;
 `;
 
 const CarouselNav = styled.div`
-  height: 80vh;
-  width: 95vw;
-  z-index: 2;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+ height: 80vh;
+ width: 95vw;
+ z-index: 2;
+ position: absolute;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+
+ // border: 1px solid limegreen;
 `;
 
 const ImageContainer = styled.div`
-  position: relative;
-  height: 93vh;
   width: 100vw
   overflow: hidden;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  // border: 1px solid red;
 `;
 
 const CarouselImg = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
-
-  img {
-    height: 100%;
-  }
-
+  height: auto;
+  width: 100vw;
   max-width: auto;
   overflow: hide;
   margin: 0 auto;
   background: #333333;
   image-rendering: auto;
+
+  // border: 1px solid red;
 `;
