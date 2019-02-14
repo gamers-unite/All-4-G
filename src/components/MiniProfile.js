@@ -21,7 +21,7 @@ const User = props => {
 
     return (
         <>
-            {user && (
+            {props.user && (
                 <div>
                     <Avatar src={props.user.avatar} alt="avatar" />
                     <h1>{props.user.display_name}</h1>

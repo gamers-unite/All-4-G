@@ -20,7 +20,6 @@ const GamePage = props => {
                 game_id: game.game_id
             });
             updateAllRequest(fillReq.data);
-            console.log(fillReq.data);
         }
     };
 
@@ -41,8 +40,6 @@ const GamePage = props => {
             />
         );
     });
-
-    console.log(game);
 
     return (
         <>
