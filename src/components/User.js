@@ -1,67 +1,132 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Avatar from "@material-ui/core/Avatar";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
-import { getUser } from "../ducks/userReducer";
+import { getCurrentUser } from "../ducks/userReducer";
+import Report from "./Report";
 
-//PASS IN GAME OBJECT WITH PLATFORMS AS PROPS
-//PASS IN USER EMAIL AS PROPS
+const styles = theme => ({
+    modalWrapper: {
+        width: "100vw",
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "center"
+    }
+});
 
-const User = props => {
+const Profile = props => {
+    const { classes } = props;
+    const [user, setUser] = useState({});
+    const [refresh, setRefresh] = useState(false);
+    const [reportable, setReportable] = useState(true);
+    const [reported, setReported] = useState(false);
+    const [modal, setModal] = useState(false);
+
+    const getUsers = async () => {
+        const { email } = props;
+        await props.getCurrentUser();
+        await axios.get("/users/", { email }).then(response => {
+            setUser(response.data);
+            if (props.user.email === response.data.email) {
+                setReportable(false);
+            }
+        });
+    };
+
+    const getReports = async () => {
+        const { user_id } = props;
+        await axios.get("/reports", { user_id }).then(response => {
+            if (response.data[0]) {
+                setReported(true);
+            }
+        });
+    };
+
     useEffect(() => {
-        props.getUser(props.email);
-    }, []);
+        getUsers();
+        getReports();
+        setRefresh(false);
+    }, [refresh === true]);
 
-    const game = props.game || {};
+    const openReport = () => {
+        setModal(true);
+    };
+
+    const closeReport = () => {
+        setModal(false);
+        setRefresh(true);
+    };
 
     return (
         <div>
-            <img src={props.user.avatar} alt='avatar'/>
-            <h1>{props.user.display_name}</h1>
-            {/* CHECK IF GAME HAS PLATFORM, THEN CHECK IF USER HAS PLATFORM ID */}
-            {game.blizzard && props.user.blizzard && (
+            <Avatar src={user.avatar} alt="avatar" />
+            <h1>{user.display_name}</h1>
+            <h2>{user.email}</h2>
+            {user.blizzard && (
                 <>
                     <p>Blizzard:</p>
-                    <p>{props.user.blizzard}</p>
+                    <p>{user.blizzard}</p>
                 </>
             )}
-            {game.epic && props.user.epic && (
+            {user.epic && (
                 <>
                     <p>Epic:</p>
-                    <p>{props.user.epic}</p>
+                    <p>{user.epic}</p>
                 </>
             )}
-            {game.ps4 && props.user.ps4 && (
+            {user.ps4 && (
                 <>
                     <p>PlayStation:</p>
-                    <p>{props.user.ps4}</p>
+                    <p>{user.ps4}</p>
                 </>
             )}
-            {game.riot && props.user.riot && (
+            {user.riot && (
                 <>
                     <p>Riot:</p>
-                    <p>{props.user.riot}</p>
+                    <p>{user.riot}</p>
                 </>
             )}
-            {game.steam && props.user.steam && (
+            {user.steam && (
                 <>
                     <p>Steam:</p>
-                    <p>{props.user.steam}</p>
+                    <p>{user.steam}</p>
                 </>
             )}
-            {game.xbox && props.user.xbox && (
+            {user.xbox && (
                 <>
                     <p>Xbox:</p>
-                    <p>{props.user.xbox}</p>
+                    <p>{user.xbox}</p>
                 </>
+            )}
+            {reportable && !reported && (
+                <button onClick={openReport}>Report User</button>
+            )}
+            {reportable && reported && <button disabled>Report Sent</button>}
+            {modal && (
+                <Modal
+                    className={classes.modalWrapper}
+                    open={modal}
+                    onClose={closeReport}
+                >
+                    <Report closeReport={closeReport} user_id={user.user_id} />
+                </Modal>
             )}
         </div>
     );
 };
 
+Profile.propTypes = {
+    classes: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => {
-    return { user: state.user.otherUser };
+    return { user: state.user.user };
 };
 
 export default connect(
     mapStateToProps,
-    { getUser }
-)(User);
+    { getCurrentUser }
+)(withStyles(styles)(Profile));
