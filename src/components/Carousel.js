@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import 'material-design-icons';
 
 
 //HOOKS AND REDUCER
@@ -41,70 +42,120 @@ const Carousel = (props) => {
     if (state.playing) {
       let timeout = setTimeout(() => {
         dispatch({ type: 'PROGRESS' })
-      }, 6000);
+      }, 5000);
       return () => clearTimeout(timeout)
     }
   }, [state.currentIndex, state.playing]);
 
   const handleClick = (e) => {
     dispatch({ type: e.target.name })
+
   }
   return (
-    <GameCarousel>
-      <div>
-        {/* {props.games.map((e , i)=>( */}
-        <Link to={`/${props.games[state.currentIndex].url}`}>
-          <div>
-            <img src={props.games[state.currentIndex].background_img} alt='background_image'></img>
-            <p>{props.games[state.currentIndex].info}</p>
-            {/* // id={e.game_id}
-                  // image={e.background_image}
-                  // title={e.title}
-                  // current={i === state.currentIndex}
-                  // info={e.info} */}
-
-          </div>
-          
-        </Link>
-        {/* ))} */}
-      </div>
-
-      <div>
-        {/* {props.games.map((e , i)=>
-                <div
-                    key={i}
-                    current={i === state.currentIndex}
-                    onClick={()=>{dispatch({type: 'GOTO', i})}}
-                    />
-               )} */}
-      </div>
-
-      {/* <Div name='PLAY' onClick={handleClick}> */}
-
-      <div className='CarouselNav'>
-        <button name='PLAY' onClick={ handleClick }>Play</button>
-
-        <button name='PAUSE' onClick={ handleClick }>Pause</button>
-
-        <button name='PREV' onClick={ handleClick }>Prev</button>
-
-        <button name='NEXT' onClick={ handleClick }>Next</button>
-      </div>
-    </GameCarousel>
+    <ImageContainer>
+      <CarouselImg>
+        <img src={props.games[state.currentIndex].background_img}  max-width='100%' height='auto'></img>
+          <CarouselNav>
+            <Prev >
+              <Button className="material-icons" name='PREV' onClick={ handleClick }>skip_previous</Button>
+            </Prev>
+            <Play>
+              <Button className="material-icons" name='PLAY' onClick={ handleClick }>play_arrow</Button>
+            </Play>
+            <Pause>
+              <Button className="material-icons" name='PAUSE' onClick={ handleClick }>pause</Button>
+            </Pause>
+            <Next>
+              <Button className="material-icons" name='NEXT' onClick={ handleClick }>skip_next</Button>
+            </Next>
+          </CarouselNav>
+      </CarouselImg>
+    </ImageContainer>  
   )
 }
 
-
-
 export default Carousel;
 
-const GameCarousel = styled.div`
+const Button = styled.button`
+  background: none;
+  border: none;
+  outline: none;
+  color: lightgrey;
+  font-size: 5em;
+  text-shadow: 3px 3px black;
+  opacity: .5;
+  cursor: pointer;
+`
+
+const Play = styled.div`
+  height: 90vh;
+  width: 5vw;
+  z-index: 2;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  overflow: scroll;
-  height: 92vh;
-  width: 100vw;
+  align-items: flex-end;
+  padding-right: 2vw;
+`;
+
+const Pause = styled.div`
+  height: 90vh;
+  width: 5vw;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-left: 2vw;
+`;
+
+const Prev = styled.div`
+  height: 5vh;
+  width: 40vw;
+  z-index: 2;
+  display: flex;
+`;
+
+const Next = styled.div`
+  height: 5vh;
+  width: 40vw;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const CarouselNav = styled.div`
+  height: 80vh;
+  width: 95vw;
+  z-index: 2;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ImageContainer = styled.div`
+  position: relative;
+  height: 93vh;
+  width: 100vw
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CarouselImg = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  img {
+    height: 100%;
+  }
+
+  max-width: auto;
+  overflow: hide;
   margin: 0 auto;
   background: #333333;
+  image-rendering: auto;
 `;
