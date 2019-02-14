@@ -1,67 +1,140 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Avatar from "@material-ui/core/Avatar";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
-import { getUser } from "../ducks/userReducer";
+import { getCurrentUser, getUser } from "../ducks/userReducer";
+import EditProfile from "./EditProfile";
 
-//PASS IN GAME OBJECT WITH PLATFORMS AS PROPS
-//PASS IN USER EMAIL AS PROPS
+const styles = theme => ({
+    modalWrapper: {
+        width: "100vw",
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "center"
+    }
+});
 
-const User = props => {
+const Profile = props => {
+    const { classes } = props;
+    const [user, setUser] = useState(props.user);
+    const [refresh, setRefresh] = useState(false);
+    const [reportable, setReportable] = useState(false);
+    const [editable, setEditable] = useState(true);
+    const [editModal, setEditModal] = useState(false);
+
+    const getUser = async () => {
+        const { email } = props;
+        axios.get("/users/", { email }).then(response => {
+            setUser(response.data);
+
+            setReportable(true);
+            setEditable(false);
+        });
+    };
+
     useEffect(() => {
-        props.getUser(props.email);
-    }, []);
+        props.getCurrentUser();
+        if (props.email) {
+            getUser();
+        } else {
+            setReportable(false);
+            setEditable(true);
+        }
+        setRefresh(false);
+    }, [refresh === true]);
 
-    const game = props.game || {};
+    const openEdit = () => {
+        setEditModal(true);
+    };
+
+    const closeEdit = () => {
+        setEditModal(false);
+        setRefresh(true);
+    };
+
+    const submitReport = () => {
+        const { id } = user;
+        axios.post("/api/reports", { id });
+    };
 
     return (
         <div>
-            <img src={props.user.avatar} alt='avatar'/>
+            <Avatar src={props.user.avatar} alt="avatar" />
             <h1>{props.user.display_name}</h1>
-            {/* CHECK IF GAME HAS PLATFORM, THEN CHECK IF USER HAS PLATFORM ID */}
-            {game.blizzard && props.user.blizzard && (
+            <h2>{props.user.email}</h2>
+            {user.blizzard && (
                 <>
                     <p>Blizzard:</p>
-                    <p>{props.user.blizzard}</p>
+                    <p>{user.blizzard}</p>
                 </>
             )}
-            {game.epic && props.user.epic && (
+            {user.epic && (
                 <>
                     <p>Epic:</p>
-                    <p>{props.user.epic}</p>
+                    <p>{user.epic}</p>
                 </>
             )}
-            {game.ps4 && props.user.ps4 && (
+            {user.ps4 && (
                 <>
                     <p>PlayStation:</p>
-                    <p>{props.user.ps4}</p>
+                    <p>{user.ps4}</p>
                 </>
             )}
-            {game.riot && props.user.riot && (
+            {user.riot && (
                 <>
                     <p>Riot:</p>
-                    <p>{props.user.riot}</p>
+                    <p>{user.riot}</p>
                 </>
             )}
-            {game.steam && props.user.steam && (
+            {user.steam && (
                 <>
                     <p>Steam:</p>
-                    <p>{props.user.steam}</p>
+                    <p>{user.steam}</p>
                 </>
             )}
-            {game.xbox && props.user.xbox && (
+            {user.xbox && (
                 <>
                     <p>Xbox:</p>
-                    <p>{props.user.xbox}</p>
+                    <p>{user.xbox}</p>
                 </>
+            )}
+            {reportable && <button onClick={submitReport}>Report User</button>}
+            {editable && <button onClick={openEdit}>Edit</button>}
+            {editModal && (
+                <Modal
+                    className={classes.modalWrapper}
+                    open={editModal}
+                    onClose={closeEdit}
+                >
+                    <EditProfile
+                        closeEdit={closeEdit}
+                        display_name={user.display_name}
+                        avatar={user.avatar}
+                        blizzard={user.blizzard}
+                        epic={user.epic}
+                        ps4={user.ps4}
+                        riot={user.riot}
+                        steam={user.steam}
+                        xbox={user.xbox}
+                    />
+                </Modal>
             )}
         </div>
     );
 };
 
+Profile.propTypes = {
+    classes: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => {
-    return { user: state.user.otherUser };
+    return { user: state.user.user };
 };
 
 export default connect(
     mapStateToProps,
-    { getUser }
-)(User);
+    { getCurrentUser, getUser }
+)(withStyles(styles)(Profile));

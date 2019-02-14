@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
 import axios from "axios";
 import Avatar from "@material-ui/core/Avatar";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
-import { storage } from "./firebase";
 import { getCurrentUser } from "../ducks/userReducer";
-import ImageUpload from "./ImageUpload";
+import EditProfile from "./EditProfile";
 
 const styles = theme => ({
     modalWrapper: {
@@ -16,37 +14,14 @@ const styles = theme => ({
         height: "100vh",
         alignItems: "center",
         justifyContent: "center"
-    },
-
-    modal: {
-        position: "absolute",
-        float: "left",
-        left: "50%",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
-        width: theme.spacing.unit * 50,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing.unit * 4,
-        background: "#fff"
     }
 });
 
 const Profile = props => {
     const { classes } = props;
     const [refresh, setRefresh] = useState(false);
-    const [inputs, setInputs] = useState({
-        display_name: "",
-        avatar: "",
-        image: null,
-        url: "",
-        blizzard: "",
-        epic: "",
-        ps4: "",
-        riot: "",
-        steam: "",
-        xbox: ""
-    });
-    const [modal, setModal] = useState(false);
+    const [editable, setEditable] = useState(true);
+    const [editModal, setEditModal] = useState(false);
 
     useEffect(() => {
         props.getCurrentUser();
@@ -54,106 +29,14 @@ const Profile = props => {
     }, [refresh === true]);
 
     const openEdit = () => {
-        setModal(true);
-        setInputs({
-            display_name: props.user.display_name,
-            avatar: props.user.avatar,
-            image: null,
-            url: "",
-            blizzard: props.user.blizzard,
-            epic: props.user.epic,
-            ps4: props.user.ps4,
-            riot: props.user.riot,
-            steam: props.user.steam,
-            xbox: props.user.xbox
-        });
+        setEditModal(true);
     };
 
     const closeEdit = () => {
-        setModal(false);
-        setInputs({
-            display_name: props.user.display_name,
-            avatar: props.user.avatar,
-            image: null,
-            url: "",
-            blizzard: props.user.blizzard,
-            epic: props.user.epic,
-            ps4: props.user.ps4,
-            riot: props.user.riot,
-            steam: props.user.steam,
-            xbox: props.user.xbox
-        });
+        setEditModal(false);
         setRefresh(true);
     };
 
-    const onChange = e => {
-        setInputs({ ...inputs, [e.target.name]: e.target.value });
-    };
-
-    const handleFileChange = e => {
-        if (e.target.files[0]) {
-            const image = e.target.files[0];
-            setInputs({ ...inputs, image });
-        }
-    };
-
-    const handleUpload = event => {
-        event.preventDefault();
-        const { email } = props.user;
-        const uploadTask = storage
-            .ref(`images/avatars/${email}`)
-            .put(inputs.image);
-        uploadTask.on(
-            "state_changed",
-            snapshot => {
-                //progress function
-            },
-            error => {
-                //error function
-                console.log(error);
-            },
-            () => {
-                //complete function
-                storage
-                    .ref("images/avatars")
-                    .child(email)
-                    .getDownloadURL()
-                    .then(url => {
-                        console.log(url);
-                        setInputs({ ...inputs, avatar: url, url });
-                    });
-            }
-        );
-    };
-
-    const submitEdit = e => {
-        e.preventDefault();
-        const {
-            display_name,
-            avatar,
-            blizzard,
-            epic,
-            ps4,
-            riot,
-            steam,
-            xbox
-        } = inputs;
-        axios
-            .put("/users/update", {
-                display_name,
-                avatar,
-                blizzard,
-                epic,
-                ps4,
-                riot,
-                steam,
-                xbox
-            })
-            .then(() => {
-                setModal(false);
-                props.getCurrentUser();
-            });
-    };
     return (
         <div>
             <Avatar src={props.user.avatar} alt="avatar" />
@@ -195,67 +78,24 @@ const Profile = props => {
                     <p>{props.user.xbox}</p>
                 </>
             )}
-            {!modal && <button onClick={openEdit}>Edit</button>}
-            {modal && (
+            {editable && <button onClick={openEdit}>Edit</button>}
+            {editModal && (
                 <Modal
                     className={classes.modalWrapper}
-                    open={modal}
+                    open={editModal}
                     onClose={closeEdit}
                 >
-                    <>
-                        <form className={classes.modal} onSubmit={submitEdit}>
-                            <ImageUpload
-                                handleFileChange={handleFileChange}
-                                handleUpload={handleUpload}
-                                avatar={props.user.avatar}
-                                url={inputs.url}
-                            />
-                            <p>Display Name</p>
-                            <input
-                                name="display_name"
-                                defaultValue={props.user.display_name}
-                                onChange={onChange}
-                            />
-                            <p>Blizzard</p>
-                            <input
-                                name="blizzard"
-                                defaultValue={props.user.blizzard}
-                                onChange={onChange}
-                            />
-                            <p>Epic</p>
-                            <input
-                                name="epic"
-                                defaultValue={props.user.epic}
-                                onChange={onChange}
-                            />
-                            <p>Playstation</p>
-                            <input
-                                name="ps4"
-                                defaultValue={props.user.ps4}
-                                onChange={onChange}
-                            />
-                            <p>Riot</p>
-                            <input
-                                name="riot"
-                                defaultValue={props.user.riot}
-                                onChange={onChange}
-                            />
-                            <p>Steam</p>
-                            <input
-                                name="steam"
-                                defaultValue={props.user.steam}
-                                onChange={onChange}
-                            />
-                            <p>Xbox</p>
-                            <input
-                                name="xbox"
-                                defaultValue={props.user.xbox}
-                                onChange={onChange}
-                            />
-                            <button onClick={submitEdit}>Submit</button>
-                            <button onClick={closeEdit}>Cancel</button>
-                        </form>
-                    </>
+                    <EditProfile
+                        closeEdit={closeEdit}
+                        display_name={props.user.display_name}
+                        avatar={props.user.avatar}
+                        blizzard={props.user.blizzard}
+                        epic={props.user.epic}
+                        ps4={props.user.ps4}
+                        riot={props.user.riot}
+                        steam={props.user.steam}
+                        xbox={props.user.xbox}
+                    />
                 </Modal>
             )}
         </div>
@@ -273,4 +113,4 @@ const mapStateToProps = state => {
 export default connect(
     mapStateToProps,
     { getCurrentUser }
-)(withStyles(styles)(withRouter(Profile)));
+)(withStyles(styles)(Profile));
