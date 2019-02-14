@@ -16,10 +16,10 @@ const {
     updateUser,
     logout
 } = require("./controllers/authController");
-const { 
-    getGame, 
-    getGames, 
-    getGameByUrl 
+const {
+    getGame,
+    getGames,
+    getGameByUrl
 } = require("./controllers/gameController");
 const {
     getRequestsByReqId,
@@ -80,8 +80,8 @@ app.post("/api/games/url", getGameByUrl);
 //REQUEST ENDPOINTS
 // app.get("/api/requests/request", getRequest);
 app.post("/api/requests/game", getRequestsByGameId);
-app.post("/api/requests/id", getRequestsByReqId)
-// app.post("/api/requests", addRequest);
+app.post("/api/requests/id", getRequestsByReqId);
+app.post("/api/requests/add", addRequest);
 app.put("/api/requests", editRequest);
 app.delete("/api/requests", deleteRequest);
 app.put("/api/requests/deactivate", deactivateRequest);

@@ -1,8 +1,7 @@
-import React, { useEffect, useReducer } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import 'material-design-icons';
-
+import React, { useEffect, useReducer } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import "material-design-icons";
 
 //HOOKS AND REDUCER
 

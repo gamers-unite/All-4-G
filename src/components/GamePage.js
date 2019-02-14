@@ -1,12 +1,41 @@
 import React, { useEffect, useState } from "react";
-import Request from "./Request";
+import { connect } from "react-redux";
+import Modal from "@material-ui/core/Modal";
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
+import Request from "./Request";
 import MiniProfile from "./MiniProfile";
+import CreateRequest from "./CreateRequest";
+import { getCurrentUser } from "../ducks/userReducer";
+
+const styles = theme => ({
+    modalWrapper: {
+        width: "100vw",
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+
+    modal: {
+        position: "absolute",
+        float: "left",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        width: theme.spacing.unit * 50,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing.unit * 4,
+        background: "#fff"
+    }
+});
 
 const GamePage = props => {
+    const { classes } = props;
     const [game, updateGame] = useState({});
     const [allRequest, updateAllRequest] = useState([]);
+    const [modal, setModal] = useState(false);
 
     const fillGame = async () => {
         let url = props.location.pathname.replace("/", "");
@@ -21,6 +50,15 @@ const GamePage = props => {
             });
             updateAllRequest(fillReq.data);
         }
+    };
+
+    const openRequest = () => {
+        setModal(true);
+    };
+
+    const closeRequest = () => {
+        setModal(false);
+        fillRequest();
     };
 
     useEffect(() => {
@@ -50,6 +88,24 @@ const GamePage = props => {
                 <h3>{game.max_party}</h3>
             </GameInfo>
             <div>
+                {props.user.email && (
+                    <button onClick={openRequest}>Create Request</button>
+                )}
+                {modal && (
+                    <Modal
+                        className={classes.modalWrapper}
+                        open={modal}
+                        onClose={closeRequest}
+                    >
+                        <CreateRequest
+                            platforms={game.platform}
+                            max_party={game.max_party}
+                            game_id={game.game_id}
+                            closeRequest={closeRequest}
+                            style={classes.modal}
+                        />
+                    </Modal>
+                )}
                 <h1>Requests</h1>
                 <div>{requestMap}</div>
                 {game.platform && <MiniProfile platforms={game.platform} />}
@@ -58,7 +114,20 @@ const GamePage = props => {
     );
 };
 
-export default GamePage;
+GamePage.propTypes = {
+    classes: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => {
+    return {
+        user: state.user.user
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    { getCurrentUser }
+)(withStyles(styles)(GamePage));
 
 const GameInfo = styled.div`
     position: relative;
