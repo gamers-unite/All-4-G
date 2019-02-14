@@ -1,8 +1,7 @@
-import React, { useEffect, useReducer } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import 'material-design-icons';
-
+import React, { useEffect, useReducer } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import "material-design-icons";
 
 //HOOKS AND REDUCER
 
@@ -52,27 +51,25 @@ const Carousel = (props) => {
 
   }
   return (
-    <div>
-      <ImageContainer>
-        <CarouselImg>
-          <img src={props.games[state.currentIndex].background_img}  max-width='100%' height='auto'></img>
-            <CarouselNav>
-              <Prev >
-                  <Button className="material-icons" name='PREV' onClick={ handleClick }>skip_previous</Button>
-              </Prev>
-              <Play>
-                <Button className="material-icons" name='PLAY' onClick={ handleClick }>play_arrow</Button>
-              </Play>
-              <Pause>
-                <Button className="material-icons" name='PAUSE' onClick={ handleClick }>pause</Button>
-              </Pause>
-              <Next>
-                <Button className="material-icons" name='NEXT' onClick={ handleClick }>skip_next</Button>
-              </Next>
-            </CarouselNav>
-        </CarouselImg>
-      </ImageContainer>  
-    </div>
+    <ImageContainer>
+      <CarouselImg>
+        <img src={props.games[state.currentIndex].background_img}  max-width='100%' height='auto'></img>
+          <CarouselNav>
+            <Prev >
+              <Button className="material-icons" name='PREV' onClick={ handleClick }>skip_previous</Button>
+            </Prev>
+            <Play>
+              <Button className="material-icons" name='PLAY' onClick={ handleClick }>play_arrow</Button>
+            </Play>
+            <Pause>
+              <Button className="material-icons" name='PAUSE' onClick={ handleClick }>pause</Button>
+            </Pause>
+            <Next>
+              <Button className="material-icons" name='NEXT' onClick={ handleClick }>skip_next</Button>
+            </Next>
+          </CarouselNav>
+      </CarouselImg>
+    </ImageContainer>  
   )
 }
 
@@ -86,6 +83,7 @@ const Button = styled.button`
   font-size: 5em;
   text-shadow: 3px 3px black;
   opacity: .5;
+  cursor: pointer;
 `
 
 const Play = styled.div`
@@ -96,8 +94,6 @@ const Play = styled.div`
   justify-content: center;
   align-items: flex-end;
   padding-right: 2vw;
-
-  // border: 1px solid red;
 `;
 
 const Pause = styled.div`
@@ -108,8 +104,6 @@ const Pause = styled.div`
   justify-content: center;
   align-items: flex-end;
   padding-left: 2vw;
-
-  // border: 1px solid red;
 `;
 
 const Prev = styled.div`
@@ -117,8 +111,6 @@ const Prev = styled.div`
   width: 40vw;
   z-index: 2;
   display: flex;
-
-  // border: 1px solid red;
 `;
 
 const Next = styled.div`
@@ -127,8 +119,6 @@ const Next = styled.div`
   z-index: 2;
   display: flex;
   justify-content: flex-end;
-
-  // border: 1px solid red;
 `;
 
 const CarouselNav = styled.div`
@@ -139,20 +129,17 @@ const CarouselNav = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  // border: 1px solid limegreen;
 `;
 
 const ImageContainer = styled.div`
+  position: relative;
+  height: 93vh;
   width: 100vw
   height: 93vh;
   overflow: hidden;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  // border: 1px solid red;
 `;
 
 const CarouselImg = styled.div`
@@ -161,15 +148,14 @@ const CarouselImg = styled.div`
   align-items: center;
   height: 100%;
   width: 100%;
-  max-width: auto;
-  overflow: hide;
-  margin: 0 auto;
-  background: #333333;
-  image-rendering: auto;
 
   img {
     height: 100%;
   }
 
-  // border: 1px solid red;
+  max-width: auto;
+  overflow: hide;
+  margin: 0 auto;
+  background: #333333;
+  image-rendering: auto;
 `;

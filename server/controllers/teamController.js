@@ -12,6 +12,7 @@ module.exports = {
 
     addTeam: (req, res) => {
         const { user_id, req_id } = req.body;
+        console.log(req.body)
         req.app
             .get("db")
             .teams.add_team(user_id, req_id)

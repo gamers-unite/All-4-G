@@ -21,10 +21,17 @@ module.exports = {
     },
 
     addRequest: (req, res) => {
-        const { game_id, info } = req.body;
+        console.log(req.body);
+        const { team_length, game_id, platform, info } = req.body;
         req.app
             .get("db")
-            .requests.add_request(req.session.user.id, game_id, info)
+            .requests.add_request(
+                req.session.user.id,
+                team_length,
+                game_id,
+                platform,
+                info
+            )
             .then(response => {
                 res.status(200).json(response);
             })
