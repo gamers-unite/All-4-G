@@ -109,9 +109,12 @@ const styles = theme => ({
         top: "50%",
         transform: "translate(-50%, -50%)",
         width: theme.spacing.unit * 50,
-        boxShadow: theme.shadows[5],
+        boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
-        background: "#fff"
+        background: "grey",
+        border: ".5em solid black",
+        borderRadius: "10%",
+        outline: "none"
     }
 });
 
@@ -233,6 +236,7 @@ class Nav extends React.Component {
                         >
                             <MenuIcon />
                         </IconButton>
+                        <Link to='/' style={{ color: "#ffffff", textDecoration: "none"}}>
                         <Typography
                             className={classes.title}
                             variant="h6"
@@ -241,6 +245,7 @@ class Nav extends React.Component {
                         >
                             ALL.4.G
                         </Typography>
+                        </Link>
                         {/* <div className={classes.search}>
                             <div className={classes.searchIcon}>
                                 <SearchIcon />
@@ -257,10 +262,10 @@ class Nav extends React.Component {
                         <div className={classes.sectionDesktop}>
                             {!this.state.loggedIn && (
                                 <>
-                                    <Button onClick={this.openLogin}>
+                                    <Button style={{ color: "#ffffff" }} onClick={this.openLogin}>
                                         Login
                                     </Button>
-                                    <Button onClick={this.openRegister}>
+                                    <Button style={{ color: "#ffffff" }} onClick={this.openRegister}>
                                         Register
                                     </Button>
                                 </>

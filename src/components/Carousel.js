@@ -145,6 +145,7 @@ const CarouselNav = styled.div`
 
 const ImageContainer = styled.div`
   width: 100vw
+  height: 93vh;
   overflow: hidden;
   position: relative;
   display: flex;
@@ -158,13 +159,17 @@ const CarouselImg = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: auto;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   max-width: auto;
   overflow: hide;
   margin: 0 auto;
   background: #333333;
   image-rendering: auto;
+
+  img {
+    height: 100%;
+  }
 
   // border: 1px solid red;
 `;
