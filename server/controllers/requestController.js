@@ -1,19 +1,19 @@
 module.exports = {
-    getRequestsById: (req, res) => {
+    getRequestsByReqId: (req, res) => {
         const { req_id } = req.body;
         req.app
             .get("db")
-            .requests.get_request(req_id)
+            .requests.get_request_by_req_id(req_id)
             .then(response => {
                 res.status(200).json(response);
             })
             .catch(err => console.log(err));
     },
 
-    getRequestsByGame: (req, res) => {
+    getRequestsByGameId: (req, res) => {
         req.app
             .get("db")
-            .requests.get_requests(req.body.game_id)
+            .requests.get_requests_by_game_id(req.body.game_id)
             .then(response => {
                 res.status(200).json(response);
             })

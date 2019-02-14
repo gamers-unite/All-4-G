@@ -1,27 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Request from './Request'
-import { connect } from 'react-redux';
-import { gameByUrl, allGames } from '../ducks/gamesReducer';
-import { getRequests } from '../ducks/requestReducer';
 import styled from "styled-components";
+import axios from 'axios';
 
 const GamePage = (props) => {
 
-  useEffect( () => { 
+  const [game, updateGame] = useState({});
+  const [request, updateRequest] = useState([])
+
+  const fillGame = async () => {
     let url = props.location.pathname.replace('/', '');
-    props.gameByUrl(url);
-  }, [])
+    let result = await axios.post('/api/games/url', {url})
+    updateGame(result.data[0])
+  }
 
-  useEffect( () => { 
-    props.getRequests(props.game.game_id)
-  }, [props.game])
+  const fillRequest = async () => {
+    let fillReq = await axios.post("/api/requests/game", {game_id: game.game_id})
+    updateRequest(fillReq.data)
+  }
 
-  const requestMap = props.gameRequests.map( (e,i) => {
-    console.log(e.req_id)
+  useEffect( () => { fillGame() }, [] )
+  useEffect( () => { fillRequest() }, [game] )
+
+  const requestMap = request.map( (e,i) => {
     return (
       <Request 
         key={i}
         id={e.req_id}
+        creatorImg={e.avatar}
+        creatorName={e.display_name}
       />
     )
   })
@@ -29,10 +36,10 @@ const GamePage = (props) => {
   return (
     <>
       <GameInfo>
-        <img src={props.game.logo} alt='alt'/>
+        <img src={game.logo} alt='alt'/>
         <div></div>
-        <p>{props.game.info}</p>
-        <h3>{props.game.max_party}</h3>
+        <p>{game.info}</p>
+        <h3>{game.max_party}</h3>
       </GameInfo>
       <div>
         <h1>Requests</h1>
@@ -44,16 +51,7 @@ const GamePage = (props) => {
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    gameRequests: state.request.gameRequests,
-    team: state.request.team,
-    game: state.games.game,
-    allOfGames: state.games.allOfGames
-  }
-}
-
-export default connect(mapStateToProps, { gameByUrl, getRequests, allGames })(GamePage);
+export default GamePage;
 
 const GameInfo = styled.div`
   position: relative;

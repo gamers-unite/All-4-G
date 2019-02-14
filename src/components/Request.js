@@ -1,27 +1,42 @@
-import React, { useEffect} from 'react';
-import { connect } from 'react-redux'; 
-import { getRequestById } from '../ducks/requestReducer';
+import React, { useEffect, useState} from 'react';
 import styled from "styled-components";
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import axios from 'axios'
 
 const Request = (props) => {
 
-  useEffect( () => { props.getRequestById() }, [])
+  const [request, updateRequest] = useState([]) 
+
+  useEffect( () => { 
+    axios.post("/api/requests/id", { req_id: props.id })
+      .then( response => updateRequest(response.data)) 
+    }, [])
 
   const renderTeam = (num) => {
     let team = []
-    for(let i=0; i < num -1 ; i++){
-      team.push(<AccountCircle/>)
+    for(let i=0; i < num ; i++){
+      if( request[i] ){
+        team.push(<img key={i} className='mini_avatar player' src={request[i].avatar} alt='mini'/>)
+      } else {
+        team.push(<AccountCircle key={i} className='mini_avatar'/>)
+      }
     }
     return team
   };
 
-  console.log(props.id)
-
   return(
-      <RequestInfo>
+    <>
+      {request[0] && 
+        <RequestInfo>
         <div>
-          {props.request.display_name}
+          <img src={props.creatorImg} alt='creator avatar'/>
+          {props.creatorName}
+        </div>
+        <div>
+          <p>{request[0].info}</p>
+        </div>
+        <div className='team_bar'>
+          {renderTeam(request[0].team_length)}
         </div>
         {/* <div>
           <img src={e.avatar} className='mini_avatar'/>
@@ -32,16 +47,12 @@ const Request = (props) => {
         <p>{e.info}</p>
         <h2>{e.team_length}</h2> */}
       </RequestInfo>
+      }
+    </>
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    request: state.request.requests
-  }
-}
-
-export default connect(mapStateToProps, { getRequestById })(Request);
+export default Request;
 
 const RequestInfo = styled.div`
   display: flex;
@@ -49,10 +60,23 @@ const RequestInfo = styled.div`
   border: 1px solid black;
   margin: 5px 0;
 
+  .team_bar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
   .mini_avatar {
-    height: 25px;
-    width: 25px;
+    height: 35px;
+    width: 35px;
     border-radius: 50%;
+  }
+
+  .player {
+    height: 29px;
+    width: 29px;
+    background: black;
+    margin: 2px;
   }
 
   img {
