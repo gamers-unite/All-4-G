@@ -19,7 +19,8 @@ const Register = props => {
         setInputs({ ...inputs, [e.target.name]: e.target.value });
     };
 
-    const handleRegister = () => {
+    const handleRegister = e => {
+        e.preventDefault();
         props.addUser(
             inputs.email,
             inputs.display_name,
@@ -37,7 +38,7 @@ const Register = props => {
 
     return (
         <div>
-            <form onSubmit={e => e.preventDefault()}>
+            <form onSubmit={handleRegister}>
                 <p> Email</p>
                 <input name="email" onChange={onChange} />
                 <p>Display Name</p>
