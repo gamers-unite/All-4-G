@@ -4,7 +4,6 @@ import { allGames } from "../ducks/gamesReducer";
 import styled from "styled-components";
 import Carousel from "./Carousel";
 import Game from "./Game";
-// import MiniProfile from "./MiniProfile";
 
 const Home = props => {
     useEffect(() => {
@@ -31,9 +30,9 @@ const Home = props => {
         <>
             <GameWrap>
                 {props.games[0] && <Carousel games={props.games} />}
-                {gameMap}
+                <GameList>{gameMap}</GameList>
             </GameWrap>
-            {/* <MiniProfile email={props.user.email} /> */}
+            {/* <User email={props.user.email} /> */}
         </>
     );
 };
@@ -49,6 +48,8 @@ export default connect(
     mapStateToProps,
     { allGames }
 )(Home);
+
+const GameList = styled.div``;
 
 const GameWrap = styled.div`
     display: flex;
