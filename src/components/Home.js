@@ -32,7 +32,9 @@ const Home = props => {
       
       <GameWrap>
        {props.games[0] && <Carousel games={props.games}/>}
-        { gameMap }
+        <GameList>
+          { gameMap }
+        </GameList>
       </GameWrap>
       {/* <User email={props.user.email} /> */}
     </>
@@ -50,6 +52,8 @@ export default connect(
     mapStateToProps,
     { allGames }
 )(Home);
+
+const GameList = styled.div``
 
 const GameWrap = styled.div`
     display: flex;

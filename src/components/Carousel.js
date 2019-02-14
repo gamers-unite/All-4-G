@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-// import Button from '@material-ui/core/Button';
+import 'material-design-icons';
 
 
 //HOOKS AND REDUCER
@@ -42,7 +42,7 @@ const Carousel = (props) => {
     if (state.playing) {
       let timeout = setTimeout(() => {
         dispatch({ type: 'PROGRESS' })
-      }, 6000);
+      }, 5000);
       return () => clearTimeout(timeout)
     }
   }, [state.currentIndex, state.playing]);
@@ -54,74 +54,104 @@ const Carousel = (props) => {
   return (
     <div>
       <ImageContainer>
-          <CarouselImg>
-            <img src={props.games[state.currentIndex].background_img}  max-width='100%' height='auto'>
-            </img>
-          </CarouselImg>
-          <CarouselInfo>
-            <p>{props.games[state.currentIndex].info}</p>
-          </CarouselInfo>
-      </ImageContainer>
-
-
-      <CarouselNav>
-        {/* <Play> */}
-        <button name='PLAY' onClick={ handleClick }>Play</button>
-        {/* </Play> */}
-        <button name='PAUSE' onClick={ handleClick }>Pause</button>
-
-        <button name='PREV' onClick={ handleClick }>Prev</button>
-
-        <button name='NEXT' onClick={ handleClick }>Next</button>
-      </CarouselNav>
+        <CarouselImg>
+          <img src={props.games[state.currentIndex].background_img}  max-width='100%' height='auto'></img>
+            <CarouselNav>
+              <Prev >
+                  <Button className="material-icons" name='PREV' onClick={ handleClick }>skip_previous</Button>
+              </Prev>
+              <Play>
+                <Button className="material-icons" name='PLAY' onClick={ handleClick }>play_arrow</Button>
+              </Play>
+              <Pause>
+                <Button className="material-icons" name='PAUSE' onClick={ handleClick }>pause</Button>
+              </Pause>
+              <Next>
+                <Button className="material-icons" name='NEXT' onClick={ handleClick }>skip_next</Button>
+              </Next>
+            </CarouselNav>
+        </CarouselImg>
+      </ImageContainer>  
     </div>
   )
 }
 
-
-
 export default Carousel;
 
-// const Play = styled.div`
-// // diplay: flex;
-// // justify-content: center;
-// `
+const Button = styled.button`
+  background: none;
+  border: none;
+  outline: none;
+  color: lightgrey;
+  font-size: 5em;
+  text-shadow: 3px 3px black;
+  opacity: .5;
+`
 
-const CarouselNav = styled.div`
-  height: 5vh;
-  width: 90vw;
-  // border: 1px solid black;
+const Play = styled.div`
+  height: 90vh;
+  width: 5vw;
   z-index: 2;
-  position: relative;
   display: flex;
   justify-content: center;
-  padding-bottom: 10vh;
+  align-items: flex-end;
+  padding-right: 2vw;
+
+  // border: 1px solid red;
 `;
 
-const CarouselInfo = styled.div`
-  overflow: hide;
-  height: 30vh;
-  width: 30vw;
-  margin: 0 auto;
-  z-index: 1;
+const Pause = styled.div`
+  height: 90vh;
+  width: 5vw;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-left: 2vw;
+
+  // border: 1px solid red;
+`;
+
+const Prev = styled.div`
+  height: 5vh;
+  width: 40vw;
+  z-index: 2;
+  display: flex;
+
+  // border: 1px solid red;
+`;
+
+const Next = styled.div`
+  height: 5vh;
+  width: 40vw;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+
+  // border: 1px solid red;
+`;
+
+const CarouselNav = styled.div`
+  height: 80vh;
+  width: 95vw;
+  z-index: 2;
   position: absolute;
-  font-size: 180%;
-  color: white;
-  padding-bottom: 40vh;
-  padding-left: 10vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  // border: 1px solid limegreen;
 `;
 
 const ImageContainer = styled.div`
-  // width: 99vw;
-  // height 100vh;
+  width: 100vw
   overflow: hidden;
-  // border: 1px solid red;
   position: relative;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  // margin-left: 10vw;
-  // padding-left: 10vw;
+
+  // border: 1px solid red;
 `;
 
 const CarouselImg = styled.div`
@@ -134,8 +164,7 @@ const CarouselImg = styled.div`
   overflow: hide;
   margin: 0 auto;
   background: #333333;
-  // padding-top: 35vh;
   image-rendering: auto;
+
   // border: 1px solid red;
-  // z-index: -1;
 `;
