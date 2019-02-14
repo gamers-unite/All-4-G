@@ -31,7 +31,7 @@ const Home = props => {
     <>
       
       <GameWrap>
-       {props.games[0] && <Carousel games={props.games}/>}
+      {props.games[0] && <Carousel games={props.games}/>}
         <GameList>
           { gameMap }
         </GameList>
