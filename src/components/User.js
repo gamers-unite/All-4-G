@@ -28,7 +28,7 @@ const Profile = props => {
     const getUsers = async () => {
         const { email } = props;
         await props.getCurrentUser();
-        await axios.get("/users/", { email }).then(response => {
+        await axios.get("/users", { email }).then(response => {
             setUser(response.data);
             if (props.user.email === response.data.email) {
                 setReportable(false);
