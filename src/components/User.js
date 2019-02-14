@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
 import { getCurrentUser, getUser } from "../ducks/userReducer";
-import EditProfile from "./EditProfile";
+import Report from "./Report";
 
 const styles = theme => ({
     modalWrapper: {
@@ -19,39 +19,33 @@ const styles = theme => ({
 
 const Profile = props => {
     const { classes } = props;
-    const [user, setUser] = useState(props.user);
+    const [user, setUser] = useState({});
     const [refresh, setRefresh] = useState(false);
-    const [reportable, setReportable] = useState(false);
-    const [editable, setEditable] = useState(true);
-    const [editModal, setEditModal] = useState(false);
+    const [reportable, setReportable] = useState(true);
+    const [modal, setModal] = useState(false);
 
-    const getUser = async () => {
+    const getUsers = async () => {
         const { email } = props;
-        axios.get("/users/", { email }).then(response => {
+        await props.getCurrentUser();
+        await axios.get("/users/", { email }).then(response => {
             setUser(response.data);
-
-            setReportable(true);
-            setEditable(false);
+            if (props.user.email === response.data.email) {
+                setReportable(false);
+            }
         });
     };
 
     useEffect(() => {
-        props.getCurrentUser();
-        if (props.email) {
-            getUser();
-        } else {
-            setReportable(false);
-            setEditable(true);
-        }
+        getUsers();
         setRefresh(false);
     }, [refresh === true]);
 
-    const openEdit = () => {
-        setEditModal(true);
+    const openReport = () => {
+        setModal(true);
     };
 
-    const closeEdit = () => {
-        setEditModal(false);
+    const closeReport = () => {
+        setModal(false);
         setRefresh(true);
     };
 
@@ -62,9 +56,9 @@ const Profile = props => {
 
     return (
         <div>
-            <Avatar src={props.user.avatar} alt="avatar" />
-            <h1>{props.user.display_name}</h1>
-            <h2>{props.user.email}</h2>
+            <Avatar src={user.avatar} alt="avatar" />
+            <h1>{user.display_name}</h1>
+            <h2>{user.email}</h2>
             {user.blizzard && (
                 <>
                     <p>Blizzard:</p>
@@ -101,25 +95,14 @@ const Profile = props => {
                     <p>{user.xbox}</p>
                 </>
             )}
-            {reportable && <button onClick={submitReport}>Report User</button>}
-            {editable && <button onClick={openEdit}>Edit</button>}
-            {editModal && (
+            {reportable && <button onClick={openReport}>Report User</button>}
+            {modal && (
                 <Modal
                     className={classes.modalWrapper}
-                    open={editModal}
-                    onClose={closeEdit}
+                    open={modal}
+                    onClose={closeReport}
                 >
-                    <EditProfile
-                        closeEdit={closeEdit}
-                        display_name={user.display_name}
-                        avatar={user.avatar}
-                        blizzard={user.blizzard}
-                        epic={user.epic}
-                        ps4={user.ps4}
-                        riot={user.riot}
-                        steam={user.steam}
-                        xbox={user.xbox}
-                    />
+                    <Report closeReport={closeReport} user_id={user.user_id} />
                 </Modal>
             )}
         </div>

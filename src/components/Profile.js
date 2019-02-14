@@ -20,8 +20,7 @@ const styles = theme => ({
 const Profile = props => {
     const { classes } = props;
     const [refresh, setRefresh] = useState(false);
-    const [editable, setEditable] = useState(true);
-    const [editModal, setEditModal] = useState(false);
+    const [modal, setModal] = useState(false);
 
     useEffect(() => {
         props.getCurrentUser();
@@ -29,11 +28,11 @@ const Profile = props => {
     }, [refresh === true]);
 
     const openEdit = () => {
-        setEditModal(true);
+        setModal(true);
     };
 
     const closeEdit = () => {
-        setEditModal(false);
+        setModal(false);
         setRefresh(true);
     };
 
@@ -78,11 +77,11 @@ const Profile = props => {
                     <p>{props.user.xbox}</p>
                 </>
             )}
-            {editable && <button onClick={openEdit}>Edit</button>}
-            {editModal && (
+            {!modal && <button onClick={openEdit}>Edit</button>}
+            {modal && (
                 <Modal
                     className={classes.modalWrapper}
-                    open={editModal}
+                    open={modal}
                     onClose={closeEdit}
                 >
                     <EditProfile
