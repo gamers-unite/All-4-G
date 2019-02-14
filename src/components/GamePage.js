@@ -6,7 +6,7 @@ import axios from 'axios';
 const GamePage = (props) => {
 
   const [game, updateGame] = useState({});
-  const [request, updateRequest] = useState([])
+  const [allRequest, updateAllRequest] = useState([])
 
   const fillGame = async () => {
     let url = props.location.pathname.replace('/', '');
@@ -15,14 +15,17 @@ const GamePage = (props) => {
   }
 
   const fillRequest = async () => {
-    let fillReq = await axios.post("/api/requests/game", {game_id: game.game_id})
-    updateRequest(fillReq.data)
+    if(game.game_id){
+      let fillReq = await axios.post("/api/requests/game", {game_id: game.game_id})
+      updateAllRequest(fillReq.data)
+      console.log(fillReq.data)
+    }
   }
 
   useEffect( () => { fillGame() }, [] )
   useEffect( () => { fillRequest() }, [game] )
 
-  const requestMap = request.map( (e,i) => {
+  const requestMap = allRequest.map( (e,i) => {
     return (
       <Request 
         key={i}
