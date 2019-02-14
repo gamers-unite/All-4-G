@@ -1,92 +1,85 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { gameByUrl, allGames } from '../ducks/gamesReducer';
-import { getRequests } from '../ducks/requestReducer';
+import React, { useEffect, useState} from 'react';
 import styled from "styled-components";
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import axios from 'axios'
 
 const Request = (props) => {
 
-  useEffect( () => { 
-    let url = props.location.pathname.replace('/', '');
-    props.gameByUrl(url);
-  }, [])
+  const [request, updateRequest] = useState([]) 
 
-  useEffect( () => { 
-    props.getRequests(props.game.game_id)
-  }, [props.game])
+  const fillRequest = async () => {
+    let result = await axios.post("/api/requests/id", { req_id: props.id })
+    updateRequest(result.data)
+  }
 
-  const requestMap = props.gameRequests.map( (e,i) => {
-    return (
-      <RequestInfo key={i}>
+  useEffect( () => { fillRequest() }, [])
+
+  const renderTeam = (num) => {
+    let team = []
+    for(let i=0; i < num ; i++){
+      if( request[i] ){
+        team.push(<img key={i} className='mini_avatar player' src={request[i].avatar} alt='mini'/>)
+      } else {
+        team.push(<AccountCircle key={i} className='mini_avatar'/>)
+      }
+    }
+    return team
+  };
+
+  return(
+    <>
+      {request[0] && 
+        <RequestInfo>
+        <div>
+          <img src={props.creatorImg} alt='creator avatar'/>
+          {props.creatorName}
+        </div>
+        <div>
+          <p>{request[0].info}</p>
+        </div>
+        <div className='team_bar'>
+          {renderTeam(request[0].team_length)}
+        </div>
+        {/* <div>
+          <img src={e.avatar} className='mini_avatar'/>
+          {renderTeam(e.team_length)}
+        </div>
         <img src={e.avatar} alt='avatar'/>
         <h3>{e.display_name}</h3>
         <p>{e.info}</p>
-        <h2>{e.team_length}</h2>
+        <h2>{e.team_length}</h2> */}
       </RequestInfo>
-    )
-  })
-
-  return (
-    <>
-      <GameInfo>
-        <img src={props.game.logo} alt='alt'/>
-        <div></div>
-        <p>{props.game.info}</p>
-        <h3>{props.game.max_party}</h3>
-      </GameInfo>
-      <div>
-        <h1>Requests</h1>
-        <div>
-          {requestMap}
-        </div>
-      </div>
+      }
     </>
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    gameRequests: state.request.gameRequests,
-    team: state.request.team,
-    game: state.games.game,
-    allOfGames: state.games.allOfGames
-  }
-}
-
-export default connect(mapStateToProps, { gameByUrl, getRequests, allGames })(Request);
-
-const GameInfo = styled.div`
-  position: relative;
-  display: flex;
-  background: #333333;
-  height: 400px;
-
-  div {
-    position: absolute;
-    bottom: 0;
-    height: 3px;
-    background: white;
-    width: 80%;
-    left: 10%;
-    border: 1px solid black;
-  }
-
-  img {
-    margin: auto 0;
-    height: 300px;
-    width: 200px;
-  }
-
-  p, h3 {
-    color: white;
-  }
-`
+export default Request;
 
 const RequestInfo = styled.div`
   display: flex;
   justify-content: space-between;
   border: 1px solid black;
   margin: 5px 0;
+
+  .team_bar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .mini_avatar {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+  }
+
+  .player {
+    height: 29px;
+    width: 29px;
+    background: black;
+    margin: 2px;
+  }
 
   img {
     height: 100px;
