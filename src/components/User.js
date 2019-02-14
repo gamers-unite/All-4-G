@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
-import { getCurrentUser, getUser } from "../ducks/userReducer";
+import { getCurrentUser } from "../ducks/userReducer";
 import Report from "./Report";
 
 const styles = theme => ({
@@ -22,6 +22,7 @@ const Profile = props => {
     const [user, setUser] = useState({});
     const [refresh, setRefresh] = useState(false);
     const [reportable, setReportable] = useState(true);
+    const [reported, setReported] = useState(false);
     const [modal, setModal] = useState(false);
 
     const getUsers = async () => {
@@ -35,8 +36,18 @@ const Profile = props => {
         });
     };
 
+    const getReports = async () => {
+        const { user_id } = props;
+        await axios.get("/reports", { user_id }).then(response => {
+            if (response.data[0]) {
+                setReported(true);
+            }
+        });
+    };
+
     useEffect(() => {
         getUsers();
+        getReports();
         setRefresh(false);
     }, [refresh === true]);
 
@@ -47,11 +58,6 @@ const Profile = props => {
     const closeReport = () => {
         setModal(false);
         setRefresh(true);
-    };
-
-    const submitReport = () => {
-        const { id } = user;
-        axios.post("/api/reports", { id });
     };
 
     return (
@@ -95,7 +101,10 @@ const Profile = props => {
                     <p>{user.xbox}</p>
                 </>
             )}
-            {reportable && <button onClick={openReport}>Report User</button>}
+            {reportable && !reported && (
+                <button onClick={openReport}>Report User</button>
+            )}
+            {reportable && reported && <button disabled>Report Sent</button>}
             {modal && (
                 <Modal
                     className={classes.modalWrapper}
@@ -119,5 +128,5 @@ const mapStateToProps = state => {
 
 export default connect(
     mapStateToProps,
-    { getCurrentUser, getUser }
+    { getCurrentUser }
 )(withStyles(styles)(Profile));

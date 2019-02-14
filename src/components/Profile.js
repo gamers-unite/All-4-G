@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Avatar from "@material-ui/core/Avatar";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
@@ -85,6 +84,7 @@ const Profile = props => {
                     onClose={closeEdit}
                 >
                     <EditProfile
+                        email={props.user.email}
                         closeEdit={closeEdit}
                         display_name={props.user.display_name}
                         avatar={props.user.avatar}

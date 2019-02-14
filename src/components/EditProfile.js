@@ -47,7 +47,7 @@ const EditProfile = props => {
 
     const handleUpload = event => {
         event.preventDefault();
-        const { email } = props.user;
+        const { email } = props;
         const uploadTask = storage
             .ref(`images/avatars/${email}`)
             .put(inputs.image);
