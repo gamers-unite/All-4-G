@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { connect } from 'react-redux';
 import styled from "styled-components";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import axios from "axios";
@@ -11,9 +12,13 @@ const Request = props => {
         updateRequest(result.data);
     };
 
-    useEffect(() => {
-        fillRequest();
-    }, []);
+    useEffect(() => { fillRequest(); }, []);
+
+    const handleJoin = () => {
+      axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then( response => {
+        updateRequest(response.data)
+      })
+    }
 
     const renderTeam = num => {
         let team = [];
@@ -33,7 +38,8 @@ const Request = props => {
         }
         return team;
     };
-    console.log(request);
+
+
     return (
         <>
             {request[0] && (
@@ -45,24 +51,23 @@ const Request = props => {
                     <div>
                         <p>{request[0].info}</p>
                     </div>
+                    { props.user.id && <button onClick={handleJoin}>Join Team!</button>}
                     <div className="team_bar">
                         {renderTeam(request[0].team_length)}
                     </div>
-                    {/* <div>
-          <img src={e.avatar} className='mini_avatar'/>
-          {renderTeam(e.team_length)}
-        </div>
-        <img src={e.avatar} alt='avatar'/>
-        <h3>{e.display_name}</h3>
-        <p>{e.info}</p>
-        <h2>{e.team_length}</h2> */}
                 </RequestInfo>
             )}
         </>
     );
 };
 
-export default Request;
+const mapStateToProps = state => {
+  return {
+    user: state.user.user
+  }
+}
+
+export default connect(mapStateToProps)(Request);
 
 const RequestInfo = styled.div`
     display: flex;
