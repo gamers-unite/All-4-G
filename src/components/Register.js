@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addUser } from "../ducks/userReducer";
+import styled from "styled-components";
 
 const Register = props => {
     const [inputs, setInputs] = useState({
@@ -37,8 +38,9 @@ const Register = props => {
     };
 
     return (
-        <div>
+        <RegisterStyle>
             <form onSubmit={handleRegister}>
+                Register User
                 <p> Email</p>
                 <input name="email" onChange={onChange} />
                 <p>Display Name</p>
@@ -59,7 +61,7 @@ const Register = props => {
                 <input name="xbox" onChange={onChange} />
                 <button onClick={handleRegister}>Submit</button>
             </form>
-        </div>
+        </RegisterStyle>
     );
 };
 
@@ -69,3 +71,9 @@ export default connect(
     mapStateToProps,
     { addUser }
 )(Register);
+
+const RegisterStyle = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: row;
+`;
