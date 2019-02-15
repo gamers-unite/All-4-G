@@ -7,6 +7,12 @@ const { json } = require("body-parser");
 const cors = require("cors");
 const port = process.env.PORT;
 const app = express();
+
+// Socket.io Imports
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+// Imports 
 const { currentSession } = require("./middleware/authMiddleware");
 const {
     addUser,
@@ -35,6 +41,8 @@ const {
     deleteTeam
 } = require("./controllers/teamController");
 const { getReports, addReport } = require("./controllers/reportController");
+
+
 app.use(json());
 app.use(cors());
 // app.use(express.static(`${__dirname}/../build`));
@@ -95,8 +103,13 @@ app.delete("/api/teams", deleteTeam);
 app.get("/api/reports", getReports);
 app.post("/api/reports", addReport);
 
+// Socket Listeners
+io.on('connection', (socket) => {
+    socket.on('test', () => {console.log('hit')})
+});
+
 // app.app.get("*", (req, res) => {
 //     res.sendFile(path.join(__dirname, "../build/index.html"));
 // });
 
-app.listen(port, console.log(`Listening on ${port}`));
+server.listen(port, console.log(`Listening on ${port}`));

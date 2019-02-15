@@ -3,9 +3,14 @@ import { connect } from 'react-redux';
 import styled from "styled-components";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import axios from "axios";
+import socketIOClient from 'socket.io-client';
+
+const socket = socketIOClient(process.env.REACT_APP_URL);
 
 const Request = props => {
+
     const [request, updateRequest] = useState([]);
+    const [timer, setTimer] = useState(null);
 
     const fillRequest = async () => {
         let result = await axios.post("/api/requests/id", { req_id: props.id });
@@ -13,6 +18,7 @@ const Request = props => {
     };
 
     useEffect(() => { fillRequest(); }, []);
+    // useEffect(() => { socket.on('connect', () => { console.log('connected') }) }, [])
 
     const handleJoin = () => {
       axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then( response => {
@@ -39,11 +45,20 @@ const Request = props => {
         return team;
     };
 
+    // function subscribeToTimer(cb) {
+    //   socket.on('timer', timestamp => cb(null, timestamp));
+    //   socket.emit('subscribeToTimer', 1000);
+    // }
+    // const subscribeToTimer = ((err, timestamp) => this.setTimer(timestamp));
+    // socket.on('timer', timestamp => props(null, timestamp));
+    // socket.emit('subscribeToTimer', 1000);
 
     return (
         <>
             {request[0] && (
                 <RequestInfo>
+                  <button onClick={ () => { socket.emit('test')}}></button>
+                  <p>This is the timer value: {timer}</p>
                     <div>
                         <img src={props.creatorImg} alt="creator avatar" />
                         {props.creatorName}
