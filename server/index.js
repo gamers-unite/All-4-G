@@ -5,7 +5,7 @@ const session = require("express-session");
 const massive = require("massive");
 const { json } = require("body-parser");
 const cors = require("cors");
-const port = process.env.PORT;
+const port = process.env.SERVER_PORT;
 const app = express();
 
 // Socket.io Imports
