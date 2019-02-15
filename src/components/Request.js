@@ -8,6 +8,7 @@ const Request = props => {
     const [request, updateRequest] = useState([]);
     const [creator, setCreator] = useState(false);
     const [member, setMember] = useState(false);
+    const [fullRoom, setFullRoom] = useState(false);
 
     const fillRequest = async () => {
         const req_id = props.id
