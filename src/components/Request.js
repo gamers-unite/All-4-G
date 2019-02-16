@@ -39,7 +39,7 @@ const Request = props => {
     }
 
     const leaveTeam = () => {
-        axios.post('/api/teams/user/delete', { req_id: props.id, user_id: props.user.id }).then(() => {
+        axios.delete(`/api/teams/user/${props.user.id}/${props.id}`).then(() => {
             fillRequest();
             setMember(false)
         })

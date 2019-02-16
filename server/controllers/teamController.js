@@ -33,8 +33,7 @@ module.exports = {
     },
 
     deleteTeamMember: (req, res) => {
-        console.log('req.body:', req.body)
-        const { user_id, req_id } = req.body;
+        const { user_id, req_id } = req.params;
         req.app
             .get("db")
             .teams.delete_team_member(user_id, req_id)

@@ -5,7 +5,7 @@ const session = require("express-session");
 const massive = require("massive");
 const { json } = require("body-parser");
 const cors = require("cors");
-const port = process.env.PORT;
+const port = process.env.SERVER_PORT;
 const app = express();
 const { currentSession } = require("./middleware/authMiddleware");
 const {
@@ -90,7 +90,7 @@ app.put("/api/requests/deactivate", deactivateRequest);
 app.get("/api/teams", getTeams);
 app.post("/api/teams", addTeam);
 app.delete("/api/teams", deleteTeam);
-app.post('/api/teams/user/delete', deleteTeamMember)
+app.delete('/api/teams/user/:user_id/:req_id', deleteTeamMember)
 app.post('/api/teams/user', currentSession, getTeamMember)
 
 //REPORT ENDPOINTS
