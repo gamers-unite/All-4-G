@@ -38,7 +38,7 @@ const {
 const {
     getTeams,
     addTeam,
-    deleteTeam
+    deleteTeam, deleteTeamMember, getTeamMember
 } = require("./controllers/teamController");
 const { getReports, addReport } = require("./controllers/reportController");
 
@@ -98,6 +98,8 @@ app.put("/api/requests/deactivate", deactivateRequest);
 app.get("/api/teams", getTeams);
 app.post("/api/teams", addTeam);
 app.delete("/api/teams", deleteTeam);
+app.delete('/api/teams/user', deleteTeamMember)
+app.post('/api/teams/user', currentSession, getTeamMember)
 
 //REPORT ENDPOINTS
 app.get("/api/reports", getReports);
