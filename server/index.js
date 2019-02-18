@@ -90,7 +90,7 @@ app.put("/api/requests/deactivate", deactivateRequest);
 app.get("/api/teams", getTeams);
 app.post("/api/teams", addTeam);
 app.delete("/api/teams", deleteTeam);
-app.delete('/api/teams/user/:user_id/:req_id', deleteTeamMember)
+app.delete('/api/teams/user', deleteTeamMember)
 app.post('/api/teams/user', currentSession, getTeamMember)
 
 //REPORT ENDPOINTS
