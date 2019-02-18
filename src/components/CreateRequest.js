@@ -1,8 +1,32 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
+import { withStyles } from "@material-ui/core/styles";
 
 //Display as modal in parent component
+
+const styles = theme => ({
+    modalWrapper: {
+        width: "100vw",
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+
+    modal: {
+        position: "absolute",
+        float: "left",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        width: theme.spacing.unit * 50,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing.unit * 4,
+        background: "#333333"
+    }
+});
 
 const CreateRequest = props => {
     const [inputs, setInputs] = useState({
@@ -56,7 +80,7 @@ const CreateRequest = props => {
     });
 
     return (
-        <div className={props.style}>
+        <Modal className={props.style}>
             <p>Platform</p>
             <select onChange={onChange}>{platforms}</select>
             <p>Party Size</p>
@@ -67,9 +91,11 @@ const CreateRequest = props => {
                 name="info"
                 placeholder="Enter request info..."
             />
-            <button onClick={submitRequest}>Submit</button>
-            <button onClick={props.closeRequest}>Cancel</button>
-        </div>
+            <RequestModalButtons>
+                <Button variant='contained' onClick={submitRequest}>Submit</Button>
+                <Button variant='contained' onClick={props.closeRequest}>Cancel</Button>
+            </RequestModalButtons>
+        </Modal>
     );
 };
 
@@ -79,4 +105,22 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(CreateRequest);
+export default connect(mapStateToProps)(withStyles(styles)(CreateRequest));
+
+
+const RequestModalButtons = styled.div`
+    display: flex;
+    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 1em;
+    width 85%;
+    padding-left: 1em;
+`;
+
+const Modal = styled.div`
+    background: #333333;
+    border: .5em solid black;
+    borderRadius: 10%;
+    outline: none;
+`
