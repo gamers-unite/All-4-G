@@ -68,7 +68,7 @@ const Request = props => {
 
 
     return (
-        <Background>
+        <div>
             {request[0] && (
                 <RequestInfo>
                     <Creator>
@@ -85,7 +85,7 @@ const Request = props => {
                     </div>
                 </RequestInfo>
             )}
-        </Background>
+        </div>
     );
 };
 
