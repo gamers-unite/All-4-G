@@ -68,7 +68,7 @@ const Request = props => {
 
 
     return (
-        <div>
+        <Background>
             {request[0] && (
                 <RequestInfo>
                     <Creator>
@@ -85,7 +85,7 @@ const Request = props => {
                     </div>
                 </RequestInfo>
             )}
-        </div>
+        </Background>
     );
 };
 
@@ -107,7 +107,6 @@ const RequestInfo = styled.div`
     margin: 5px 0;
     background: #333333;
     height: 8em;
-    
 
     .team_bar {
         display: flex;
@@ -141,3 +140,10 @@ const Creator = styled.div`
     align-items: center;
     padding-bottom: 2em;
 `
+
+// const Background = styled.div`
+//     background-image: url("https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c");
+//     background-position: center;
+//     background-repeat: no-repeat;
+//     background-size: cover;
+// `
