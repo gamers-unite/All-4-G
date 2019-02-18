@@ -9,6 +9,7 @@ import Request from "./Request";
 import MiniProfile from "./MiniProfile";
 import CreateRequest from "./CreateRequest";
 import { getCurrentUser } from "../ducks/userReducer";
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     modalWrapper: {
@@ -27,7 +28,7 @@ const styles = theme => ({
         width: theme.spacing.unit * 50,
         boxShadow: theme.shadows[5],
         padding: theme.spacing.unit * 4,
-        background: "#fff"
+        background: "#333333"
     }
 });
 
@@ -87,9 +88,9 @@ const GamePage = props => {
                 <p>{game.info}</p>
                 <h3>{game.max_party}</h3>
             </GameInfo>
-            <div>
+            <Requests>
                 {props.user.email && (
-                    <button onClick={openRequest}>Create Request</button>
+                    <Button variant='contained' onClick={openRequest}>Create Request</Button>
                 )}
                 {modal && (
                     <Modal
@@ -109,7 +110,7 @@ const GamePage = props => {
                 <h1>Requests</h1>
                 <div>{requestMap}</div>
                 {game.platform && <MiniProfile platforms={game.platform} />}
-            </div>
+            </Requests>
         </>
     );
 };
@@ -155,4 +156,13 @@ const GameInfo = styled.div`
     h3 {
         color: white;
     }
+
+    h1{
+        color: white;
+    }
 `;
+
+const Requests = styled.div`
+    background: black;
+
+`

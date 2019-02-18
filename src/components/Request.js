@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import styled from "styled-components";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import axios from "axios";
+import Button from '@material-ui/core/Button';
+
 
 const Request = props => {
     const [request, updateRequest] = useState([]);
@@ -66,24 +68,24 @@ const Request = props => {
 
 
     return (
-        <>
+        <div>
             {request[0] && (
                 <RequestInfo>
-                    <div>
+                    <Creator>
                         <img src={props.creatorImg} alt="creator avatar" />
                         {props.creatorName}
-                    </div>
+                    </Creator>
                     <div>
                         <p>{request[0].info}</p>
                     </div>
-                    {props.user.id && !creator && !member && <button onClick={handleJoin}>Join Team!</button>}
-                    {props.user.id && !creator && member && <button onClick={leaveTeam}>Leave Team</button>}
+                    {props.user.id && !creator && !member && <Button variant='contained' style={{height: '5em', width: '7em'}} onClick={handleJoin}>Join Team!</Button>}
+                    {props.user.id && !creator && member && <Button variant='contained' style={{height: '5em', width: '7em'}}onClick={leaveTeam}>Leave Team</Button>}
                     <div className="team_bar">
                         {renderTeam(request[0].team_length)}
                     </div>
                 </RequestInfo>
             )}
-        </>
+        </div>
     );
 };
 
@@ -98,13 +100,19 @@ export default connect(mapStateToProps)(Request);
 const RequestInfo = styled.div`
     display: flex;
     justify-content: space-between;
-    border: 1px solid black;
+    align-items: center;
+    border: 2em solid #333333;
+    border: 1em solid #ffffff;
+    border-radius: 20% 50%;
     margin: 5px 0;
+    background: #333333;
+    height: 8em;
 
     .team_bar {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
+        padding-top: 2em;
     }
 
     .mini_avatar {
@@ -125,3 +133,17 @@ const RequestInfo = styled.div`
         width: 100px;
     }
 `;
+
+const Creator = styled.div`
+    display: flex;
+    justify-content: row;
+    align-items: center;
+    padding-bottom: 2em;
+`
+
+// const Background = styled.div`
+//     background-image: url("https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c");
+//     background-position: center;
+//     background-repeat: no-repeat;
+//     background-size: cover;
+// `
