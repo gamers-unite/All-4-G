@@ -8,18 +8,43 @@ import Button from '@material-ui/core/Button';
 
 const Request = props => {
     const [request, updateRequest] = useState([]);
+    const [creator, setCreator] = useState(false);
+    const [member, setMember] = useState(false);
+    const [fullRoom, setFullRoom] = useState(false);
 
     const fillRequest = async () => {
-        let result = await axios.post("/api/requests/id", { req_id: props.id });
+        const req_id = props.id
+        let result = await axios.post("/api/requests/id", { req_id });
         updateRequest(result.data);
     };
 
-    useEffect(() => { fillRequest(); }, []);
+    const getUserStatus = async () => {
+        if (request[0] && props.user.id) {
+            if (request[0].creator_id === props.user.id) {
+                setCreator(true);
+            }
+            const memberResult = await axios.post('/api/teams/user', { req_id: props.id })
+            if (memberResult.data[0]) {
+                setMember(true)
+            }
+        }
+    }
+
+    useEffect(() => { fillRequest() }, [props.user]);
+    useEffect(() => { getUserStatus() }, [request || props.user]);
 
     const handleJoin = () => {
-      axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then( response => {
-        updateRequest(response.data)
-      })
+        axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then(() => {
+            fillRequest();
+            setMember(true)
+        })
+    }
+
+    const leaveTeam = () => {
+        axios.delete('/api/teams/user/', { data: { user_id: props.user.id, req_id: props.id } }).then(() => {
+            fillRequest();
+            setMember(false)
+        })
     }
 
     const renderTeam = num => {
@@ -53,7 +78,8 @@ const Request = props => {
                     <div>
                         <p>{request[0].info}</p>
                     </div>
-                    { props.user.id && <Button variant='contained' style={{height: '5em', width: '7em'}} onClick={handleJoin}>Join Team!</Button>}
+                    {props.user.id && !creator && !member && <Button variant='contained' style={{height: '5em', width: '7em'}} onClick={handleJoin}>Join Team!</Button>}
+                    {props.user.id && !creator && member && <Button variant='contained' style={{height: '5em', width: '7em'}}onClick={leaveTeam}>Leave Team</Button>}
                     <div className="team_bar">
                         {renderTeam(request[0].team_length)}
                     </div>
@@ -64,9 +90,9 @@ const Request = props => {
 };
 
 const mapStateToProps = state => {
-  return {
-    user: state.user.user
-  }
+    return {
+        user: state.user.user
+    }
 }
 
 export default connect(mapStateToProps)(Request);
