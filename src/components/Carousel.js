@@ -159,5 +159,5 @@ const CarouselImg = styled.div`
   overflow: hidden;
   margin: 0 auto;
   background: #333333;
-  image-rendering: auto;
+  image-rendering: sharp;
 `;

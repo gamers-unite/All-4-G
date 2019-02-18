@@ -38,7 +38,7 @@ const Request = props => {
     useEffect(() => { fillRequest() }, [props.user]);
     useEffect(() => { getUserStatus() }, [request || props.user || update]);
     useEffect(() => {
-        socket.on('Player Joined', data =>  {
+        socket.on('test', data =>  {
             if( props.id === data.room ) {
                 setUpdate(!update)
                 console.log('data: ', data)
@@ -60,6 +60,7 @@ const Request = props => {
             fillRequest();
             setMember(false)
         })
+        socket.emit('Joined', { room: props.id } )
         console.log('left team')
     }
 
