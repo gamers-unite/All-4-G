@@ -6,6 +6,7 @@ import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
 import { getCurrentUser } from "../ducks/userReducer";
 import EditProfile from "./EditProfile";
+import styled from 'styled-components';
 
 const styles = theme => ({
     modalWrapper: {
@@ -36,46 +37,53 @@ const Profile = props => {
     };
 
     return (
-        <div>
-            <Avatar src={props.user.avatar} alt="avatar" />
+        <ProfileFormat>
+            <AvatarStyle>
+            <Avatar src={props.user.avatar} alt="avatar" style={{height: '10em', width: '10em'}} />
+            </AvatarStyle>
+            <UserInfo>
             <h1>{props.user.display_name}</h1>
-            <h2>{props.user.email}</h2>
+                <IdFormat>
+                    <h2>Email: </h2> 
+                    <p>{props.user.email}</p>
+                </IdFormat>
             {props.user.blizzard && (
-                <>
-                    <p>Blizzard:</p>
+                <IdFormat>
+                    <h2>Blizzard: </h2>
                     <p>{props.user.blizzard}</p>
-                </>
+                </IdFormat>
             )}
             {props.user.epic && (
-                <>
-                    <p>Epic:</p>
+                <IdFormat>
+                    <h2>Epic: </h2>
                     <p>{props.user.epic}</p>
-                </>
+                </IdFormat>
             )}
             {props.user.ps4 && (
-                <>
-                    <p>PlayStation:</p>
+                <IdFormat>
+                    <h2>PlayStation: </h2>
                     <p>{props.user.ps4}</p>
-                </>
+                </IdFormat>
             )}
             {props.user.riot && (
-                <>
-                    <p>Riot:</p>
+                <IdFormat>
+                    <h2>Riot: </h2>
                     <p>{props.user.riot}</p>
-                </>
+                </IdFormat>
             )}
             {props.user.steam && (
-                <>
-                    <p>Steam:</p>
+                <IdFormat>
+                    <h2>Steam: </h2>
                     <p>{props.user.steam}</p>
-                </>
+                </IdFormat>
             )}
             {props.user.xbox && (
-                <>
-                    <p>Xbox:</p>
+                <IdFormat>
+                    <h2>Xbox: </h2>
                     <p>{props.user.xbox}</p>
-                </>
+                </IdFormat>
             )}
+            
             {!modal && <button onClick={openEdit}>Edit</button>}
             {modal && (
                 <Modal
@@ -97,7 +105,8 @@ const Profile = props => {
                     />
                 </Modal>
             )}
-        </div>
+            </UserInfo>
+        </ProfileFormat>
     );
 };
 
@@ -113,3 +122,33 @@ export default connect(
     mapStateToProps,
     { getCurrentUser }
 )(withStyles(styles)(Profile));
+
+
+const IdFormat = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 100%;
+padding-left: 10vw;
+
+`;
+
+const ProfileFormat = styled.div`
+    padding-left: 5vw;
+    width: 40%;
+
+`;
+
+const UserInfo = styled.div`
+    width: 40%;
+
+`;
+const AvatarStyle = styled.div`
+    width: 50%;
+    height: 60%
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+`;
+
