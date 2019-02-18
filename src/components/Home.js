@@ -67,6 +67,6 @@ const GameWrap = styled.div`
   h1 {
     margin-top: 5vh;
     color: #ffffffce;
-    text-decoration: underline;
+    text-decoration: underline;    
   }
 `;
