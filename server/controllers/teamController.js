@@ -52,5 +52,23 @@ module.exports = {
                 res.status(200).json(response);
             })
             .catch(err => console.log(err));
-    }
+    },
+
+    getUserTeamCount: (req, res) => {
+        const { user_id } = req.body;
+        req.app.get('db').teams.user_team_count(user_id)
+            .then(response => {
+                res.status(200).json(response);
+            })
+            .catch(err => console.log(err));
+    },
+
+    getUserGameCount: (req, res) => {
+        const { user_id } = req.body;
+        req.app.get('db').teams.user_game_count(user_id)
+            .then(response => {
+                res.status(200).json(response);
+            })
+            .catch(err => console.log(err));
+    },
 };
