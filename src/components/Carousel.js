@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import 'material-design-icons';
 
@@ -55,7 +55,7 @@ const Carousel = (props) => {
     <div>
       <ImageContainer>
         <CarouselImg>
-          <img src={props.games[state.currentIndex].background_img} max-width='100%' height='auto'></img>
+          <img src={props.games[state.currentIndex].background_img} alt='background' max-width='100%' height='auto'></img>
           <CarouselNav>
             <Prev >
               <Button className="material-icons" name='PREV' onClick={handleClick}>skip_previous</Button>

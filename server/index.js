@@ -4,7 +4,7 @@ const express = require("express");
 const session = require("express-session");
 const massive = require("massive");
 const { json } = require("body-parser");
-const cors = require("cors");
+// const cors = require("cors");
 const port = process.env.SERVER_PORT;
 const app = express();
 
@@ -44,7 +44,7 @@ const { getReports, addReport } = require("./controllers/reportController");
 
 
 app.use(json());
-app.use(cors());
+// app.use(cors());
 // app.use(express.static(`${__dirname}/../build`));
 
 massive(process.env.CONNECTION_STRING)
@@ -106,8 +106,28 @@ app.get("/api/reports", getReports);
 app.post("/api/reports", addReport);
 
 // Socket Listeners
-io.on('connection', (socket) => {
-    socket.on('test', () => {console.log('hit')})
+io.on('connection', socket => {
+    console.log('Sockets Connected')
+
+    socket.on('Enter Room', data => { 
+        socket.join(data.room)
+        console.log(`Entered Room ${data.room}`)
+    })
+
+    socket.on('Joined', data => {
+        console.log(`Room ${data.room} is trying to talk`)
+        socket.broadcast.to(data.room).emit('Player Joined', data)
+    })
+
+    socket.on('join team', data => {
+        console.log(`joined team ${data.room}`)
+        socket.join(data.room)
+        socket.emit('hello', data)
+    })
+
+    socket.on('disconnect', () => {
+        console.log('Sockets Disconnected')
+    })
 });
 
 // app.app.get("*", (req, res) => {

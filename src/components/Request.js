@@ -10,15 +10,17 @@ const socket = socketIOClient(process.env.REACT_APP_URL);
 const Request = props => {
 
     const [request, updateRequest] = useState([]);
-    const [timer, setTimer] = useState(null);
+    // const [timer, setTimer] = useState(null);
     const [creator, setCreator] = useState(false);
     const [member, setMember] = useState(false);
-    const [fullRoom, setFullRoom] = useState(false);
+    // const [fullRoom, setFullRoom] = useState(false);
+    const [update, setUpdate] = useState(false);
 
     const fillRequest = async () => {
         const req_id = props.id
         let result = await axios.post("/api/requests/id", { req_id });
-        updateRequest(result.data);
+        updateRequest(result.data)
+        socket.emit('Enter Room', {room: result.data[0].req_id})
     };
 
     const getUserStatus = async () => {
@@ -34,13 +36,23 @@ const Request = props => {
     }
 
     useEffect(() => { fillRequest() }, [props.user]);
-    useEffect(() => { getUserStatus() }, [request || props.user]);
+    useEffect(() => { getUserStatus() }, [request || props.user || update]);
+    useEffect(() => {
+        socket.on('Player Joined', data =>  {
+            if( props.id === data.room ) {
+                setUpdate(!update)
+                console.log('data: ', data)
+            }
+        });
+    }, [])
+    useEffect(() => { fillRequest() }, [update])
 
     const handleJoin = () => {
         axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then(() => {
             fillRequest();
             setMember(true)
         })
+        socket.emit('Joined', { room: props.id } )
     }
 
     const leaveTeam = () => {
@@ -48,6 +60,7 @@ const Request = props => {
             fillRequest();
             setMember(false)
         })
+        console.log('left team')
     }
 
     const renderTeam = num => {
@@ -69,20 +82,12 @@ const Request = props => {
         return team;
     };
 
-    // function subscribeToTimer(cb) {
-    //   socket.on('timer', timestamp => cb(null, timestamp));
-    //   socket.emit('subscribeToTimer', 1000);
-    // }
-    // const subscribeToTimer = ((err, timestamp) => this.setTimer(timestamp));
-    // socket.on('timer', timestamp => props(null, timestamp));
-    // socket.emit('subscribeToTimer', 1000);
-
     return (
         <>
+                    <button onClick={ () => { socket.emit('Joined', { room: props.id } )}}>Join room</button>
             {request[0] && (
                 <RequestInfo>
-                    <button onClick={ () => { socket.emit('test')}}></button>
-                    <p>This is the timer value: {timer}</p>
+                    {/* <p>This is the timer value: {timer}</p> */}
                     <div>
                         <img src={props.creatorImg} alt="creator avatar" />
                         {props.creatorName}
