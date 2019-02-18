@@ -7,13 +7,15 @@ import { connect } from "react-redux";
 import { getCurrentUser } from "../ducks/userReducer";
 import EditProfile from "./EditProfile";
 import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     modalWrapper: {
         width: "100vw",
         height: "100vh",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        background: "#333333"
     }
 });
 
@@ -84,7 +86,7 @@ const Profile = props => {
                 </IdFormat>
             )}
             
-            {!modal && <button onClick={openEdit}>Edit</button>}
+            {!modal && <Button variant='contained' onclick={openEdit}>Edit</Button>}
             {modal && (
                 <Modal
                     className={classes.modalWrapper}
