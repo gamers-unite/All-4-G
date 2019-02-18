@@ -156,7 +156,7 @@ const CarouselImg = styled.div`
   }
 
   max-width: auto;
-  overflow: hide;
+  overflow: hidden;
   margin: 0 auto;
   background: #333333;
   image-rendering: auto;

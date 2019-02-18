@@ -21,9 +21,9 @@ const Request = props => {
     // useEffect(() => { socket.on('connect', () => { console.log('connected') }) }, [])
 
     const handleJoin = () => {
-      axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then( response => {
+        axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then( response => {
         updateRequest(response.data)
-      })
+        })
     }
 
     const renderTeam = num => {
@@ -57,8 +57,8 @@ const Request = props => {
         <>
             {request[0] && (
                 <RequestInfo>
-                  <button onClick={ () => { socket.emit('test')}}></button>
-                  <p>This is the timer value: {timer}</p>
+                    <button onClick={ () => { socket.emit('test')}}></button>
+                    <p>This is the timer value: {timer}</p>
                     <div>
                         <img src={props.creatorImg} alt="creator avatar" />
                         {props.creatorName}
@@ -77,9 +77,9 @@ const Request = props => {
 };
 
 const mapStateToProps = state => {
-  return {
-    user: state.user.user
-  }
+    return {
+        user: state.user.user
+    }
 }
 
 export default connect(mapStateToProps)(Request);
