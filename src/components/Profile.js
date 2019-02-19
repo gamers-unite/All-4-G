@@ -25,6 +25,7 @@ const Profile = props => {
     const [refresh, setRefresh] = useState(false);
     const [modal, setModal] = useState(false);
     const [totalCount, setTotalCount] = useState(0)
+    const [gameCountArr, setGameCountArr] = useState([])
 
     const labels = ["League of Legends", "Smite", "Diablo 3", "Destiny 2", "Overwatch"]
 
@@ -33,14 +34,11 @@ const Profile = props => {
         const fullCount = await axios.get(`/api/teams/count/${user_id}`)
         setTotalCount(fullCount.data[0].count)
         const countObj = await axios.get(`/api/teams/count/game/${user_id}`)
-        console.log(countObj)
+        setGameCountArr(countObj.data);
     }
 
     useEffect(() => {
         props.getCurrentUser();
-        if (!props.user.id) {
-            props.history.push('/')
-        }
         setRefresh(false);
     }, [refresh === true]);
 
@@ -141,7 +139,7 @@ Profile.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
     return { user: state.user.user };
 };
 
