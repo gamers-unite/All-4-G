@@ -55,19 +55,23 @@ module.exports = {
     },
 
     getUserTeamCount: (req, res) => {
-        const { user_id } = req.body;
-        req.app.get('db').teams.user_team_count(user_id)
+        const { id } = req.params;
+        console.log(req.params)
+        req.app.get('db').teams.user_team_count(id)
             .then(response => {
+                console.log(response)
                 res.status(200).json(response);
             })
             .catch(err => console.log(err));
     },
 
     getUserGameCount: (req, res) => {
-        const { user_id } = req.body;
-        req.app.get('db').teams.user_game_count(user_id)
+        const { id } = req.params;
+        req.app.get('db').teams.user_game_count(id)
             .then(response => {
-                res.status(200).json(response);
+                const data = response.data[0]
+                const gameArr = [data.leageoflegends, data.smite, data.diablo3, data.destiny2, data.overwatch];
+                res.status(200).json(gameArr);
             })
             .catch(err => console.log(err));
     },

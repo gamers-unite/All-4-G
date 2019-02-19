@@ -92,8 +92,8 @@ app.post("/api/teams", addTeam);
 app.delete("/api/teams", deleteTeam);
 app.delete('/api/teams/user', deleteTeamMember)
 app.post('/api/teams/user', currentSession, getTeamMember)
-app.get('/api/teams/count', getUserTeamCount)
-app.get('/api/teams/count/game', getUserGameCount)
+app.get('/api/teams/count/:id', getUserTeamCount)
+app.get('/api/teams/count/game/:id', getUserGameCount)
 
 //REPORT ENDPOINTS
 app.get("/api/reports", getReports);
