@@ -38,13 +38,20 @@ const Request = props => {
     useEffect(() => { fillRequest() }, [props.user]);
     useEffect(() => { getUserStatus() }, [request || props.user || update]);
     useEffect(() => {
-        socket.on('test', data =>  {
+        socket.on('Player Joined', data =>  {
             if( props.id === data.room ) {
-                setUpdate(!update)
-                console.log('data: ', data)
+                setUpdate(true)
+                console.log('Join data: ', data)
+            }
+        });
+        socket.on('Player Left', data =>  {
+            if( props.id === data.room ) {
+                setUpdate(true)
+                console.log('Left data: ', data)
             }
         });
     }, [])
+
     useEffect(() => { fillRequest() }, [update])
 
     const handleJoin = () => {
@@ -60,8 +67,7 @@ const Request = props => {
             fillRequest();
             setMember(false)
         })
-        socket.emit('Joined', { room: props.id } )
-        console.log('left team')
+        socket.emit('Leave', { room: props.id } )
     }
 
     const renderTeam = num => {
@@ -85,14 +91,13 @@ const Request = props => {
 
     return (
         <>
-                    <button onClick={ () => { socket.emit('Joined', { room: props.id } )}}>Join room</button>
             {request[0] && (
                 <RequestInfo>
                     {/* <p>This is the timer value: {timer}</p> */}
-                    <div>
+                    <Creator>
                         <img src={props.creatorImg} alt="creator avatar" />
                         {props.creatorName}
-                    </div>
+                    </Creator>
                     <div>
                         <p>{request[0].info}</p>
                     </div>
@@ -118,13 +123,19 @@ export default connect(mapStateToProps)(Request);
 const RequestInfo = styled.div`
     display: flex;
     justify-content: space-between;
-    border: 1px solid black;
+    align-items: center;
+    border: 2em solid #333333;
+    border: 1em solid #ffffff;
+    border-radius: 20% 50%;
     margin: 5px 0;
+    background: #333333;
+    height: 8em;
 
     .team_bar {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
+        padding-top: 2em;
     }
 
     .mini_avatar {
@@ -145,3 +156,10 @@ const RequestInfo = styled.div`
         width: 100px;
     }
 `;
+
+const Creator = styled.div`
+    display: flex;
+    justify-content: row;
+    align-items: center;
+    padding-bottom: 2em;
+`

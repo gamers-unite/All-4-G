@@ -119,10 +119,8 @@ io.on('connection', socket => {
         socket.broadcast.to(data.room).emit('Player Joined', data)
     })
 
-    socket.on('join team', data => {
-        console.log(`joined team ${data.room}`)
-        socket.join(data.room)
-        socket.emit('hello', data)
+    socket.on('Leave', data => {
+        socket.broadcast.to(data.room).emit('Player Left', data) 
     })
 
     socket.on('disconnect', () => {
