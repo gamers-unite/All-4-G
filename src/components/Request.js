@@ -6,6 +6,25 @@ import axios from "axios";
 import Button from '@material-ui/core/Button';
 
 
+export const renderTeam = (num, request) => {
+    let team = [];
+    for (let i = 0; i < num; i++) {
+        if (request[i]) {
+            team.push(
+                <img
+                    key={i}
+                    className="mini_avatar player"
+                    src={request[i].avatar}
+                    alt="mini"
+                />
+            );
+        } else {
+            team.push(<AccountCircle key={i} className="mini_avatar" />);
+        }
+    }
+    return team;
+};
+
 const Request = props => {
     const [request, updateRequest] = useState([]);
     const [creator, setCreator] = useState(false);
@@ -47,24 +66,7 @@ const Request = props => {
         })
     }
 
-    const renderTeam = num => {
-        let team = [];
-        for (let i = 0; i < num; i++) {
-            if (request[i]) {
-                team.push(
-                    <img
-                        key={i}
-                        className="mini_avatar player"
-                        src={request[i].avatar}
-                        alt="mini"
-                    />
-                );
-            } else {
-                team.push(<AccountCircle key={i} className="mini_avatar" />);
-            }
-        }
-        return team;
-    };
+
 
 
     return (
@@ -78,10 +80,10 @@ const Request = props => {
                     <div>
                         <p>{request[0].info}</p>
                     </div>
-                    {props.user.id && !creator && !member && <Button variant='contained' style={{height: '5em', width: '7em'}} onClick={handleJoin}>Join Team!</Button>}
-                    {props.user.id && !creator && member && <Button variant='contained' style={{height: '5em', width: '7em'}}onClick={leaveTeam}>Leave Team</Button>}
+                    {props.user.id && !creator && !member && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={handleJoin}>Join Team!</Button>}
+                    {props.user.id && !creator && member && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={leaveTeam}>Leave Team</Button>}
                     <div className="team_bar">
-                        {renderTeam(request[0].team_length)}
+                        {renderTeam(request[0].team_length, request)}
                     </div>
                 </RequestInfo>
             )}
@@ -96,6 +98,7 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(Request);
+
 
 const RequestInfo = styled.div`
     display: flex;

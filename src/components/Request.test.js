@@ -1,47 +1,25 @@
-import React from 'react';
-import {configure, shallow} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import Request from './Request';
-import {findByTestAttr, checkProps} from '../../test/testUtils'; 
+import { renderTeam } from './Request';
 
-configure({ adapter: new Adapter() })
 
-const wrapper = shallow (<Request />);
+describe('Team Methods:', () => {
+    let team = [];
+    let request = [];
+    afterEach = () => {
+        team = [];
+        request = [];
+    };
 
-test('render without error', () => {
-    const component = findByTestAttr(wrapper, 'creator-info')
-    expect(component.length).toBe(0)
+    test('renderTeam() should add a user to the team array.', () => {
+        team = renderTeam(5, []);
+        expect(team.length).toEqual(5);
+    })
+    test('renderTeam() should add a user to the team array.', () => {
+        team = renderTeam(2, []);
+        expect(team.length).toEqual(2);
+    })
+
+    test('renderTeam() should return empty array when no parameters', () => {
+        team = renderTeam();
+        expect(team.length).toEqual(0);
+    })
 })
-
-
-
-// props = {id: 1, creatorName: 'Rich'}
-
-
-// describe('Request Properties:',()=>{
-//     test('Request default as an empty array', ()=>{
-//         expect(Array.isArray(request)).toEqual(true);
-//         expect(request.length).toEqual(1);
-//     });
-
-//     test('Team should default to 1', ()=>{
-//         expect(Array.isArray(team)).toEqual(true);
-//         expect(team.length).toEqual(1);
-//     });
-// });
-
-// describe('Team Methods:', ()=>{
-//     afterEach=()=>{
-//         request = [];
-//         team= [];
-//     };
-
-//     test('renderTeam() should add a user to the team array.', ()=>{
-//         Request.renderTeam(request[0]);
-//         Request.renderTeam(request[1]);
-
-//         expect(request.length).toEqual(2);
-//         expect( request[0] ).toEqual
-//     })
-
-// })

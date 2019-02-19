@@ -32,10 +32,10 @@ const Home = props => {
     <BackgroundImg>
       <GameWrap>
         {props.games[0] && <Carousel games={props.games} />}
-        <div style={{width: '60%'}}>
+        <div style={{ width: '60%' }}>
           <h1> Game List </h1>
           <GameList>
-            
+
             {gameMap}
           </GameList>
         </div>
@@ -44,14 +44,14 @@ const Home = props => {
   );
 };
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
     games: state.games.allOfGames,
     user: state.user.user
   };
 };
 
-export default connect( mapStateToProps, { allGames } )(Home);
+export default connect(mapStateToProps, { allGames })(Home);
 
 const BackgroundImg = styled.div`
   background-image: url("https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c");
