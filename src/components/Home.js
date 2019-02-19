@@ -29,7 +29,7 @@ const Home = props => {
   }
 
   return (
-    <>
+    <BackgroundImg>
       <GameWrap>
         {props.games[0] && <Carousel games={props.games} />}
         <div style={{width: '60%'}}>
@@ -40,7 +40,7 @@ const Home = props => {
           </GameList>
         </div>
       </GameWrap>
-    </>
+    </BackgroundImg>
   );
 };
 
@@ -52,6 +52,15 @@ const mapStateToProps = state => {
 };
 
 export default connect( mapStateToProps, { allGames } )(Home);
+
+const BackgroundImg = styled.div`
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+`
 
 const GameCards = styled.div`
   border: 2em solid black;

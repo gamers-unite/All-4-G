@@ -71,7 +71,7 @@ const Request = props => {
         <div>
             {request[0] && (
                 <RequestInfo>
-                    <Creator>
+                    <Creator data-test='creator-info'>
                         <img src={props.creatorImg} alt="creator avatar" />
                         {props.creatorName}
                     </Creator>
