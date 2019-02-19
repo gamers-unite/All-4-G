@@ -20,6 +20,7 @@ const styles = theme => ({
 const Profile = props => {
     const { classes } = props;
     const [user, setUser] = useState({});
+    const [game, setGame] = useState(0)
     const [refresh, setRefresh] = useState(false);
     const [reportable, setReportable] = useState(true);
     const [reported, setReported] = useState(false);
@@ -27,13 +28,19 @@ const Profile = props => {
 
     const getUsers = async () => {
         const { email } = props;
+        let user_id;
         await props.getCurrentUser();
-        await axios.get("/users", { email }).then(response => {
-            setUser(response.data);
-            if (props.user.email === response.data.email) {
-                setReportable(false);
-            }
-        });
+        const userData = await axios.get("/users", { email });
+        setUser(userData.data);
+        user_id = userData.data.user_id
+        if (props.user.email === response.data.email) {
+            setReportable(false);
+        }
+        const gameCount = await axios.get('/api/teams/count', { user_id })
+        console.log(gameCount.data)
+        setGame(gameCount.data.count)
+
+
     };
 
     const getReports = async () => {
@@ -65,6 +72,8 @@ const Profile = props => {
             <Avatar src={user.avatar} alt="avatar" />
             <h1>{user.display_name}</h1>
             <h2>{user.email}</h2>
+            <h2>Games Played:</h2>
+            <h2>{game}</h2>
             {user.blizzard && (
                 <>
                     <p>Blizzard:</p>
