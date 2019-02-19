@@ -4,9 +4,15 @@ const express = require("express");
 const session = require("express-session");
 const massive = require("massive");
 const { json } = require("body-parser");
-const cors = require("cors");
+// const cors = require("cors");
 const port = process.env.SERVER_PORT;
 const app = express();
+
+// Socket.io Imports
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+// Imports 
 const { currentSession } = require("./middleware/authMiddleware");
 const {
     addUser,
@@ -35,9 +41,11 @@ const {
     deleteTeam, deleteTeamMember, getTeamMember, getUserTeamCount, getUserGameCount
 } = require("./controllers/teamController");
 const { getReports, addReport } = require("./controllers/reportController");
+
+
 app.use(json());
-app.use(cors());
-// app.use(express.static(`${__dirname}/../build`));
+// app.use(cors());
+app.use(express.static(`${__dirname}/../build`));
 
 massive(process.env.CONNECTION_STRING)
     .then(db => {
@@ -99,8 +107,33 @@ app.get('/api/teams/count/game/:id', getUserGameCount)
 app.get("/api/reports", getReports);
 app.post("/api/reports", addReport);
 
-// app.app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "../build/index.html"));
-// });
+// Socket Listeners
+io.on('connection', socket => {
+    console.log('Sockets Connected')
 
-app.listen(port, console.log(`Listening on ${port}`));
+    socket.on('Enter Room', data => { 
+        socket.join(data.room)
+        console.log(`Entered Room ${data.room}`)
+    })
+
+    socket.on('Joined', data => {
+        console.log(`Room ${data.room} is trying to talk`)
+        io.to(data.room).emit('Player Joined', data)
+    })
+
+    socket.on('Leave', data => {
+        console.log(`Room ${data.room} is trying to talk`)
+        io.to(data.room).emit('Player Left', data) 
+    })
+
+    socket.on('disconnect', reason => {
+        console.log('Sockets Disconnected')
+        console.log('reason: ', reason)
+    })
+});
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../build/index.html"));
+});
+
+server.listen(port, console.log(`Listening on ${port}`));
