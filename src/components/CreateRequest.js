@@ -28,6 +28,14 @@ const styles = theme => ({
     }
 });
 
+export const createNumArray = num => {
+    const numArr = [];
+    for (let i = 2; i <= num; i++) {
+        numArr.push(i);
+    }
+    return numArr;
+};
+
 const CreateRequest = props => {
     const [inputs, setInputs] = useState({
         info: "",
@@ -55,13 +63,7 @@ const CreateRequest = props => {
             .then(() => props.closeRequest());
     };
 
-    const createNumArray = num => {
-        const numArr = [];
-        for (let i = 2; i <= num; i++) {
-            numArr.push(i);
-        }
-        return numArr;
-    };
+
 
     const numberOptions = createNumArray(props.max_party).map(num => {
         return (
