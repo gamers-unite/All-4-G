@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import styled from "styled-components";
+import Button from '@material-ui/core/Button';
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import axios from "axios";
 import socketIOClient from 'socket.io-client';
 
-const socket = socketIOClient(process.env.REACT_APP_URL);
+const socket = socketIOClient(process.env.REACT_APP_ENDPOINT);
 
 export const renderTeam = (num, request) => {
     let team = [];
@@ -29,17 +30,17 @@ export const renderTeam = (num, request) => {
 const Request = props => {
 
     const [request, updateRequest] = useState([]);
-    // const [timer, setTimer] = useState(null);
     const [creator, setCreator] = useState(false);
     const [member, setMember] = useState(false);
-    // const [fullRoom, setFullRoom] = useState(false);
     const [update, setUpdate] = useState(false);
 
     const fillRequest = async () => {
         const req_id = props.id
         let result = await axios.post("/api/requests/id", { req_id });
         updateRequest(result.data)
-        socket.emit('Enter Room', {room: result.data[0].req_id})
+        console.log(result.data)
+        setUpdate(false)
+        socket.emit('Enter Room', {room: req_id})
     };
 
     const getUserStatus = async () => {
@@ -54,12 +55,13 @@ const Request = props => {
         }
     }
 
-    useEffect(() => { fillRequest() }, [props.user]);
-    useEffect(() => { getUserStatus() }, [request || props.user || update]);
+    useEffect(() => { fillRequest() }, [props.user || update]);
+    useEffect(() => { getUserStatus() }, [request || props.user]);
     useEffect(() => {
         socket.on('Player Joined', data =>  {
             if( props.id === data.room ) {
                 setUpdate(true)
+                fillRequest()
                 console.log('Join data: ', data)
             }
         });
@@ -67,11 +69,11 @@ const Request = props => {
             if( props.id === data.room ) {
                 setUpdate(true)
                 console.log('Left data: ', data)
-            }
+            } 
         });
     }, [])
 
-    useEffect(() => { fillRequest() }, [update])
+    // useEffect(() => { fillRequest() }, [update])
 
     const handleJoin = () => {
         axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then(() => {
@@ -88,8 +90,6 @@ const Request = props => {
         })
         socket.emit('Leave', { room: props.id } )
     }
-
-
 
     return (
         <>

@@ -45,7 +45,7 @@ const { getReports, addReport } = require("./controllers/reportController");
 
 app.use(json());
 // app.use(cors());
-// app.use(express.static(`${__dirname}/../build`));
+app.use(express.static(`${__dirname}/../build`));
 
 massive(process.env.CONNECTION_STRING)
     .then(db => {
@@ -118,20 +118,22 @@ io.on('connection', socket => {
 
     socket.on('Joined', data => {
         console.log(`Room ${data.room} is trying to talk`)
-        socket.broadcast.to(data.room).emit('Player Joined', data)
+        io.to(data.room).emit('Player Joined', data)
     })
 
     socket.on('Leave', data => {
-        socket.broadcast.to(data.room).emit('Player Left', data) 
+        console.log(`Room ${data.room} is trying to talk`)
+        io.to(data.room).emit('Player Left', data) 
     })
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', reason => {
         console.log('Sockets Disconnected')
+        console.log('reason: ', reason)
     })
 });
 
-// app.app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "../build/index.html"));
-// });
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../build/index.html"));
+});
 
 server.listen(port, console.log(`Listening on ${port}`));
