@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import styled from "styled-components";
+import Button from '@material-ui/core/Button';
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import axios from "axios";
-import Button from '@material-ui/core/Button';
+import socketIOClient from 'socket.io-client';
 
+const socket = socketIOClient(process.env.REACT_APP_ENDPOINT);
 
 export const renderTeam = (num, request) => {
     let team = [];
@@ -26,15 +28,19 @@ export const renderTeam = (num, request) => {
 };
 
 const Request = props => {
+
     const [request, updateRequest] = useState([]);
     const [creator, setCreator] = useState(false);
     const [member, setMember] = useState(false);
-    const [fullRoom, setFullRoom] = useState(false);
+    const [update, setUpdate] = useState(false);
 
     const fillRequest = async () => {
         const req_id = props.id
         let result = await axios.post("/api/requests/id", { req_id });
-        updateRequest(result.data);
+        updateRequest(result.data)
+        console.log(result.data)
+        setUpdate(false)
+        socket.emit('Enter Room', {room: req_id})
     };
 
     const getUserStatus = async () => {
@@ -49,14 +55,32 @@ const Request = props => {
         }
     }
 
-    useEffect(() => { fillRequest() }, [props.user]);
+    useEffect(() => { fillRequest() }, [props.user || update]);
     useEffect(() => { getUserStatus() }, [request || props.user]);
+    useEffect(() => {
+        socket.on('Player Joined', data =>  {
+            if( props.id === data.room ) {
+                setUpdate(true)
+                fillRequest()
+                console.log('Join data: ', data)
+            }
+        });
+        socket.on('Player Left', data =>  {
+            if( props.id === data.room ) {
+                setUpdate(true)
+                console.log('Left data: ', data)
+            } 
+        });
+    }, [])
+
+    // useEffect(() => { fillRequest() }, [update])
 
     const handleJoin = () => {
         axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then(() => {
             fillRequest();
             setMember(true)
         })
+        socket.emit('Joined', { room: props.id } )
     }
 
     const leaveTeam = () => {
@@ -64,15 +88,14 @@ const Request = props => {
             fillRequest();
             setMember(false)
         })
+        socket.emit('Leave', { room: props.id } )
     }
 
-
-
-
     return (
-        <div>
+        <>
             {request[0] && (
                 <RequestInfo>
+                    {/* <p>This is the timer value: {timer}</p> */}
                     <Creator>
                         <img src={props.creatorImg} alt="creator avatar" />
                         {props.creatorName}
@@ -87,7 +110,7 @@ const Request = props => {
                     </div>
                 </RequestInfo>
             )}
-        </div>
+        </>
     );
 };
 
@@ -143,10 +166,3 @@ const Creator = styled.div`
     align-items: center;
     padding-bottom: 2em;
 `
-
-// const Background = styled.div`
-//     background-image: url("https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c");
-//     background-position: center;
-//     background-repeat: no-repeat;
-//     background-size: cover;
-// `

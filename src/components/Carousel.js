@@ -1,7 +1,8 @@
-import React, { useEffect, useReducer } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import "material-design-icons";
+import React, { useEffect, useReducer } from 'react';
+// import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import 'material-design-icons';
+
 
 //HOOKS AND REDUCER
 
@@ -51,25 +52,27 @@ const Carousel = (props) => {
 
   }
   return (
-    <ImageContainer>
-      <CarouselImg>
-        <img src={props.games[state.currentIndex].background_img}  max-width='100%' height='auto'></img>
+    <div>
+      <ImageContainer>
+        <CarouselImg>
+          <img src={props.games[state.currentIndex].background_img} alt='background' max-width='100%' height='auto'></img>
           <CarouselNav>
             <Prev >
-              <Button className="material-icons" name='PREV' onClick={ handleClick }>skip_previous</Button>
+              <Button className="material-icons" name='PREV' onClick={handleClick}>skip_previous</Button>
             </Prev>
             <Play>
-              <Button className="material-icons" name='PLAY' onClick={ handleClick }>play_arrow</Button>
+              <Button className="material-icons" name='PLAY' onClick={handleClick}>play_arrow</Button>
             </Play>
             <Pause>
-              <Button className="material-icons" name='PAUSE' onClick={ handleClick }>pause</Button>
+              <Button className="material-icons" name='PAUSE' onClick={handleClick}>pause</Button>
             </Pause>
             <Next>
-              <Button className="material-icons" name='NEXT' onClick={ handleClick }>skip_next</Button>
+              <Button className="material-icons" name='NEXT' onClick={handleClick}>skip_next</Button>
             </Next>
           </CarouselNav>
-      </CarouselImg>
-    </ImageContainer>  
+        </CarouselImg>
+      </ImageContainer>
+    </div>
   )
 }
 
@@ -135,7 +138,6 @@ const ImageContainer = styled.div`
   position: relative;
   height: 93vh;
   width: 100vw
-  height: 93vh;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -154,7 +156,7 @@ const CarouselImg = styled.div`
   }
 
   max-width: auto;
-  overflow: hide;
+  overflow: hidden;
   margin: 0 auto;
   background: #333333;
   image-rendering: sharp;
