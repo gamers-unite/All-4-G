@@ -22,10 +22,10 @@ module.exports = {
     },
 
     deleteTeam: (req, res) => {
-        const { user_id, req_id } = req.body;
+        const { req_id } = req.body;
         req.app
             .get("db")
-            .teams.delete_team(user_id, req_id)
+            .teams.delete_team(req_id)
             .then(response => {
                 res.status(200).json(response);
             })

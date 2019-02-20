@@ -75,7 +75,7 @@ app.post(
     },
     logInUser
 );
-app.get("/users", getUser);
+app.get("/users/:email", getUser);
 app.get("/users/current", currentSession, authAccount);
 app.put("/users/update", updateUser);
 app.post("/users/logout", logout);
@@ -111,7 +111,7 @@ app.post("/api/reports", addReport);
 io.on('connection', socket => {
     console.log('Sockets Connected')
 
-    socket.on('Enter Room', data => { 
+    socket.on('Enter Room', data => {
         socket.join(data.room)
         console.log(`Entered Room ${data.room}`)
     })
@@ -123,7 +123,7 @@ io.on('connection', socket => {
 
     socket.on('Leave', data => {
         console.log(`Room ${data.room} is trying to talk`)
-        io.to(data.room).emit('Player Left', data) 
+        io.to(data.room).emit('Player Left', data)
     })
 
     socket.on('disconnect', reason => {

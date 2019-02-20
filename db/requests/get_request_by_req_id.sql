@@ -1,4 +1,4 @@
-SELECT r.*, u.display_name, u.avatar FROM requests r
+SELECT r.*, u.display_name, u.avatar, u.email FROM requests r
 JOIN teams t
 ON r.req_id = t.req_id
 JOIN users u
