@@ -201,9 +201,11 @@ const GameInfo = styled.div`
 const Requests = styled.div`
     display: flex;
     flex-direction: column;
-    background: url(${props => props.img}) no-repeat center center;
+    background: url('https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-size: cover;
-    height: 90vh;
     width: 100vw;
     color: white;
     box-shadow: inset 0px 15px 25px 8px rgba(0,0,0,0.75);
@@ -224,7 +226,6 @@ const Requests = styled.div`
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        overflow: scroll;
     }
 `
 const MiniProfileFormat = styled.div`

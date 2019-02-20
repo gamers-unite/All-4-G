@@ -30,17 +30,15 @@ const Home = props => {
   }
 
   return (
-    <BackgroundImg>
       <GameWrap>
         {props.games[0] && <Carousel games={props.games} />}
-        <div className='home_div'>
+        <div className='home_div' img='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c'>
           <h1> Game List </h1>
           <GameList>
             {gameMap}
           </GameList>
         </div>
       </GameWrap>
-    </BackgroundImg>
   );
 };
 
@@ -52,15 +50,6 @@ export const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, { allGames })(Home);
-
-const BackgroundImg = styled.div`
-  background-image: url("https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100%;
-  width: 100%;
-`
 
 const GameCards = styled.div`
 //   width: 100%;
@@ -99,9 +88,13 @@ const GameWrap = styled.div`
     flex-direction: column;
     align-items: center;
     // background: blue;
-    background: #333333;
-    height: 100vh;
-    overflow: scroll;
+    // background: #333333;
+    background: url('https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    box-shadow: inset 0px 15px 25px 8px rgba(0,0,0,0.75);
   }
 
   h1 {

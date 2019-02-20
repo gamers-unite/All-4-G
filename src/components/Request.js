@@ -184,7 +184,7 @@ const Request = props => {
                         <Avatar aria-label="Recipe" src={props.creatorImg} className={classes.avatar} />
                     }
                     action={props.user.id && !creator && member ?
-                        <Button variant='contained' style={{ height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={leaveTeam}>Leave Team</Button>
+                        <Button variant='contained' style={{ height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={leaveTeam}>Leave Team</Button>
                         : props.user.id && !creator && !member ?
                             <Button variant='contained' style={{ height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={handleJoin}>Join Team!</Button>
                             : null
