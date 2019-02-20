@@ -141,6 +141,9 @@ const TestCard = props => {
                 console.log('Left data: ', data)
             }
         });
+        socket.on("Kicked Player", () => {
+            fillRequest();
+        })
     }, [])
 
     const handleJoin = () => {

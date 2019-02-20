@@ -33,6 +33,7 @@ const Profile = props => {
     const [refresh, setRefresh] = useState(false);
     const [removable, setRemovable] = useState(false)
     const [reportable, setReportable] = useState(false);
+    const [reports, setReports] = useState([])
     const [reported, setReported] = useState(false);
     const [modal, setModal] = useState(false);
 
@@ -58,11 +59,15 @@ const Profile = props => {
     };
 
     const getReports = async () => {
-        const { user_id } = user;
-        await axios.get("/reports", { user_id }).then(response => {
+        const id = user.user_id;
+        axios.get(`api/reports/current/${id}`).then(response => {
+            console.log('response', response)
             if (response.data[0]) {
                 setReported(true);
             }
+        });
+        axios.get(`api/reports/${id}`).then(response => {
+            setReports(response.data)
         });
     };
 
@@ -75,9 +80,12 @@ const Profile = props => {
 
     useEffect(() => {
         getUserData();
-        getReports();
         setRefresh(false);
     }, [refresh === true]);
+
+    useEffect(() => {
+        if (user) getReports();
+    }, [user])
 
     const openReport = () => {
         setModal(true);
@@ -126,8 +134,10 @@ const Profile = props => {
             <Avatar src={user.avatar} alt="avatar" />
             <h1>{user.display_name}</h1>
             <h2>{user.email}</h2>
+            <h2>Open Reports:</h2>
+            <p>{reports.length}</p>
             <h2>Games Played:</h2>
-            <h2>{totalCount}</h2>
+            <p>{totalCount}</p>
             {user.blizzard && (
                 <>
                     <p>Blizzard:</p>
@@ -168,7 +178,7 @@ const Profile = props => {
             {removable && (
                 <Button variant='contained' onClick={removeTeamMember}>Remove From Team</Button>
             )}
-            {reportable && !reported && (
+            {props.user && reportable && !reported && (
                 <Button variant='contained' onClick={openReport}>Report User</Button>
             )}
             {reportable && reported && <Button variant='contained' disabled>Report Sent</Button>}
