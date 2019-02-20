@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     modal: {
@@ -41,8 +42,8 @@ const Report = props => {
     return (
         <div className={classes.modal}>
             <input name="reason" onChange={onChange} />
-            <button onClick={submitReport}>Submit</button>
-            <button onClick={props.closeReport}>Cancel</button>
+            <Button variant='contained' onClick={submitReport}>Submit</Button>
+            <Button variant='contained' onClick={props.closeReport}>Cancel</Button>
         </div>
     );
 };

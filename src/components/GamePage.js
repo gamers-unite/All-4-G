@@ -166,3 +166,7 @@ const Requests = styled.div`
     background: black;
 
 `
+
+const MiniProfile = styled.div`
+    
+`

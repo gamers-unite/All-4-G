@@ -8,6 +8,8 @@ import { connect } from "react-redux";
 import { Doughnut } from 'react-chartjs-2';
 import { getCurrentUser } from "../ducks/userReducer";
 import Report from "./Report";
+import Button from '@material-ui/core/Button';
+
 
 const styles = theme => ({
     modalWrapper: {
@@ -149,9 +151,9 @@ const Profile = props => {
             )}
             <Doughnut data={data} options={options} />
             {reportable && !reported && (
-                <button onClick={openReport}>Report User</button>
+                <Button variant='contained' onClick={openReport}>Report User</Button>
             )}
-            {reportable && reported && <button disabled>Report Sent</button>}
+            {reportable && reported && <Button variant='contained' disabled>Report Sent</Button>}
             {modal && (
                 <Modal
                     className={classes.modalWrapper}
