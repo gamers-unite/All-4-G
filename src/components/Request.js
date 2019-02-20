@@ -77,7 +77,7 @@ const Request = props => {
 
     const handleJoin = () => {
         axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then(() => {
-            fillRequest();
+            // fillRequest();
             setMember(true)
         })
         socket.emit('Joined', { room: props.id } )
@@ -85,7 +85,7 @@ const Request = props => {
 
     const leaveTeam = () => {
         axios.delete('/api/teams/user/', { data: { user_id: props.user.id, req_id: props.id } }).then(() => {
-            fillRequest();
+            // fillRequest();
             setMember(false)
         })
         socket.emit('Leave', { room: props.id } )
@@ -95,12 +95,8 @@ const Request = props => {
         <>
             {request[0] && (
                 <RequestInfo>
-<<<<<<< HEAD
-                    <Creator data-test='creator-info'>
-=======
                     {/* <p>This is the timer value: {timer}</p> */}
                     <Creator>
->>>>>>> master
                         <img src={props.creatorImg} alt="creator avatar" />
                         {props.creatorName}
                     </Creator>
