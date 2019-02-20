@@ -88,15 +88,23 @@ const GamePage = props => {
 
     return (
         <>
-            <GameInfo>
-                <img src={game.logo} alt="alt" />
-                <div />
-                <p>{game.info}</p>
-                <h3>{game.max_party}</h3>
+            <GameInfo img={game.background_img}>
+                <div className='fog' />
+                <div className='under_div'>
+                    <img src={game.logo} alt="alt" />
+                    <div className='game_info'>
+                        <h1>{game.title}</h1>
+                        <p>{game.info}</p>
+                        <div>
+                            <h2>Max Party: </h2>
+                            <h2>{game.max_party}</h2>
+                        </div>
+                    </div>
+                </div>
             </GameInfo>
-            <Requests>
+            <Requests img='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c'>
                 {props.user.email && (
-                    <Button variant='contained' onClick={openRequest}>Create Request</Button>
+                    <Button className='request_btn' variant='contained' onClick={openRequest}>Create Request</Button>
                 )}
                 {modal && (
                     <Modal
@@ -114,7 +122,7 @@ const GamePage = props => {
                     </Modal>
                 )}
                 <h1>Requests</h1>
-                <div>{requestMap}</div>
+                <div className='request_map'>{requestMap}</div>
                 
             </Requests>
             {game.platform && 
@@ -141,42 +149,84 @@ export default connect(
 )(withStyles(styles)(GamePage));
 
 const GameInfo = styled.div`
-    position: relative;
     display: flex;
-    background: #333333;
+    justify-content: center;
+    align-items: center;
+    position: relative;
     height: 400px;
+    overflow: hidden;
+    background: url(${props => props.img}) no-repeat center center;
+    background-size: cover;
+    // color: white;
 
-    div {
+    .fog {
         position: absolute;
-        bottom: 0;
-        height: 3px;
-        background: white;
-        width: 80%;
-        left: 10%;
-        border: 1px solid black;
+        background: rgba(0,0,0, 0.7);
+        height: 100%;
+        width: 100%;
+    }
+
+    .under_div {
+        display: flex;
+        position: relative;
+        background: rgba(255,255,255, 0.5);
+        box-shadow: 0px 0px 10px 6px rgba(255,255,255, 0.5);
+        width: 90%;
+        height: 90%;
     }
 
     img {
-        margin: auto 0;
-        height: 300px;
-        width: 200px;
+        float: left;
+        margin: auto 1% auto 1%;
+        height: 90%;
+        width: auto;
     }
 
-    p,
-    h3 {
-        color: white;
+    .game_info {
+        display: flex;
+        flex-direction: column;
+
+        div {
+            margin: 2px;
+            display: flex;
+            align-items: center;
+        }
     }
 
-    h1{
-        color: white;
+    h2 {
+        margin: 5px;
     }
 `;
 
 const Requests = styled.div`
-    background: black;
+    display: flex;
+    flex-direction: column;
+    background: url(${props => props.img}) no-repeat center center;
+    background-size: cover;
+    height: 90vh;
+    width: 100vw;
+    color: white;
+    box-shadow: inset 0px 15px 25px 8px rgba(0,0,0,0.75);
 
+    h1 {
+        position: absolute;
+        margin: 2%;
+    }
+
+    .request_btn {
+        position: absolute;
+        right: 0;
+        margin: 2%;
+    }
+
+    .request_map {
+        margin: 5% 10% 2% 10%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        overflow: scroll;
+    }
 `
-
 const MiniProfileFormat = styled.div`
-    color: #ffffff;
+    color: #000000;
 `

@@ -19,6 +19,7 @@ const Home = props => {
             key={i}
             game_id={e.game_id}
             title={e.title}
+            info={e.info}
             background_img={e.background_img}
             logo={e.logo}
             url={e.url}
@@ -32,10 +33,9 @@ const Home = props => {
     <BackgroundImg>
       <GameWrap>
         {props.games[0] && <Carousel games={props.games} />}
-        <div style={{ width: '60%' }}>
+        <div className='home_div'>
           <h1> Game List </h1>
           <GameList>
-
             {gameMap}
           </GameList>
         </div>
@@ -63,33 +63,46 @@ const BackgroundImg = styled.div`
 `
 
 const GameCards = styled.div`
-  border: 2em solid black;
-  border-radius: 25%;
-  margin: 4em auto;
-  height: 15em;
-  width: 12em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-shadow: 2em 2em black;
+//   width: 100%;
+//   border: 2em solid black;
+//   border-radius: 25%;
+//   margin: 4em auto;
+//   // height: 15em;
+//   // width: 12em;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   text-shadow: 2em 2em black;
 `;
 
 const GameList = styled.div`
   display: flex;
+  width: 100%;
+  // background: blue;
   flex-wrap: wrap;
   justify-content: center;
   padding-top: 3vh;
 `;
 
 const GameWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  overflow: scroll;
-  height: 100vh;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: space-between;
   width: 100vw;
-  background: #333333;
-  align-items: space-between;
+  // overflow: hidden;
+  // flex-wrap: wrap;
+  // overflow: scroll;
+  
+  .home_div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // background: blue;
+    background: #333333;
+    height: 100vh;
+    overflow: scroll;
+  }
 
   h1 {
     margin-top: 8vh;
