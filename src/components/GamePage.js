@@ -76,6 +76,7 @@ const GamePage = props => {
                 id={e.req_id}
                 creatorImg={e.avatar}
                 creatorName={e.display_name}
+                fillGame={fillGame}
             />
         );
     });
