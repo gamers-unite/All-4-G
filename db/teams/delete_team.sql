@@ -1,3 +1,3 @@
 DELETE FROM teams
-AND req_id = $2
+AND req_id = $1
 RETURNING *;
