@@ -134,10 +134,8 @@ const Profile = props => {
             <Avatar src={user.avatar} alt="avatar" />
             <h1>{user.display_name}</h1>
             <h2>{user.email}</h2>
-            <h2>Open Reports:</h2>
-            <p>{reports.length}</p>
-            <h2>Games Played:</h2>
-            <p>{totalCount}</p>
+            <h2>Open Reports: {reports.length}</h2>
+            <h2>Games Played: {totalCount}</h2>
             {user.blizzard && (
                 <>
                     <p>Blizzard:</p>
