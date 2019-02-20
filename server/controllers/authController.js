@@ -97,7 +97,7 @@ module.exports = {
     },
 
     getUser: (req, res) => {
-        console.log(req.params)
+        console.log('getUser function hit')
         const { email } = req.params;
         req.app
             .get("db")

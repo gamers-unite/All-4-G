@@ -3,11 +3,18 @@ import axios from "axios";
 import Avatar from "@material-ui/core/Avatar";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import Button from '@material-ui/core/Button';
 import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
 import { Doughnut } from 'react-chartjs-2';
+import socketIOClient from 'socket.io-client';
 import { getCurrentUser } from "../ducks/userReducer";
 import Report from "./Report";
+
+//MODAL TO DISPLAY USER INFO FROM REQUEST PAGE
+//VIEWER CAN REPORT USER, AND CREATOR CAN REMOVE USER FROM TEAM
+
+const socket = socketIOClient();
 
 const styles = theme => ({
     modalWrapper: {
@@ -25,20 +32,20 @@ const Profile = props => {
     const [gameCountArr, setGameCountArr] = useState([])
     const [refresh, setRefresh] = useState(false);
     const [removable, setRemovable] = useState(false)
-    const [reportable, setReportable] = useState(true);
+    const [reportable, setReportable] = useState(false);
     const [reported, setReported] = useState(false);
     const [modal, setModal] = useState(false);
 
     const labels = ["League of Legends", "Smite", "Diablo 3", "Destiny 2", "Overwatch"]
 
-    const getUsers = async () => {
+    const getUserData = async () => {
         const { email } = props;
-        props.getCurrentUser();
+        await props.getCurrentUser();
         const userData = await axios.get(`/users/${email}`);
         setUser(userData.data[0]);
         const user_id = userData.data[0].user_id
-        if (props.user.email === userData.data[0].email) {
-            setReportable(false);
+        if (props.user.id !== user_id) {
+            setReportable(true);
         }
         if (props.user.id === props.creator_id) {
             setRemovable(true)
@@ -51,7 +58,7 @@ const Profile = props => {
     };
 
     const getReports = async () => {
-        const { user_id } = props;
+        const { user_id } = user;
         await axios.get("/reports", { user_id }).then(response => {
             if (response.data[0]) {
                 setReported(true);
@@ -59,8 +66,15 @@ const Profile = props => {
         });
     };
 
+    const removeTeamMember = async () => {
+        const { user_id } = user;
+        const { req_id } = props;
+        await axios.delete('/api/teams/user', { data: { user_id, req_id } })
+        socket.emit('kick')
+    }
+
     useEffect(() => {
-        getUsers();
+        getUserData();
         getReports();
         setRefresh(false);
     }, [refresh === true]);
@@ -151,10 +165,13 @@ const Profile = props => {
                 </>
             )}
             <Doughnut data={data} options={options} />
-            {reportable && !reported && (
-                <button onClick={openReport}>Report User</button>
+            {removable && (
+                <Button variant='contained' onClick={removeTeamMember}>Remove From Team</Button>
             )}
-            {reportable && reported && <button disabled>Report Sent</button>}
+            {reportable && !reported && (
+                <Button variant='contained' onClick={openReport}>Report User</Button>
+            )}
+            {reportable && reported && <Button variant='contained' disabled>Report Sent</Button>}
             {modal && (
                 <Modal
                     className={classes.modalWrapper}

@@ -56,10 +56,6 @@ const Request = props => {
         }
     }
 
-    const removeTeamMember = () => {
-
-    }
-
     // FUNCTION FOR CREATOR TO ACCEPT TEAM AND ARCHIVES IT
     const acceptTeam = () => {
         const req_id = props.id
@@ -91,6 +87,9 @@ const Request = props => {
                 console.log('Left data: ', data)
             }
         });
+        socket.on('Kicked Player', data => {
+            fillRequest();
+        })
     }, [])
 
     // useEffect(() => { fillRequest() }, [update])

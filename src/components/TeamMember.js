@@ -57,6 +57,7 @@ const TeamMember = props => {
 
                     <User creator_id={props.request.creator_id}
                         email={props.request.email}
+                        req_id={props.request.req_id}
                     />
 
                 </div>

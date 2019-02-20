@@ -78,11 +78,11 @@ export function update(
     };
 }
 
-export function getUser(id) {
+export function getUser(email) {
     // console.log(id);
     return {
         type: GET_USER,
-        payload: axios.get("/users/", id)
+        payload: axios.get(`/users/${email}`)
     };
 }
 
@@ -101,7 +101,7 @@ export function getCurrentUser() {
 }
 
 export default function reducer(state = initialState, action) {
-    // console.log(action.type, action.payload);
+    console.log(action.type, action.payload);
     switch (action.type) {
         case LOGIN + "_FULFILLED":
             return { ...state, user: action.payload.data };

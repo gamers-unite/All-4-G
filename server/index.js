@@ -75,8 +75,8 @@ app.post(
     },
     logInUser
 );
-app.get("/users/:email", getUser);
 app.get("/users/current", currentSession, authAccount);
+app.get("/users/:email", getUser);
 app.put("/users/update", updateUser);
 app.post("/users/logout", logout);
 
@@ -129,6 +129,10 @@ io.on('connection', socket => {
     socket.on('disconnect', reason => {
         console.log('Sockets Disconnected')
         console.log('reason: ', reason)
+    })
+
+    socket.on('kick', () => {
+        io.emit('Kicked Player')
     })
 });
 
