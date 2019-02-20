@@ -143,7 +143,7 @@ const Request = props => {
         });
         socket.on("Kicked Player", () => {
             fillRequest();
-        });
+        })
     }, [])
 
     const handleJoin = () => {

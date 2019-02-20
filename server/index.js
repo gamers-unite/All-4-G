@@ -40,7 +40,7 @@ const {
     addTeam,
     deleteTeam, deleteTeamMember, getTeamMember, getUserTeamCount, getUserGameCount
 } = require("./controllers/teamController");
-const { getReports, addReport } = require("./controllers/reportController");
+const { getAllReports, getReports, addReport } = require("./controllers/reportController");
 
 
 app.use(json());
@@ -104,7 +104,8 @@ app.get('/api/teams/count/:id', getUserTeamCount)
 app.get('/api/teams/count/game/:id', getUserGameCount)
 
 //REPORT ENDPOINTS
-app.get("/api/reports", getReports);
+app.get("/api/reports/:id", getAllReports);
+app.get("/api/reports/current/:id", getReports);
 app.post("/api/reports", addReport);
 
 // Socket Listeners

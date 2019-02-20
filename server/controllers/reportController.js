@@ -1,9 +1,23 @@
 module.exports = {
-    getReports: (req, res) => {
-        const { user_id } = req.body;
+    getAllReports: (req, res) => {
+        console.log('get all reports hit')
+        const { id } = req.params;
         req.app
             .get("db")
-            .reports.get_reports(user_id)
+            .reports.get_all_reports(id)
+            .then(response => {
+                res.status(200).json(response);
+            })
+            .catch(err => console.log(err));
+    },
+
+    getReports: (req, res) => {
+        console.log('get reports hit')
+        console.log(req.params)
+        const { id } = req.params;
+        req.app
+            .get("db")
+            .reports.get_reports(id, req.session.user.id)
             .then(response => {
                 res.status(200).json(response);
             })
