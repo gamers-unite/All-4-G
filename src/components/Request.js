@@ -6,7 +6,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import axios from "axios";
 import socketIOClient from 'socket.io-client';
 
-const socket = socketIOClient(process.env.REACT_APP_ENDPOINT);
+const socket = socketIOClient();
 
 export const renderTeam = (num, request) => {
     let team = [];
@@ -40,7 +40,7 @@ const Request = props => {
         updateRequest(result.data)
         console.log(result.data)
         setUpdate(false)
-        socket.emit('Enter Room', {room: req_id})
+        socket.emit('Enter Room', { room: req_id })
     };
 
     const getUserStatus = async () => {
@@ -58,18 +58,19 @@ const Request = props => {
     useEffect(() => { fillRequest() }, [props.user || update]);
     useEffect(() => { getUserStatus() }, [request || props.user]);
     useEffect(() => {
-        socket.on('Player Joined', data =>  {
-            if( props.id === data.room ) {
-                setUpdate(true)
+        socket.on('Player Joined', data => {
+            if (props.id === data.room) {
+                // setUpdate(true)
                 fillRequest()
                 console.log('Join data: ', data)
             }
         });
-        socket.on('Player Left', data =>  {
-            if( props.id === data.room ) {
-                setUpdate(true)
+        socket.on('Player Left', data => {
+            if (props.id === data.room) {
+                // setUpdate(true)
+                fillRequest()
                 console.log('Left data: ', data)
-            } 
+            }
         });
     }, [])
 
@@ -80,7 +81,7 @@ const Request = props => {
             // fillRequest();
             setMember(true)
         })
-        socket.emit('Joined', { room: props.id } )
+        socket.emit('Joined', { room: props.id })
     }
 
     const leaveTeam = () => {
@@ -88,7 +89,7 @@ const Request = props => {
             // fillRequest();
             setMember(false)
         })
-        socket.emit('Leave', { room: props.id } )
+        socket.emit('Leave', { room: props.id })
     }
 
     return (

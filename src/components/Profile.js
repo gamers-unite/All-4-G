@@ -9,14 +9,14 @@ import EditProfile from "./EditProfile";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import axios from "axios";
+import { Doughnut } from 'react-chartjs-2';
 
 const styles = theme => ({
     modalWrapper: {
         width: "100vw",
         height: "100vh",
         alignItems: "center",
-        justifyContent: "center",
-        background: "#333333"
+        justifyContent: "center"
     }
 });
 
@@ -25,16 +25,16 @@ const Profile = props => {
     const [refresh, setRefresh] = useState(false);
     const [modal, setModal] = useState(false);
     const [totalCount, setTotalCount] = useState(0)
-    // const [gameCountArr, setGameCountArr] = useState([])
+    const [gameCountArr, setGameCountArr] = useState([])
 
-    // const labels = ["League of Legends", "Smite", "Diablo 3", "Destiny 2", "Overwatch"]
+    const labels = ["League of Legends", "Smite", "Diablo 3", "Destiny 2", "Overwatch"]
 
     const getCount = async () => {
         const user_id = props.user.id
         const fullCount = await axios.get(`/api/teams/count/${user_id}`)
         setTotalCount(fullCount.data[0].count)
-        // const countObj = await axios.get(`/api/teams/count/game/${user_id}`)
-        // setGameCountArr(countObj.data);
+        const countObj = await axios.get(`/api/teams/count/game/${user_id}`)
+        setGameCountArr(countObj.data);
     }
 
     useEffect(() => {
@@ -56,6 +56,39 @@ const Profile = props => {
         setModal(false);
         setRefresh(true);
     };
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            data: gameCountArr,
+            backgroundColor: [
+                '#ced4da',
+                '#868e96',
+                '#343a40',
+                "#212529",
+                "#000"
+
+            ],
+            hoverBackgroundColor: [
+                '#FFF',
+                '#FFF',
+                '#FFF',
+                "#FFF",
+                "#FFF"
+            ]
+        }]
+    }
+
+    const options = {
+        maintainAspectRatio: false,
+        responsive: false,
+        legend: {
+            position: 'left',
+            labels: {
+                boxWidth: 10
+            }
+        }
+    }
 
     return (
         <ProfileFormat>
@@ -108,8 +141,8 @@ const Profile = props => {
                     <h2>Total Games: </h2>
                     <p>{totalCount}</p>
                 </IdFormat>
-
-                {!modal && <Button variant='contained' onclick={openEdit}>Edit</Button>}
+                <Doughnut data={data} options={options} />
+                {!modal && <Button variant='contained' onClick={openEdit}>Edit</Button>}
                 {modal && (
                     <Modal
                         className={classes.modalWrapper}
