@@ -3,30 +3,36 @@ import axios from "axios";
 import { connect } from "react-redux";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
-import { withStyles } from "@material-ui/core/styles";
+// import { withStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
 
 //Display as modal in parent component
 
-const styles = theme => ({
-    modalWrapper: {
-        width: "100vw",
-        height: "100vh",
-        alignItems: "center",
-        justifyContent: "center"
-    },
+// const styles = theme => ({
+//     modalWrapper: {
+//         width: "100vw",
+//         height: "100vh",
+//         alignItems: "center",
+//         justifyContent: "center"
+//     },
 
-    modal: {
-        position: "absolute",
-        float: "left",
-        left: "50%",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
-        width: theme.spacing.unit * 50,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing.unit * 4,
-        background: "#333333"
-    }
-});
+//     modal: {
+//         position: "absolute",
+//         float: "left",
+//         left: "50%",
+//         top: "50%",
+//         transform: "translate(-50%, -50%)",
+//         width: theme.spacing.unit * 40,
+//         // boxShadow: theme.shadows[10],
+//         padding: theme.spacing.unit * 4,
+//         background: "rgba(192, 192, 192, 0.9)",
+//         borderRadius: "5%",
+//         outline: "none",
+//         webkitBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+//         mozBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+//         boxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)"
+//     }
+// });
 
 export const createNumArray = num => {
     const numArr = [];
@@ -82,7 +88,7 @@ const CreateRequest = props => {
     });
 
     return (
-        <Modal className={props.style}>
+        <div className={props.style}>
             <p>Platform</p>
             <select onChange={onChange}>{platforms}</select>
             <p>Party Size</p>
@@ -97,7 +103,7 @@ const CreateRequest = props => {
                 <Button variant='contained' onClick={submitRequest}>Submit</Button>
                 <Button variant='contained' onClick={props.closeRequest}>Cancel</Button>
             </RequestModalButtons>
-        </Modal>
+        </div>
     );
 };
 
@@ -107,7 +113,7 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(CreateRequest));
+export default connect(mapStateToProps)(CreateRequest);
 
 
 const RequestModalButtons = styled.div`
@@ -120,9 +126,9 @@ const RequestModalButtons = styled.div`
     padding-left: 1em;
 `;
 
-const Modal = styled.div`
-    background: #333333;
-    border: .5em solid black;
-    borderRadius: 10%;
-    outline: none;
-`
+// const Modal = styled.div`
+//     background: #333333;
+//     border: .5em solid black;
+//     borderRadius: 10%;
+//     outline: none;
+// `

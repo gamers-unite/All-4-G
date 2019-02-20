@@ -25,10 +25,15 @@ const styles = theme => ({
         left: "50%",
         top: "50%",
         transform: "translate(-50%, -50%)",
-        width: theme.spacing.unit * 50,
-        boxShadow: theme.shadows[5],
+        width: theme.spacing.unit * 40,
+        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
-        background: "#333333"
+        background: "rgba(192, 192, 192, 0.9)",
+        borderRadius: "5%",
+        outline: "none",
+        webkitBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        mozBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        boxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)"
     }
 });
 
@@ -118,8 +123,12 @@ const GamePage = props => {
                 )}
                 <h1>Requests</h1>
                 <div className='request_map'>{requestMap}</div>
+                
             </Requests>
-                {game.platform && <MiniProfile platforms={game.platform} />}
+            {game.platform && 
+                <MiniProfileFormat>
+                    <MiniProfile platforms={game.platform} />
+                </MiniProfileFormat>}
         </>
     );
 };
@@ -192,9 +201,11 @@ const GameInfo = styled.div`
 const Requests = styled.div`
     display: flex;
     flex-direction: column;
-    background: url(${props => props.img}) no-repeat center center;
+    background: url('https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-size: cover;
-    height: 90vh;
     width: 100vw;
     color: white;
     box-shadow: inset 0px 15px 25px 8px rgba(0,0,0,0.75);
@@ -215,6 +226,8 @@ const Requests = styled.div`
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        overflow: scroll;
     }
+`
+const MiniProfileFormat = styled.div`
+    color: #000000;
 `

@@ -22,6 +22,8 @@ import dark from "@material-ui/core/colors";
 import { getCurrentUser, logout } from "../ducks/userReducer.js";
 import Login from "./Login";
 import Register from "./Register";
+import styled from "styled-components";
+
 
 const styles = theme => ({
     palette: {
@@ -108,13 +110,15 @@ const styles = theme => ({
         left: "50%",
         top: "50%",
         transform: "translate(-50%, -50%)",
-        width: theme.spacing.unit * 50,
-        boxShadow: theme.shadows[10],
+        width: theme.spacing.unit * 40,
+        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
-        background: "grey",
-        border: ".5em solid black",
-        borderRadius: "10%",
-        outline: "none"
+        background: "rgba(192, 192, 192, 0.9)",
+        borderRadius: "5%",
+        outline: "none",
+        webkitBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        mozBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        boxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)"
     }
 });
 
@@ -229,22 +233,23 @@ class Nav extends React.Component {
             <div className={classes.root}>
                 <AppBar style={{ background: "#000000" }} position="static">
                     <Toolbar>
-                        <IconButton
+                        {/* <IconButton
                             className={classes.menuButton}
                             color="inherit"
                             aria-label="Open drawer"
                         >
                             <MenuIcon />
-                        </IconButton>
+                        </IconButton> */}
                         <Link to='/' style={{ color: "#ffffff", textDecoration: "none"}}>
-                        <Typography
+                        <Logo src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FLogo.png?alt=media&token=205cab94-8e86-4908-8d4b-1ad20390d3d1'></Logo>
+                        {/* <Typography
                             className={classes.title}
                             variant="h6"
                             color="inherit"
                             noWrap
                         >
                             ALL.4.G
-                        </Typography>
+                        </Typography> */}
                         </Link>
                         {/* <div className={classes.search}>
                             <div className={classes.searchIcon}>
@@ -355,3 +360,7 @@ export default connect(
     mapStateToProps,
     { getCurrentUser }
 )(withStyles(styles)(Nav));
+
+const Logo = styled.img`
+ height: 4em;
+`

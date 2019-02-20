@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addUser } from "../ducks/userReducer";
 import styled from "styled-components";
+import Button from '@material-ui/core/Button';
 
 const Register = props => {
     const [inputs, setInputs] = useState({
@@ -59,7 +60,7 @@ const Register = props => {
                 <input name="steam" onChange={onChange} />
                 <p>Xbox</p>
                 <input name="xbox" onChange={onChange} />
-                <button onClick={handleRegister}>Submit</button>
+                <Button variant='contained' onClick={handleRegister}>Submit</Button>
             </form>
         </RegisterStyle>
     );
