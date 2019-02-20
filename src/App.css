@@ -15,11 +15,11 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: #ffffff;
+  color: rgb(231, 231, 231);
 }
 
 .test {
-  color: rgb(50, 91, 112)
+  color: rgb(235, 235, 235)
 }
 
 .App-link {

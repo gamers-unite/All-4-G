@@ -76,7 +76,7 @@ const styles = theme => ({
     }
 });
 
-const TestCard = props => {
+const Request = props => {
     const [expanded, setExpand] = useState(false)
     const [request, updateRequest] = useState([]);
     const [creator, setCreator] = useState(false);
@@ -226,7 +226,7 @@ const TestCard = props => {
     );
 }
 
-TestCard.propTypes = {
+Request.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
@@ -236,7 +236,7 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(TestCard));
+export default connect(mapStateToProps)(withStyles(styles)(Request));
 
 const Team = styled.div`
 display: flex;
