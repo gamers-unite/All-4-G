@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
+import { Doughnut } from 'react-chartjs-2';
 import { getCurrentUser } from "../ducks/userReducer";
 import Report from "./Report";
 
@@ -21,10 +22,13 @@ const Profile = props => {
     const { classes } = props;
     const [user, setUser] = useState({});
     const [game, setGame] = useState(0)
+    const [gameCountArr, setGameCountArr] = useState([])
     const [refresh, setRefresh] = useState(false);
     const [reportable, setReportable] = useState(true);
     const [reported, setReported] = useState(false);
     const [modal, setModal] = useState(false);
+
+    const labels = ["League of Legends", "Smite", "Diablo 3", "Destiny 2", "Overwatch"]
 
     const getUsers = async () => {
         const { email } = props;
@@ -37,9 +41,9 @@ const Profile = props => {
             setReportable(false);
         }
         const gameCount = await axios.get('/api/teams/count', { user_id })
-        console.log(gameCount.data)
         setGame(gameCount.data.count)
-
+        const countObj = await axios.get(`/api/teams/count/game/${user_id}`)
+        setGameCountArr(countObj.data);
 
     };
 
@@ -66,6 +70,39 @@ const Profile = props => {
         setModal(false);
         setRefresh(true);
     };
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            data: gameCountArr,
+            backgroundColor: [
+                '#ced4da',
+                '#868e96',
+                '#343a40',
+                "#212529",
+                "#000"
+
+            ],
+            hoverBackgroundColor: [
+                '#FFF',
+                '#FFF',
+                '#FFF',
+                "#FFF",
+                "#FFF"
+            ]
+        }]
+    }
+
+    const options = {
+        maintainAspectRatio: false,
+        responsive: false,
+        legend: {
+            position: 'left',
+            labels: {
+                boxWidth: 10
+            }
+        }
+    }
 
     return (
         <div>
@@ -110,6 +147,7 @@ const Profile = props => {
                     <p>{user.xbox}</p>
                 </>
             )}
+            <Doughnut data={data} options={options} />
             {reportable && !reported && (
                 <button onClick={openReport}>Report User</button>
             )}
