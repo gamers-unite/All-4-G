@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 import { storage } from "./firebase";
 import ImageUpload from "./ImageUpload";
 
@@ -13,9 +14,12 @@ const styles = theme => ({
         top: "50%",
         transform: "translate(-50%, -50%)",
         width: theme.spacing.unit * 50,
-        boxShadow: theme.shadows[5],
+        boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
-        background: "#fff"
+        background: "grey",
+        border: ".5em solid black",
+        borderRadius: "10%",
+        outline: "none"
     }
 });
 
@@ -153,8 +157,8 @@ const EditProfile = props => {
                     defaultValue={props.xbox}
                     onChange={onChange}
                 />
-                <button onClick={submitEdit}>Submit</button>
-                <button onClick={props.closeEdit}>Cancel</button>
+                <Button onClick={submitEdit} variant='contained'>Submit</Button>
+                <Button onClick={props.closeEdit} variant='contained'>Cancel</Button>
             </form>
         </>
     );

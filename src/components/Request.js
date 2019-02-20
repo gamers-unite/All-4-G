@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import axios from "axios";
 import socketIOClient from 'socket.io-client';
+import TeamMember from './TeamMember'
 
 const socket = socketIOClient();
 
@@ -13,11 +14,8 @@ export const renderTeam = (num, request) => {
     for (let i = 0; i < num; i++) {
         if (request[i]) {
             team.push(
-                <img
-                    key={i}
-                    className="mini_avatar player"
-                    src={request[i].avatar}
-                    alt="mini"
+                <TeamMember key={i}
+                    request={request[i]}
                 />
             );
         } else {
@@ -33,14 +31,17 @@ const Request = props => {
     const [creator, setCreator] = useState(false);
     const [member, setMember] = useState(false);
     const [update, setUpdate] = useState(false);
+    const [roomFull, setRoomFull] = useState(false)
 
     const fillRequest = async () => {
         const req_id = props.id
         let result = await axios.post("/api/requests/id", { req_id });
         updateRequest(result.data)
-        console.log(result.data)
+        if (result.data[0].team_length <= result.data.length) {
+            setRoomFull(true)
+        }
         setUpdate(false)
-        socket.emit('Enter Room', {room: req_id})
+        socket.emit('Enter Room', { room: req_id })
     };
 
     const getUserStatus = async () => {
@@ -55,23 +56,40 @@ const Request = props => {
         }
     }
 
+    // FUNCTION FOR CREATOR TO ACCEPT TEAM AND ARCHIVES IT
+    const acceptTeam = () => {
+        const req_id = props.id
+        axios.put("/api/requests/deactivate", { req_id }).then(() => props.fillGame())
+    }
+
+    // FUNCTION FOR CREATOR TO DELETE REQUEST, DELETE INSTANCES IN TEAM TABLE, AND RELOAD ALL REQUESTS
+    const deleteTeam = async () => {
+        const req_id = props.id
+        await axios.delete("/api/teams", { data: { req_id } })
+        await axios.delete("/api/requests", { data: { req_id } })
+        props.fillGame();
+    }
+
     useEffect(() => { fillRequest() }, [props.user || update]);
     useEffect(() => { getUserStatus() }, [request || props.user]);
     useEffect(() => {
-        socket.on('Player Joined', data =>  {
-            if( props.id === data.room ) {
+        socket.on('Player Joined', data => {
+            if (props.id === data.room) {
                 // setUpdate(true)
                 fillRequest()
                 console.log('Join data: ', data)
             }
         });
-        socket.on('Player Left', data =>  {
-            if( props.id === data.room ) {
+        socket.on('Player Left', data => {
+            if (props.id === data.room) {
                 // setUpdate(true)
                 fillRequest()
                 console.log('Left data: ', data)
-            } 
+            }
         });
+        socket.on('Kicked Player', data => {
+            fillRequest();
+        })
     }, [])
 
     // useEffect(() => { fillRequest() }, [update])
@@ -81,7 +99,7 @@ const Request = props => {
             fillRequest();
             setMember(true)
         })
-        socket.emit('Joined', { room: props.id } )
+        socket.emit('Joined', { room: props.id })
     }
 
     const leaveTeam = () => {
@@ -89,7 +107,7 @@ const Request = props => {
             fillRequest();
             setMember(false)
         })
-        socket.emit('Leave', { room: props.id } )
+        socket.emit('Leave', { room: props.id })
     }
 
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"];
@@ -121,8 +139,10 @@ const Request = props => {
                         <p>{request[0].info}</p>
                         <p>{myDate(request[0].Date)}</p>
                     </div>
-                    {props.user.id && !creator && !member && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={handleJoin}>Join Team!</Button>}
+                    {props.user.id && !creator && !member && !roomFull && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={handleJoin}>Join Team!</Button>}
                     {props.user.id && !creator && member && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={leaveTeam}>Leave Team</Button>}
+                    {props.user.id && creator && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={deleteTeam}>Cancel Team</Button>}
+                    {props.user.id && creator && roomFull && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={acceptTeam}>Accept Team</Button>}
                     <div className="team_bar">
                         {renderTeam(request[0].team_length, request)}
                     </div>
