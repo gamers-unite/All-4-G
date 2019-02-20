@@ -141,7 +141,7 @@ const TestCard = props => {
                 console.log('Left data: ', data)
             }
         });
-        socket.on("Kicked Player", () => {
+        socket.on("Kicked Player", (data) => {
             fillRequest();
         })
     }, [])
@@ -157,7 +157,8 @@ const TestCard = props => {
     const leaveTeam = () => {
         axios.delete('/api/teams/user/', { data: { user_id: props.user.id, req_id: props.id } }).then(() => {
             fillRequest();
-            setMember(false)
+            setMember(false);
+            setRoomFull(false);
         })
         socket.emit('Leave', { room: props.id })
     }
@@ -185,7 +186,7 @@ const TestCard = props => {
                     }
                     action={props.user.id && !creator && member ?
                         <Button variant='contained' style={{ height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={leaveTeam}>Leave Team</Button>
-                        : props.user.id && !creator && !member ?
+                        : props.user.id && !creator && !member && !roomFull ?
                             <Button variant='contained' style={{ height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={handleJoin}>Join Team!</Button>
                             : null
                     }
