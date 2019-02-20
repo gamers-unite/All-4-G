@@ -92,22 +92,6 @@ const Request = props => {
         socket.emit('Leave', { room: props.id } )
     }
 
-    const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"];
-    
-    const myDate = (date) => {
-        let arr = date.split('')
-        let index = arr.indexOf('T')
-        arr.splice(index)
-        let splicedDate = arr.join('')
-        let mo = splicedDate[5] + splicedDate[6]
-        let day = splicedDate[8] + splicedDate[9]
-        let year = arr.splice(0,4).join('')
-        let ans = `${month[+mo - 1]} ${day}, ${year} `
-        // return month[+mo - 1]
-        return ans
-    }
-
-
     return (
         <>
             {request[0] && (
@@ -119,7 +103,7 @@ const Request = props => {
                     </Creator>
                     <div>
                         <p>{request[0].info}</p>
-                        <p>{myDate(request[0].Date)}</p>
+                        <p>{date}</p>
                     </div>
                     {props.user.id && !creator && !member && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={handleJoin}>Join Team!</Button>}
                     {props.user.id && !creator && member && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={leaveTeam}>Leave Team</Button>}

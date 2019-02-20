@@ -11,6 +11,8 @@ import CreateRequest from "./CreateRequest";
 import { getCurrentUser } from "../ducks/userReducer";
 import Button from '@material-ui/core/Button';
 
+import TestCard from './TestCard';
+
 const styles = theme => ({
     modalWrapper: {
         width: "100vw",
@@ -71,7 +73,13 @@ const GamePage = props => {
 
     const requestMap = allRequest.map((e, i) => {
         return (
-            <Request
+            // <Request
+            //     key={i}
+            //     id={e.req_id}
+            //     creatorImg={e.avatar}
+            //     creatorName={e.display_name}
+            // />
+            <TestCard 
                 key={i}
                 id={e.req_id}
                 creatorImg={e.avatar}
@@ -108,7 +116,7 @@ const GamePage = props => {
                     </Modal>
                 )}
                 <h1>Requests</h1>
-                <div>{requestMap}</div>
+                <div className='request_map'>{requestMap}</div>
                 {game.platform && <MiniProfile platforms={game.platform} />}
             </Requests>
         </>
@@ -163,6 +171,12 @@ const GameInfo = styled.div`
 `;
 
 const Requests = styled.div`
-    background: black;
+    height: 100vh;
+    width: 100vw;
 
+    .request_map {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 `
