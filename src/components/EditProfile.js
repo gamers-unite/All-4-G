@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { storage } from "./firebase";
 import ImageUpload from "./ImageUpload";
+import styled from 'styled-components';
 
 const styles = theme => ({
     modal: {
@@ -13,13 +14,15 @@ const styles = theme => ({
         left: "50%",
         top: "50%",
         transform: "translate(-50%, -50%)",
-        width: theme.spacing.unit * 50,
-        boxShadow: theme.shadows[10],
+        width: theme.spacing.unit * 40,
+        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
-        background: "grey",
-        border: ".5em solid black",
-        borderRadius: "10%",
-        outline: "none"
+        background: "rgba(192, 192, 192, 0.9)",
+        borderRadius: "5%",
+        outline: "none",
+        webkitBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        mozBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        boxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)"
     }
 });
 
@@ -108,13 +111,8 @@ const EditProfile = props => {
 
     return (
         <>
-            <form className={classes.modal} onSubmit={submitEdit}>
-                <ImageUpload
-                    handleFileChange={handleFileChange}
-                    handleUpload={handleUpload}
-                    avatar={props.avatar}
-                    url={props.url}
-                />
+            <Form className={classes.modal} onSubmit={submitEdit}>
+            <Logo src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FLogo.png?alt=media&token=205cab94-8e86-4908-8d4b-1ad20390d3d1'></Logo>
                 <p>Display Name</p>
                 <input
                     name="display_name"
@@ -157,9 +155,20 @@ const EditProfile = props => {
                     defaultValue={props.xbox}
                     onChange={onChange}
                 />
-                <Button onClick={submitEdit} variant='contained'>Submit</Button>
-                <Button onClick={props.closeEdit} variant='contained'>Cancel</Button>
-            </form>
+                <ImageUploadFormat>
+                    <ImageUpload
+                        handleFileChange={handleFileChange}
+                        image={inputs.image}
+                        handleUpload={handleUpload}
+                        avatar={props.avatar}
+                        url={props.url}
+                    />
+                </ImageUploadFormat>
+                <ButtonFormat>
+                    <Button onClick={submitEdit} variant='contained'>Submit</Button>
+                    <Button onClick={props.closeEdit} variant='contained'>Cancel</Button>
+                </ButtonFormat>
+            </Form>
         </>
     );
 };
@@ -169,3 +178,31 @@ EditProfile.propTypes = {
 };
 
 export default withStyles(styles)(EditProfile);
+
+const Form = styled.form`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    // flex-wrap: wrap;
+    flex-direction: column;
+    font-weight: bold;
+`;
+
+const Logo = styled.img`
+    height: 3em;
+    width: 125%;
+`
+
+const ButtonFormat = styled.div`
+    display: flex;
+    width: 100%;
+    padding-top: 1em;
+    justify-content: space-evenly;
+`
+const ImageUploadFormat = styled.div`
+    display: felx;
+    width: 100%;
+    align-items: space-evenly;
+    justify-content: center;
+    width: 100%;
+`

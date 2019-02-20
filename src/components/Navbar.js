@@ -110,13 +110,15 @@ const styles = theme => ({
         left: "50%",
         top: "50%",
         transform: "translate(-50%, -50%)",
-        width: theme.spacing.unit * 50,
-        boxShadow: theme.shadows[10],
+        width: theme.spacing.unit * 40,
+        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
-        background: "grey",
-        border: ".5em solid black",
-        borderRadius: "10%",
-        outline: "none"
+        background: "rgba(192, 192, 192, 0.9)",
+        borderRadius: "5%",
+        outline: "none",
+        webkitBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        mozBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        boxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)"
     }
 });
 

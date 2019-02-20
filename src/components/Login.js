@@ -61,6 +61,7 @@ const LoginFormat = styled.div`
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    font-weight: bold;
 
     input{
         width: 50%;

@@ -25,10 +25,15 @@ const styles = theme => ({
         left: "50%",
         top: "50%",
         transform: "translate(-50%, -50%)",
-        width: theme.spacing.unit * 50,
-        boxShadow: theme.shadows[5],
+        width: theme.spacing.unit * 40,
+        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
-        background: "#333333"
+        background: "rgba(192, 192, 192, 0.9)",
+        borderRadius: "5%",
+        outline: "none",
+        webkitBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        mozBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        boxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)"
     }
 });
 
@@ -110,8 +115,12 @@ const GamePage = props => {
                 )}
                 <h1>Requests</h1>
                 <div>{requestMap}</div>
-                {game.platform && <MiniProfile platforms={game.platform} />}
+                
             </Requests>
+            {game.platform && 
+                <MiniProfileFormat>
+                    <MiniProfile platforms={game.platform} />
+                </MiniProfileFormat>}
         </>
     );
 };
@@ -168,6 +177,6 @@ const Requests = styled.div`
 
 `
 
-const MiniProfile = styled.div`
-    
+const MiniProfileFormat = styled.div`
+    color: #ffffff;
 `
