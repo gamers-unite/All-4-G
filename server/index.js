@@ -33,7 +33,7 @@ const {
     addRequest,
     editRequest,
     deleteRequest,
-    deactivateRequest
+    deactivateRequest, getFilteredRequests
 } = require("./controllers/requestController");
 const {
     getTeams,
@@ -89,7 +89,7 @@ app.post("/api/games/url", getGameByUrl);
 // app.get("/api/requests/request", getRequest);
 app.post("/api/requests/game", getRequestsByGameId);
 app.post("/api/requests/id", getRequestsByReqId);
-app.post("/api/requests/add", addRequest);
+app.post("/api/requests/platform", getFilteredRequests);
 app.put("/api/requests", editRequest);
 app.delete("/api/requests", deleteRequest);
 app.put("/api/requests/deactivate", deactivateRequest);
