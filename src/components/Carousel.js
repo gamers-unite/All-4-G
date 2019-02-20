@@ -137,7 +137,7 @@ const CarouselNav = styled.div`
 const ImageContainer = styled.div`
   position: relative;
   height: 93vh;
-  width: 100vw
+  width: 100vw;
   overflow: hidden;
   display: flex;
   justify-content: center;
