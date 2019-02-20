@@ -109,7 +109,7 @@ const GamePage = props => {
                     </Modal>
                 )}
                 <h1>Requests</h1>
-                <div>{requestMap}</div>
+                <div className='request_map'>{requestMap}</div>
                 {game.platform && <MiniProfile platforms={game.platform} />}
             </Requests>
         </>
@@ -164,6 +164,12 @@ const GameInfo = styled.div`
 `;
 
 const Requests = styled.div`
-    background: black;
+    height: 100vh;
+    width: 100vw;
 
+    .request_map {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 `

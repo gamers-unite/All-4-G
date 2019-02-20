@@ -1,11 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import axios from "axios";
 import styled from "styled-components";
+import socketIOClient from 'socket.io-client';
+// Component Imports
+import TeamMember from './TeamMember'
+// Material UI Imports
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import blueGrey from '@material-ui/core/colors/blueGrey';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import axios from "axios";
-import socketIOClient from 'socket.io-client';
-import TeamMember from './TeamMember'
 
 const socket = socketIOClient();
 
@@ -25,8 +40,44 @@ export const renderTeam = (num, request) => {
     return team;
 };
 
-const Request = props => {
+const styles = theme => ({
+    card: {
+        maxWidth: 1000,
+        maxHeight: 400,
+        margin: '5px'
+    },
+    media: {
+        height: 0,
+        paddingTop: '56.25%'
+    },
+    actions: {
+        display: 'flex',
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
+    avatar: {
+        backgroundColor: blueGrey[900],
+    },
+    mini_avatar: {
+        height: 35,
+        width: 35,
+    },
+    player: {
+        height: 29,
+        width: 29
+    }
+});
 
+const TestCard = props => {
+    const [expanded, setExpand] = useState(false)
     const [request, updateRequest] = useState([]);
     const [creator, setCreator] = useState(false);
     const [member, setMember] = useState(false);
@@ -70,29 +121,27 @@ const Request = props => {
         props.fillGame();
     }
 
+    const handleExpandClick = () => {
+        setExpand(!expanded)
+    };
+    const { classes } = props;
+
     useEffect(() => { fillRequest() }, [props.user || update]);
     useEffect(() => { getUserStatus() }, [request || props.user]);
     useEffect(() => {
         socket.on('Player Joined', data => {
             if (props.id === data.room) {
-                // setUpdate(true)
                 fillRequest()
                 console.log('Join data: ', data)
             }
         });
         socket.on('Player Left', data => {
             if (props.id === data.room) {
-                // setUpdate(true)
                 fillRequest()
                 console.log('Left data: ', data)
             }
         });
-        socket.on('Kicked Player', data => {
-            fillRequest();
-        })
     }, [])
-
-    // useEffect(() => { fillRequest() }, [update])
 
     const handleJoin = () => {
         axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then(() => {
@@ -110,29 +159,71 @@ const Request = props => {
         socket.emit('Leave', { room: props.id })
     }
 
+    const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"];
+
+    const myDate = (date) => {
+        let arr = date.split('')
+        let index = arr.indexOf('T')
+        arr.splice(index)
+        let splicedDate = arr.join('')
+        let mo = splicedDate[5] + splicedDate[6]
+        let day = splicedDate[8] + splicedDate[9]
+        let year = arr.splice(0, 4).join('')
+        let ans = `${month[+mo - 1]} ${day}, ${year} `
+        return ans
+    }
+
     return (
         <>
-            {request[0] && (
-                <RequestInfo>
-                    {/* <p>This is the timer value: {timer}</p> */}
-                    <Creator>
-                        <img src={props.creatorImg} alt="creator avatar" />
-                        {props.creatorName}
-                    </Creator>
-                    <div>
-                        <p>{request[0].info}</p>
-                    </div>
-                    {props.user.id && !creator && !member && !roomFull && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={handleJoin}>Join Team!</Button>}
-                    {props.user.id && !creator && member && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={leaveTeam}>Leave Team</Button>}
-                    {props.user.id && creator && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={deleteTeam}>Cancel Team</Button>}
-                    {props.user.id && creator && roomFull && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={acceptTeam}>Accept Team</Button>}
-                    <div className="team_bar">
-                        {renderTeam(request[0].team_length, request)}
-                    </div>
-                </RequestInfo>
-            )}
+            {request[0] && (<Card className={classes.card} style={{ background: 'rgb(55, 71, 79)' }} >
+                <CardHeader
+                    avatar={
+                        <Avatar aria-label="Recipe" src={props.creatorImg} className={classes.avatar} />
+                    }
+                    action={props.user.id && !creator && member ?
+                        <Button variant='contained' style={{ height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={leaveTeam}>Leave Team</Button>
+                        : props.user.id && !creator && !member ?
+                            <Button variant='contained' style={{ height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={handleJoin}>Join Team!</Button>
+                            : null
+                    }
+                    title={props.creatorName}
+                    subheader={myDate(request[0].Date)}
+                />
+                <CardContent style={{ width: '1000px' }}>
+                    <Typography component="p" style={{ width: '93%', textAlign: 'center' }}>
+                        {request[0].info}
+                    </Typography>
+                </CardContent>
+                <CardActions className={classes.actions} disableActionSpacing style={{}}>
+                    <Team className="team_bar">
+                        <div>
+                            {renderTeam(request[0].team_length, request)}
+                        </div>
+                    </Team>
+                    {props.user.id && creator && <IconButton
+                        className={classnames(classes.expand, {
+                            [classes.expandOpen]: expanded,
+                        })}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="Show more"
+                    >
+                        <ExpandMoreIcon />
+                    </IconButton>}
+                </CardActions>
+                {props.user.id && creator && <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent>
+                        {props.user.id && creator && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={deleteTeam}>Cancel Team</Button>}
+                        {props.user.id && creator && roomFull && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={acceptTeam}>Accept Team</Button>}
+                    </CardContent>
+                </Collapse>}
+            </Card>)}
         </>
     );
+}
+
+TestCard.propTypes = {
+    classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -141,49 +232,27 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Request);
+export default connect(mapStateToProps)(withStyles(styles)(TestCard));
 
+const Team = styled.div`
+display: flex;
+justify-content: center;
+width: 100%;
 
-const RequestInfo = styled.div`
+div {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 2em solid #333333;
-    border: 1em solid #ffffff;
-    border-radius: 20% 50%;
-    margin: 5px 0;
-    background: #333333;
-    height: 8em;
+}
 
-    .team_bar {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        padding-top: 2em;
-    }
+.mini_avatar {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+}
 
-    .mini_avatar {
-        height: 35px;
-        width: 35px;
-        border-radius: 50%;
-    }
-
-    .player {
-        height: 29px;
-        width: 29px;
-        background: black;
-        margin: 2px;
-    }
-
-    img {
-        height: 100px;
-        width: 100px;
-    }
-`;
-
-const Creator = styled.div`
-    display: flex;
-    justify-content: row;
-    align-items: center;
-    padding-bottom: 2em;
+.player {
+    height: 29px;
+    width: 29px;
+    background: black;
+    margin: 2px;
+}
 `
