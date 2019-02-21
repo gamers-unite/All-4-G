@@ -272,9 +272,7 @@ const Requests = styled.div`
             border: none;
             margin-top: 2em;
         }
-
-        
-        }
+    }
 
 `
 const MiniProfileFormat = styled.div`
