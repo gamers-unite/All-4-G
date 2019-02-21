@@ -10,6 +10,7 @@ import { Doughnut } from 'react-chartjs-2';
 import socketIOClient from 'socket.io-client';
 import { getCurrentUser } from "../ducks/userReducer";
 import Report from "./Report";
+import styled from 'styled-components';
 
 //MODAL TO DISPLAY USER INFO FROM REQUEST PAGE
 //VIEWER CAN REPORT USER, AND CREATOR CAN REMOVE USER FROM TEAM
@@ -131,49 +132,54 @@ const Profile = props => {
 
     return (
         <div>
-            <Avatar src={user.avatar} alt="avatar" />
-            <h1>{user.display_name}</h1>
+            <User>{user.display_name} <Avatar className='UserAvatar' src={user.avatar} alt="avatar" /></User>
             <h2>{user.email}</h2>
-            <h2>Open Reports:</h2>
-            <p>{reports.length}</p>
-            <h2>Games Played:</h2>
-            <p>{totalCount}</p>
-            {user.blizzard && (
-                <>
-                    <p>Blizzard:</p>
-                    <p>{user.blizzard}</p>
-                </>
-            )}
-            {user.epic && (
-                <>
-                    <p>Epic:</p>
-                    <p>{user.epic}</p>
-                </>
-            )}
-            {user.ps4 && (
-                <>
-                    <p>PlayStation:</p>
-                    <p>{user.ps4}</p>
-                </>
-            )}
-            {user.riot && (
-                <>
-                    <p>Riot:</p>
-                    <p>{user.riot}</p>
-                </>
-            )}
-            {user.steam && (
-                <>
-                    <p>Steam:</p>
-                    <p>{user.steam}</p>
-                </>
-            )}
-            {user.xbox && (
-                <>
-                    <p>Xbox:</p>
-                    <p>{user.xbox}</p>
-                </>
-            )}
+            <h2>Open Reports: {reports.length}</h2>
+            <h2>Games Played: {totalCount}</h2>
+            <UserPlatforms>
+                <div>
+                {user.blizzard && (
+                    <>
+                        <h1>Blizzard: </h1>
+                        <p>{user.blizzard}</p>
+                    </>
+                )}
+                {user.epic && (
+                    <>
+                        <h1>Epic: </h1>
+                        <p>{user.epic}</p>
+                    </>
+                )}
+                </div>
+                <div>
+                    {user.ps4 && (
+                        <>
+                            <h1>PlayStation: </h1>
+                            <p>{user.ps4}</p>
+                        </>
+                    )}
+                    {user.riot && (
+                        <>
+                            <h1>Riot: </h1>
+                            <p>{user.riot}</p>
+                        </>
+                    )}
+                </div>
+                <div>
+                    {user.steam && (
+                        <>
+                            <h1>Steam: </h1>
+                            <p>{user.steam}</p>
+                        </>
+                    )}
+                    {user.xbox && (
+                        <>
+                            <h1>Xbox: </h1>
+                            <p>{user.xbox}</p>
+                        </>
+                    )}
+                </div>
+            </UserPlatforms>
             <Doughnut data={data} options={options} />
             {removable && (
                 <Button variant='contained' onClick={removeTeamMember}>Remove From Team</Button>
@@ -207,3 +213,29 @@ export default connect(
     mapStateToProps,
     { getCurrentUser }
 )(withStyles(styles)(Profile));
+
+const UserPlatforms = styled.div`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+
+    h1{
+        font-size: 100%;
+    }
+`;
+
+const User = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 2em;
+    font-weight: bold;
+
+    .UserAvatar{
+        height: 5em;
+        width: 5em;
+    }
+`

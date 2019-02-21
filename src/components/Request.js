@@ -4,7 +4,8 @@ import axios from "axios";
 import styled from "styled-components";
 import socketIOClient from 'socket.io-client';
 // Component Imports
-import TeamMember from './TeamMember'
+import TeamMember from './TeamMember';
+import User from './User';
 // Material UI Imports
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -21,6 +22,7 @@ import blueGrey from '@material-ui/core/colors/blueGrey';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import Modal from "@material-ui/core/Modal";
 
 const socket = socketIOClient();
 
@@ -41,6 +43,28 @@ export const renderTeam = (num, request) => {
 };
 
 const styles = theme => ({
+    modalWrapper: {
+        width: "100vw",
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    modal: {
+        position: "absolute",
+        float: "left",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        width: theme.spacing.unit * 40,
+        // boxShadow: theme.shadows[10],
+        padding: theme.spacing.unit * 4,
+        background: "rgba(192, 192, 192, 0.9)",
+        borderRadius: "5%",
+        outline: "none",
+        webkitBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        mozBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        boxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)"
+    },
     card: {
         maxWidth: 1000,
         maxHeight: 400,
@@ -83,6 +107,7 @@ const Request = props => {
     const [member, setMember] = useState(false);
     const [update, setUpdate] = useState(false);
     const [roomFull, setRoomFull] = useState(false)
+    const [modal, setModal] = useState(false)
 
     const fillRequest = async () => {
         const req_id = props.id
@@ -106,6 +131,15 @@ const Request = props => {
             }
         }
     }
+
+    //MODAL FUNCTIONS
+    const openModal = () => {
+        setModal(true)
+    };
+
+    const closeModal = () => {
+        setModal(false)
+    };
 
     // FUNCTION FOR CREATOR TO ACCEPT TEAM AND ARCHIVES IT
     const acceptTeam = () => {
@@ -148,7 +182,7 @@ const Request = props => {
 
     const handleJoin = () => {
         axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then(() => {
-            fillRequest();
+            // fillRequest();
             setMember(true)
         })
         socket.emit('Joined', { room: props.id })
@@ -182,7 +216,7 @@ const Request = props => {
             {request[0] && (<Card className={classes.card} style={{ background: 'rgb(55, 71, 79)' }} >
                 <CardHeader
                     avatar={
-                        <Avatar aria-label="Recipe" src={props.creatorImg} className={classes.avatar} />
+                        <Avatar aria-label="Recipe" src={props.creatorImg} className={classes.avatar} onClick={openModal} />
                     }
                     action={props.user.id && !creator && member ?
                         <Button variant='contained' style={{ height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={leaveTeam}>Leave Team</Button>
@@ -221,6 +255,20 @@ const Request = props => {
                         {props.user.id && creator && roomFull && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={acceptTeam}>Accept Team</Button>}
                     </CardContent>
                 </Collapse>}
+                {modal && <Modal
+                    className={classes.modalWrapper}
+                    open={modal}
+                    onClose={closeModal}
+                >
+                    <div className={classes.modal}>
+
+                        <User creator_id={request[0].creator_id}
+                            email={request[0].email}
+                            req_id={request[0].req_id}
+                        />
+
+                    </div>
+                </Modal>}
             </Card>)}
         </>
     );

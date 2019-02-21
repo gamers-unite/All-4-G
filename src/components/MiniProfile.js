@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import { getCurrentUser } from "../ducks/userReducer";
+import styled from 'styled-components';
 
 //PASS IN GAME OBJECT WITH PLATFORMS AS PROPS
 
@@ -22,11 +23,11 @@ const User = props => {
     return (
         <>
             {props.user && (
-                <div>
+                <Format>
                     <Avatar src={props.user.avatar} alt="avatar" />
                     <h1>{props.user.display_name}</h1>
-                    {platform}
-                </div>
+                    <div>{platform}</div>
+                </Format>
             )}
         </>
     );
@@ -40,3 +41,8 @@ export default connect(
     mapStateToProps,
     { getCurrentUser }
 )(User);
+
+const Format = styled.div`
+    width: 75%
+    border: 1px solid #ffffff;
+`

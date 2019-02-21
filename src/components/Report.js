@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     modal: {
@@ -10,10 +11,15 @@ const styles = theme => ({
         left: "50%",
         top: "50%",
         transform: "translate(-50%, -50%)",
-        width: theme.spacing.unit * 50,
-        boxShadow: theme.shadows[5],
+        width: theme.spacing.unit * 40,
+        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
-        background: "#fff"
+        background: "rgba(192, 192, 192, 0.9)",
+        borderRadius: "5%",
+        outline: "none",
+        webkitBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        mozBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        boxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)"
     }
 });
 
@@ -41,8 +47,8 @@ const Report = props => {
     return (
         <div className={classes.modal}>
             <input name="reason" onChange={onChange} />
-            <button onClick={submitReport}>Submit</button>
-            <button onClick={props.closeReport}>Cancel</button>
+            <Button variant='contained' onClick={submitReport}>Submit</Button>
+            <Button variant='contained' onClick={props.closeReport}>Cancel</Button>
         </div>
     );
 };
