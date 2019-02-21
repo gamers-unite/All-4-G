@@ -5,6 +5,7 @@ import styled from "styled-components";
 import socketIOClient from 'socket.io-client';
 // Component Imports
 import TeamMember from './TeamMember'
+import Chat from './Chat';
 // Material UI Imports
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -34,7 +35,7 @@ export const renderTeam = (num, request) => {
                 />
             );
         } else {
-            team.push(<AccountCircle key={i} className="mini_avatar" />);
+            team.push(<AccountCircle style={{color: 'black'}} key={i} className="mini_avatar" />);
         }
     }
     return team;
@@ -43,8 +44,7 @@ export const renderTeam = (num, request) => {
 const styles = theme => ({
     card: {
         maxWidth: 1000,
-        maxHeight: 400,
-        margin: '5px'
+        margin: '10px'
     },
     media: {
         height: 0,
@@ -178,16 +178,23 @@ const Request = props => {
 
     return (
         <>
-            {request[0] && (<Card className={classes.card} style={{ background: 'rgb(55, 71, 79)' }} >
+            {request[0] && (<Card className={classes.card} style={{ background: 'rgba(192, 192, 192, 0.9)'}} >
                 <CardHeader
                     avatar={
                         <Avatar aria-label="Recipe" src={props.creatorImg} className={classes.avatar} />
                     }
                     action={props.user.id && !creator && member ?
-                        <Button variant='contained' style={{ height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={leaveTeam}>Leave Team</Button>
+                        <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={leaveTeam}>Leave Team</Button>
                         : props.user.id && !creator && !member ?
-                            <Button variant='contained' style={{ height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={handleJoin}>Join Team!</Button>
-                            : null
+                            <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={handleJoin}>Join Team!</Button>
+                            : props.user.id && creator && !roomFull? 
+                                <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={deleteTeam}>Cancel Team</Button> 
+                                    : props.user.id && creator && roomFull ?
+                                        <>
+                                            <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={acceptTeam}>Accept Team</Button>
+                                            <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={deleteTeam}>Cancel Team</Button>
+                                        </>
+                                            : null
                     }
                     title={props.creatorName}
                     subheader={myDate(request[0].Date)}
@@ -203,7 +210,7 @@ const Request = props => {
                             {renderTeam(request[0].team_length, request)}
                         </div>
                     </Team>
-                    {props.user.id && creator && <IconButton
+                    { props.user.id && member && <IconButton
                         className={classnames(classes.expand, {
                             [classes.expandOpen]: expanded,
                         })}
@@ -214,12 +221,16 @@ const Request = props => {
                         <ExpandMoreIcon />
                     </IconButton>}
                 </CardActions>
-                {props.user.id && creator && <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                        {props.user.id && creator && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={deleteTeam}>Cancel Team</Button>}
-                        {props.user.id && creator && roomFull && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={acceptTeam}>Accept Team</Button>}
-                    </CardContent>
-                </Collapse>}
+                <Collapse in={expanded} timeout="auto" unmountOnExit height='500'>
+                    <ChatBox>
+                        <CardContent>
+                            <Chat 
+                                id={props.id}
+                                user_id={props.user.id}
+                            />
+                        </CardContent>
+                    </ChatBox>
+                </Collapse>
             </Card>)}
         </>
     );
@@ -236,6 +247,13 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(Request));
+
+const ChatBox = styled.div`
+    display: flex;
+    justify-content: center;
+    height: 700px;
+    width: auto;
+`
 
 const Team = styled.div`
 display: flex;

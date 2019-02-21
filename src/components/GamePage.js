@@ -10,6 +10,7 @@ import MiniProfile from "./MiniProfile";
 import CreateRequest from "./CreateRequest";
 import { getCurrentUser } from "../ducks/userReducer";
 import Button from '@material-ui/core/Button';
+import { request } from "http";
 
 const styles = theme => ({
     modalWrapper: {
@@ -102,7 +103,11 @@ const GamePage = props => {
                     </div>
                 </div>
             </GameInfo>
-            <Requests img='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c'>
+            {console.log(request)}
+            <Requests 
+                img='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c'
+                primary={ allRequest.length > 1 }
+            >
                 {props.user.email && (
                     <Button className='request_btn' variant='contained' onClick={openRequest}>Create Request</Button>
                 )}
@@ -157,7 +162,6 @@ const GameInfo = styled.div`
     overflow: hidden;
     background: url(${props => props.img}) no-repeat center center;
     background-size: cover;
-    // color: white;
 
     .fog {
         position: absolute;
@@ -180,6 +184,7 @@ const GameInfo = styled.div`
         margin: auto 1% auto 1%;
         height: 90%;
         width: auto;
+        border-radius: 2px;
     }
 
     .game_info {
@@ -207,6 +212,9 @@ const Requests = styled.div`
     -o-background-size: cover;
     background-size: cover;
     width: 100vw;
+    height: ${ props =>
+        props.primary ? 'auto' : '60vh'
+    };
     color: white;
     box-shadow: inset 0px 15px 25px 8px rgba(0,0,0,0.75);
 
