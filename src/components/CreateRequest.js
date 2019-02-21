@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 // import { withStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
+// import Modal from "@material-ui/core/Modal";
 
 //Display as modal in parent component
 
@@ -122,7 +122,7 @@ const RequestModalButtons = styled.div`
     justify-content: space-around;
     align-items: center;
     padding-top: 1em;
-    width 85%;
+    width: 85%;
     padding-left: 1em;
 `;
 
