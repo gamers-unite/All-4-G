@@ -121,7 +121,7 @@ const GamePage = props => {
                         />
                     </Modal>
                 )}
-                <RequestsTitle src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FRequests.png?alt=media&token=66913499-e907-4f3c-9331-6939ee429f39'></RequestsTitle>
+                <RequestsTitle src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FRequests4.png?alt=media&token=09a3374a-13de-43f5-86da-9d7ead60629f'></RequestsTitle>
                 <div className='request_map'>{requestMap}</div>
                 
             </Requests>
@@ -233,12 +233,11 @@ const MiniProfileFormat = styled.div`
     color: #000000;
 `
 const RequestsTitle = styled.img`
-    // position: absolute;
+    position: absolute;
     z-index: 1;
-    height: 20em;
-    width: 60em;
-    transform: rotate(-38deg);
-    margin-top: -12em;
-    margin-bottom: -5em;
-    margin-left: -2em;
+    height: 5em;
+    width: 20em;
+    transform: rotate(-42deg);
+    image-rendering: sharp;
+    margin-top: 5em;
 `
