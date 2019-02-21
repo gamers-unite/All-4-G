@@ -82,7 +82,6 @@ const GamePage = props => {
         if (platform !== 'All') {
             const filtered = allRequest.filter(req => req.platform === platform)
             updateFilteredRequest(filtered)
-            console.log('filtered:', filtered)
         }
         if (platform === 'All') {
             updateFilteredRequest(allRequest)
@@ -90,7 +89,6 @@ const GamePage = props => {
     }, [platform])
 
     useEffect(() => {
-        console.log('current state of filteredRequest: ', filteredRequest)
     }, [filteredRequest])
 
     const changePlatform = e => {
@@ -98,7 +96,6 @@ const GamePage = props => {
     };
 
     const requestMap = filteredRequest.map((e, i) => {
-        console.log('e:', e)
         return (
             <Request
                 key={i}
@@ -118,7 +115,6 @@ const GamePage = props => {
         )
     }
     )
-    console.log('requestMap: ', requestMap)
     return (
         <>
             <GameInfo img={game.background_img}>
@@ -163,7 +159,6 @@ const GamePage = props => {
                     </select>
                 </div>
                 <div className='request_map'>{requestMap}</div>
-                {console.log('reqMap: ', requestMap)}
 
             </Requests>
             {game.platform &&

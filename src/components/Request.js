@@ -101,7 +101,6 @@ const styles = theme => ({
 });
 
 const Request = props => {
-    console.log('props:', props)
     const [expanded, setExpand] = useState(false)
     const [request, updateRequest] = useState([]);
     const [creator, setCreator] = useState(false);
@@ -152,7 +151,6 @@ const Request = props => {
 
     // FUNCTION FOR CREATOR TO DELETE REQUEST, DELETE INSTANCES IN TEAM TABLE, AND RELOAD ALL REQUESTS
     const deleteTeam = async () => {
-        console.log(props)
         const req_id = props.id
         await axios.put("/api/requests/deactivate", { req_id })
         await axios.delete("/api/teams", { data: { req_id } })
@@ -160,9 +158,11 @@ const Request = props => {
         setExpand(false)
     }
 
+    // EXPAND MATERIAL UI CARD
     const handleExpandClick = () => {
         setExpand(!expanded)
     };
+
     const { classes } = props;
 
     useEffect(() => { fillRequest() }, [props]);
@@ -204,6 +204,8 @@ const Request = props => {
         socket.emit('Leave', { room: props.id })
     }
 
+    //FORMAT DATE TO DISPLAY ON GAME REQUEST
+
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"];
 
     const myDate = (date) => {
@@ -220,7 +222,6 @@ const Request = props => {
 
     return (
         <>
-            {console.log('req props:', props)}
             {request[0] && (<Card className={classes.card} style={{ background: 'rgb(55, 71, 79)' }} >
                 <CardHeader
                     avatar={
