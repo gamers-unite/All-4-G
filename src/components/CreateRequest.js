@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 // import { withStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
+// import Modal from "@material-ui/core/Modal";
 
 //Display as modal in parent component
 
