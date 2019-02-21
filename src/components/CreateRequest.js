@@ -34,6 +34,7 @@ import Button from '@material-ui/core/Button';
 //     }
 // });
 
+//RETURN ARRAY OF NUMBERS REPRESENTING PARTY SIZE OPTIONS
 export const createNumArray = num => {
     const numArr = [];
     for (let i = 2; i <= num; i++) {
@@ -64,13 +65,13 @@ const CreateRequest = props => {
             info
         });
         const { req_id } = result.data[0];
-        await axios
-            .post("/api/teams", { user_id, req_id })
-            .then(() => props.closeRequest());
+        await axios.post("/api/teams", { user_id, req_id })
+        props.closeRequest();
+        props.fillRequests();
     };
 
 
-
+    //CREATE DROP DOWN OPTIONS TO SELECT PARTY SIZE
     const numberOptions = createNumArray(props.max_party).map(num => {
         return (
             <option name="team_length" value={num}>
@@ -79,6 +80,7 @@ const CreateRequest = props => {
         );
     });
 
+    //CREATE DROP DOWN OPTIONS FOR GAMING PLATFORM
     const platforms = props.platforms.map(platform => {
         return (
             <option name="platform" value={platform}>
@@ -90,9 +92,9 @@ const CreateRequest = props => {
     return (
         <div className={props.style}>
             <p>Platform</p>
-            <select onChange={onChange}>{platforms}</select>
+            <select name='platform' onChange={onChange}>{platforms}</select>
             <p>Party Size</p>
-            <select onChange={onChange}>{numberOptions}</select>
+            <select name='team_length' onChange={onChange}>{numberOptions}</select>
             <p>Request Info</p>
             <input
                 onChange={onChange}

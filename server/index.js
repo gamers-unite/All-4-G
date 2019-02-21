@@ -90,7 +90,7 @@ app.post("/api/games/url", getGameByUrl);
 // app.get("/api/requests/request", getRequest);
 app.post("/api/requests/game", getRequestsByGameId);
 app.post("/api/requests/id", getRequestsByReqId);
-app.post("/api/requests/add", addRequest);
+app.post('/api/requests/add', addRequest);
 app.put("/api/requests", editRequest);
 app.delete("/api/requests", deleteRequest);
 app.put("/api/requests/deactivate", deactivateRequest);

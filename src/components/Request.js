@@ -22,6 +22,7 @@ import blueGrey from '@material-ui/core/colors/blueGrey';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import Modal from "@material-ui/core/Modal";
 
 const socket = socketIOClient();
 
@@ -35,13 +36,35 @@ export const renderTeam = (num, request) => {
                 />
             );
         } else {
-            team.push(<AccountCircle style={{color: 'black'}} key={i} className="mini_avatar" />);
+            team.push(<AccountCircle style={{ color: 'black' }} key={i} className="mini_avatar" />);
         }
     }
     return team;
 };
 
 const styles = theme => ({
+    modalWrapper: {
+        width: "100vw",
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    modal: {
+        position: "absolute",
+        float: "left",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        width: theme.spacing.unit * 40,
+        // boxShadow: theme.shadows[10],
+        padding: theme.spacing.unit * 4,
+        background: "rgba(192, 192, 192, 0.9)",
+        borderRadius: "5%",
+        outline: "none",
+        webkitBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        mozBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
+        boxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)"
+    },
     card: {
         maxWidth: 1000,
         margin: '10px'
@@ -81,8 +104,8 @@ const Request = props => {
     const [request, updateRequest] = useState([]);
     const [creator, setCreator] = useState(false);
     const [member, setMember] = useState(false);
-    const [update, setUpdate] = useState(false);
     const [roomFull, setRoomFull] = useState(false)
+    const [modal, setModal] = useState(false)
 
     const fillRequest = async () => {
         const req_id = props.id
@@ -91,7 +114,6 @@ const Request = props => {
         if (result.data[0].team_length <= result.data.length) {
             setRoomFull(true)
         }
-        setUpdate(false)
         socket.emit('Enter Room', { room: req_id })
     };
 
@@ -107,26 +129,42 @@ const Request = props => {
         }
     }
 
+    //MODAL FUNCTIONS
+    const openModal = () => {
+        setModal(true)
+    };
+
+    const closeModal = () => {
+        setModal(false)
+        props.fillRequests()
+    };
+
     // FUNCTION FOR CREATOR TO ACCEPT TEAM AND ARCHIVES IT
     const acceptTeam = () => {
         const req_id = props.id
-        axios.put("/api/requests/deactivate", { req_id }).then(() => props.fillGame())
+        axios.put("/api/requests/deactivate", { req_id }).then(() => {
+            props.fillRequests()
+            setExpand(false)
+        })
     }
 
     // FUNCTION FOR CREATOR TO DELETE REQUEST, DELETE INSTANCES IN TEAM TABLE, AND RELOAD ALL REQUESTS
     const deleteTeam = async () => {
         const req_id = props.id
+        await axios.put("/api/requests/deactivate", { req_id })
         await axios.delete("/api/teams", { data: { req_id } })
-        await axios.delete("/api/requests", { data: { req_id } })
-        props.fillGame();
+        props.fillRequests();
+        setExpand(false)
     }
 
+    // EXPAND MATERIAL UI CARD
     const handleExpandClick = () => {
         setExpand(!expanded)
     };
+
     const { classes } = props;
 
-    useEffect(() => { fillRequest() }, [props.user || update]);
+    useEffect(() => { fillRequest() }, [props]);
     useEffect(() => { getUserStatus() }, [request || props.user]);
     useEffect(() => {
         socket.on('Player Joined', data => {
@@ -141,7 +179,7 @@ const Request = props => {
                 console.log('Left data: ', data)
             }
         });
-        socket.on("Kicked Player", () => {
+        socket.on("Kicked Player", (data) => {
             fillRequest();
         })
     }, [])
@@ -156,11 +194,16 @@ const Request = props => {
 
     const leaveTeam = () => {
         axios.delete('/api/teams/user/', { data: { user_id: props.user.id, req_id: props.id } }).then(() => {
-            // fillRequest();
-            setMember(false)
+            fillRequest();
+            setMember(false);
+            setRoomFull(false);
+            setExpand(false);
+            props.fillRequests();
         })
         socket.emit('Leave', { room: props.id })
     }
+
+    //FORMAT DATE TO DISPLAY ON GAME REQUEST
 
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"];
 
@@ -178,23 +221,23 @@ const Request = props => {
 
     return (
         <>
-            {request[0] && (<Card className={classes.card} style={{ background: 'rgba(192, 192, 192, 0.9)'}} >
+            {request[0] && (<Card className={classes.card} style={{ background: 'rgba(192, 192, 192, 0.9)' }} >
                 <CardHeader
                     avatar={
-                        <Avatar aria-label="Recipe" src={props.creatorImg} className={classes.avatar} />
+                        <Avatar aria-label="Recipe" src={props.creatorImg} className={classes.avatar} onClick={openModal} />
                     }
                     action={props.user.id && !creator && member ?
                         <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={leaveTeam}>Leave Team</Button>
                         : props.user.id && !creator && !member ?
                             <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={handleJoin}>Join Team!</Button>
-                            : props.user.id && creator && !roomFull? 
-                                <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={deleteTeam}>Cancel Team</Button> 
-                                    : props.user.id && creator && roomFull ?
-                                        <>
-                                            <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={acceptTeam}>Accept Team</Button>
-                                            <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={deleteTeam}>Cancel Team</Button>
-                                        </>
-                                            : null
+                            : props.user.id && creator && !roomFull ?
+                                <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={deleteTeam}>Cancel Team</Button>
+                                : props.user.id && creator && roomFull ?
+                                    <>
+                                        <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={acceptTeam}>Accept Team</Button>
+                                        <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={deleteTeam}>Cancel Team</Button>
+                                    </>
+                                    : null
                     }
                     title={props.creatorName}
                     subheader={myDate(request[0].Date)}
@@ -210,7 +253,7 @@ const Request = props => {
                             {renderTeam(request[0].team_length, request)}
                         </div>
                     </Team>
-                    { props.user.id && member && <IconButton
+                    {props.user.id && member && <IconButton
                         className={classnames(classes.expand, {
                             [classes.expandOpen]: expanded,
                         })}
@@ -224,7 +267,7 @@ const Request = props => {
                 <Collapse in={expanded} timeout="auto" unmountOnExit height='500'>
                     <ChatBox>
                         <CardContent>
-                            <Chat 
+                            <Chat
                                 id={props.id}
                                 user_id={props.user.id}
                             />
