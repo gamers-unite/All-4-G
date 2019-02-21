@@ -236,14 +236,14 @@ class Nav extends React.Component {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Link to='/' style={{ color: "#ffffff", textDecoration: "none"}}>
-                        <Typography
-                            className={classes.title}
-                            variant="h6"
-                            color="inherit"
-                            noWrap
-                        >
-                            ALL.4.G
+                        <Link to='/' style={{ color: "#ffffff", textDecoration: "none" }}>
+                            <Typography
+                                className={classes.title}
+                                variant="h6"
+                                color="inherit"
+                                noWrap
+                            >
+                                ALL.4.G
                         </Typography>
                         </Link>
                         {/* <div className={classes.search}>
