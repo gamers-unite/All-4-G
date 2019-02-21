@@ -34,6 +34,7 @@ import Button from '@material-ui/core/Button';
 //     }
 // });
 
+//RETURN ARRAY OF NUMBERS REPRESENTING PARTY SIZE OPTIONS
 export const createNumArray = num => {
     const numArr = [];
     for (let i = 2; i <= num; i++) {
@@ -70,7 +71,7 @@ const CreateRequest = props => {
     };
 
 
-
+    //CREATE DROP DOWN OPTIONS TO SELECT PARTY SIZE
     const numberOptions = createNumArray(props.max_party).map(num => {
         return (
             <option name="team_length" value={num}>
@@ -79,6 +80,7 @@ const CreateRequest = props => {
         );
     });
 
+    //CREATE DROP DOWN OPTIONS FOR GAMING PLATFORM
     const platforms = props.platforms.map(platform => {
         return (
             <option name="platform" value={platform}>

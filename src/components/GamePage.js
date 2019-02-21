@@ -45,12 +45,14 @@ const GamePage = props => {
     const [platform, updatePlatform] = useState('All')
     const [modal, setModal] = useState(false);
 
+    //RETRIEVE GAME DATA
     const fillGame = async () => {
         let url = props.location.pathname.replace("/", "");
         let result = await axios.post("/api/games/url", { url });
         updateGame(result.data[0]);
     };
 
+    //RETRIEVE ALL ACTIVE REQUESTS FOR GAME
     const fillRequests = async () => {
         if (game.game_id) {
             let fillReq = await axios.post("/api/requests/game", {
@@ -60,6 +62,13 @@ const GamePage = props => {
             updateFilteredRequest(fillReq.data)
         }
     };
+
+    //CHANGE PLATFORM STATE WHEN DROP DOWN MENU OPTION IS SELECTED
+    const changePlatform = e => {
+        updatePlatform(e.target.value);
+    };
+
+    //MODAL FUNCTIONS
 
     const openRequest = () => {
         setModal(true);
@@ -78,6 +87,7 @@ const GamePage = props => {
         fillRequests();
     }, [game]);
 
+    //IF PLATFORM CHANGES, FILTER THROUGH ALL REQUESTS AND RETURN FILTERED REQUESTS
     useEffect(() => {
         if (platform !== 'All') {
             const filtered = allRequest.filter(req => req.platform === platform)
@@ -88,13 +98,7 @@ const GamePage = props => {
         }
     }, [platform])
 
-    useEffect(() => {
-    }, [filteredRequest])
-
-    const changePlatform = e => {
-        updatePlatform(e.target.value);
-    };
-
+    //MAP OVER FILTERED REQUEST ARRAY
     const requestMap = filteredRequest.map((e, i) => {
         return (
             <Request
@@ -107,6 +111,7 @@ const GamePage = props => {
         );
     });
 
+    //CREATE DROP DOWN OPTIONS TO FILTER REQUESTS BY GAMING PLATFORM
     const optionMap = game.platform.map(platform => {
         return (
             <option name="platform" value={platform}>
