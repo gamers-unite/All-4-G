@@ -39,7 +39,7 @@ const styles = theme => ({
 
 const GamePage = props => {
     const { classes } = props;
-    const [game, updateGame] = useState({platform: []});
+    const [game, updateGame] = useState({ platform: [] });
     const [allRequest, updateAllRequest] = useState([]);
     const [filteredRequest, updateFilteredRequest] = useState([])
     const [platform, updatePlatform] = useState('All')
@@ -147,11 +147,13 @@ const GamePage = props => {
                         />
                     </Modal>
                 )}
-                <select onChange={changePlatform}>
-                    <option name='platform' value='All'>All</option>
-                    {optionMap}
-                </select>
                 <h1>Requests</h1>
+                <div className='select_platform'>
+                    <select onChange={changePlatform}>
+                        <option name='platform' value='All'>All</option>
+                        {optionMap}
+                    </select>
+                </div>
                 <div className='request_map'>{requestMap}</div>
 
             </Requests>
@@ -257,6 +259,23 @@ const Requests = styled.div`
         justify-content: center;
         flex-wrap: wrap;
     }
+
+    .select_platform {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+        select {
+            width: 15em;
+            height: 5em;
+            background: rgba(255,255,255, 0.5);
+            border: none;
+            margin-top: 2em;
+        }
+
+        
+        }
+
 `
 const MiniProfileFormat = styled.div`
     color: #000000;
