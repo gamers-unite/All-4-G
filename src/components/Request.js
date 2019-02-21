@@ -101,11 +101,11 @@ const styles = theme => ({
 });
 
 const Request = props => {
+    console.log('props:', props)
     const [expanded, setExpand] = useState(false)
     const [request, updateRequest] = useState([]);
     const [creator, setCreator] = useState(false);
     const [member, setMember] = useState(false);
-    const [update, setUpdate] = useState(false);
     const [roomFull, setRoomFull] = useState(false)
     const [modal, setModal] = useState(false)
 
@@ -116,7 +116,6 @@ const Request = props => {
         if (result.data[0].team_length <= result.data.length) {
             setRoomFull(true)
         }
-        setUpdate(false)
         socket.emit('Enter Room', { room: req_id })
     };
 
@@ -139,20 +138,26 @@ const Request = props => {
 
     const closeModal = () => {
         setModal(false)
+        props.fillRequests()
     };
 
     // FUNCTION FOR CREATOR TO ACCEPT TEAM AND ARCHIVES IT
     const acceptTeam = () => {
         const req_id = props.id
-        axios.put("/api/requests/deactivate", { req_id }).then(() => props.fillGame())
+        axios.put("/api/requests/deactivate", { req_id }).then(() => {
+            props.fillRequests()
+            setExpand(false)
+        })
     }
 
     // FUNCTION FOR CREATOR TO DELETE REQUEST, DELETE INSTANCES IN TEAM TABLE, AND RELOAD ALL REQUESTS
     const deleteTeam = async () => {
+        console.log(props)
         const req_id = props.id
         await axios.put("/api/requests/deactivate", { req_id })
-        await axios.delete("/api/requests", { data: { req_id } })
-        props.fillGame();
+        await axios.delete("/api/teams", { data: { req_id } })
+        props.fillRequests();
+        setExpand(false)
     }
 
     const handleExpandClick = () => {
@@ -160,7 +165,7 @@ const Request = props => {
     };
     const { classes } = props;
 
-    useEffect(() => { fillRequest() }, [props.user || update]);
+    useEffect(() => { fillRequest() }, [props]);
     useEffect(() => { getUserStatus() }, [request || props.user]);
     useEffect(() => {
         socket.on('Player Joined', data => {
@@ -193,6 +198,8 @@ const Request = props => {
             fillRequest();
             setMember(false);
             setRoomFull(false);
+            setExpand(false);
+            props.fillRequests();
         })
         socket.emit('Leave', { room: props.id })
     }
@@ -213,6 +220,7 @@ const Request = props => {
 
     return (
         <>
+            {console.log('req props:', props)}
             {request[0] && (<Card className={classes.card} style={{ background: 'rgb(55, 71, 79)' }} >
                 <CardHeader
                     avatar={

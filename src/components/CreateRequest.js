@@ -64,9 +64,9 @@ const CreateRequest = props => {
             info
         });
         const { req_id } = result.data[0];
-        axios
-            .post("/api/teams", { user_id, req_id })
-            .then(() => props.closeRequest());
+        await axios.post("/api/teams", { user_id, req_id })
+        props.closeRequest();
+        props.fillRequests();
     };
 
 

@@ -51,7 +51,7 @@ const GamePage = props => {
         updateGame(result.data[0]);
     };
 
-    const fillRequest = async () => {
+    const fillRequests = async () => {
         if (game.game_id) {
             let fillReq = await axios.post("/api/requests/game", {
                 game_id: game.game_id
@@ -66,39 +66,46 @@ const GamePage = props => {
     };
 
     const closeRequest = () => {
-        fillGame();
+        fillRequests();
         setModal(false);
     };
 
     useEffect(() => {
         fillGame();
     }, []);
+
     useEffect(() => {
-        fillRequest();
+        fillRequests();
     }, [game]);
 
     useEffect(() => {
         if (platform !== 'All') {
             const filtered = allRequest.filter(req => req.platform === platform)
             updateFilteredRequest(filtered)
+            console.log('filtered:', filtered)
         }
         if (platform === 'All') {
             updateFilteredRequest(allRequest)
         }
     }, [platform])
 
+    useEffect(() => {
+        console.log('current state of filteredRequest: ', filteredRequest)
+    }, [filteredRequest])
+
     const changePlatform = e => {
         updatePlatform(e.target.value);
     };
 
     const requestMap = filteredRequest.map((e, i) => {
+        console.log('e:', e)
         return (
             <Request
                 key={i}
                 id={e.req_id}
                 creatorImg={e.avatar}
                 creatorName={e.display_name}
-                fillGame={fillGame}
+                fillRequests={fillRequests}
             />
         );
     });
@@ -111,7 +118,7 @@ const GamePage = props => {
         )
     }
     )
-
+    console.log('requestMap: ', requestMap)
     return (
         <>
             <GameInfo img={game.background_img}>
@@ -143,18 +150,20 @@ const GamePage = props => {
                             max_party={game.max_party}
                             game_id={game.game_id}
                             closeRequest={closeRequest}
+                            fillRequests={fillRequests}
                             style={classes.modal}
                         />
                     </Modal>
                 )}
                 <h1>Requests</h1>
                 <div className='select_platform'>
-                    <select onChange={changePlatform}>
+                    <select name='platform' onChange={changePlatform}>
                         <option name='platform' value='All'>All</option>
                         {optionMap}
                     </select>
                 </div>
                 <div className='request_map'>{requestMap}</div>
+                {console.log('reqMap: ', requestMap)}
 
             </Requests>
             {game.platform &&
