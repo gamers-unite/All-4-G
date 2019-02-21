@@ -64,7 +64,7 @@ const CreateRequest = props => {
             info
         });
         const { req_id } = result.data[0];
-        await axios
+        axios
             .post("/api/teams", { user_id, req_id })
             .then(() => props.closeRequest());
     };
@@ -90,9 +90,9 @@ const CreateRequest = props => {
     return (
         <div className={props.style}>
             <p>Platform</p>
-            <select onChange={onChange}>{platforms}</select>
+            <select name='platform' onChange={onChange}>{platforms}</select>
             <p>Party Size</p>
-            <select onChange={onChange}>{numberOptions}</select>
+            <select name='team_length' onChange={onChange}>{numberOptions}</select>
             <p>Request Info</p>
             <input
                 onChange={onChange}
@@ -122,7 +122,7 @@ const RequestModalButtons = styled.div`
     justify-content: space-around;
     align-items: center;
     padding-top: 1em;
-    width 85%;
+    width: 85%;
     padding-left: 1em;
 `;
 

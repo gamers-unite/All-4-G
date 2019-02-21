@@ -150,7 +150,7 @@ const Request = props => {
     // FUNCTION FOR CREATOR TO DELETE REQUEST, DELETE INSTANCES IN TEAM TABLE, AND RELOAD ALL REQUESTS
     const deleteTeam = async () => {
         const req_id = props.id
-        await axios.delete("/api/teams", { data: { req_id } })
+        await axios.put("/api/requests/deactivate", { req_id })
         await axios.delete("/api/requests", { data: { req_id } })
         props.fillGame();
     }

@@ -66,8 +66,8 @@ const GamePage = props => {
     };
 
     const closeRequest = () => {
+        fillGame();
         setModal(false);
-        fillRequest();
     };
 
     useEffect(() => {
