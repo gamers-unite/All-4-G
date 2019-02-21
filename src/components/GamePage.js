@@ -39,8 +39,10 @@ const styles = theme => ({
 
 const GamePage = props => {
     const { classes } = props;
-    const [game, updateGame] = useState({});
+    const [game, updateGame] = useState({platform: []});
     const [allRequest, updateAllRequest] = useState([]);
+    const [filteredRequest, updateFilteredRequest] = useState([])
+    const [platform, updatePlatform] = useState('All')
     const [modal, setModal] = useState(false);
 
     const fillGame = async () => {
@@ -55,6 +57,7 @@ const GamePage = props => {
                 game_id: game.game_id
             });
             updateAllRequest(fillReq.data);
+            updateFilteredRequest(fillReq.data)
         }
     };
 
@@ -74,7 +77,21 @@ const GamePage = props => {
         fillRequest();
     }, [game]);
 
-    const requestMap = allRequest.map((e, i) => {
+    useEffect(() => {
+        if (platform !== 'All') {
+            const filtered = allRequest.filter(req => req.platform === platform)
+            updateFilteredRequest(filtered)
+        }
+        if (platform === 'All') {
+            updateFilteredRequest(allRequest)
+        }
+    }, [platform])
+
+    const changePlatform = e => {
+        updatePlatform(e.target.value);
+    };
+
+    const requestMap = filteredRequest.map((e, i) => {
         return (
             <Request
                 key={i}
@@ -85,6 +102,15 @@ const GamePage = props => {
             />
         );
     });
+
+    const optionMap = game.platform.map(platform => {
+        return (
+            <option name="platform" value={platform}>
+                {platform}
+            </option>
+        )
+    }
+    )
 
     return (
         <>
@@ -121,11 +147,15 @@ const GamePage = props => {
                         />
                     </Modal>
                 )}
+                <select onChange={changePlatform}>
+                    <option name='platform' value='All'>All</option>
+                    {optionMap}
+                </select>
                 <h1>Requests</h1>
                 <div className='request_map'>{requestMap}</div>
-                
+
             </Requests>
-            {game.platform && 
+            {game.platform &&
                 <MiniProfileFormat>
                     <MiniProfile platforms={game.platform} />
                 </MiniProfileFormat>}
