@@ -165,8 +165,8 @@ const EditProfile = props => {
                     />
                 </ImageUploadFormat>
                 <ButtonFormat>
-                    <Button onClick={submitEdit} variant='contained'>Submit</Button>
-                    <Button onClick={props.closeEdit} variant='contained'>Cancel</Button>
+                    <Button style={{cursor: 'pointer'}} onClick={submitEdit} variant='contained'>Submit</Button>
+                    <Button style={{cursor: 'pointer'}} onClick={props.closeEdit} variant='contained'>Cancel</Button>
                 </ButtonFormat>
             </Form>
         </>

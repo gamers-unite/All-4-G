@@ -110,7 +110,7 @@ const styles = theme => ({
         left: "50%",
         top: "50%",
         transform: "translate(-50%, -50%)",
-        width: theme.spacing.unit * 40,
+        width: theme.spacing.unit * 30,
         // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
         background: "rgba(192, 192, 192, 0.9)",
@@ -204,10 +204,10 @@ class Nav extends React.Component {
                 onClose={this.handleMenuClose}
             >
                 <Link to="/profile">
-                    <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+                    <MenuItem style={{backgroundColor: 'rgba(20,20,20, 0.9)', color: '#ffffff', cursor: 'pointer'}} onClick={this.handleMenuClose}>Profile</MenuItem>
                 </Link>
                 <Link to="/">
-                    <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+                    <MenuItem style={{backgroundColor: 'rgba(20,20,20, 0.9)', color: '#ffffff', cursor: 'pointer'}} onClick={this.handleLogout}>Logout</MenuItem>
                 </Link>
             </Menu>
         );
@@ -221,10 +221,10 @@ class Nav extends React.Component {
                 onClose={this.handleMenuClose}
             >
                 <Link to="/profile">
-                    <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+                    <MenuItem style={{backgroundColor: 'rgba(20,20,20, 0.9)', color: '#ffffff', cursor: 'pointer'}} onClick={this.handleMenuClose}>Profile</MenuItem>
                 </Link>
                 <Link to="/">
-                    <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+                    <MenuItem style={{backgroundColor: 'rgba(20,20,20, 0.9)', color: '#ffffff', cursor: 'pointer'}} onClick={this.handleLogout}>Logout</MenuItem>
                 </Link>
             </Menu>
         );
@@ -240,7 +240,7 @@ class Nav extends React.Component {
                         >
                             <MenuIcon />
                         </IconButton> */}
-                        <Link to='/' style={{ color: "#ffffff", textDecoration: "none"}}>
+                        <Link to='/' style={{ color: "#ffffff", textDecoration: "none", cursor: 'pointer'}}>
                         <Logo src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FLogo.png?alt=media&token=205cab94-8e86-4908-8d4b-1ad20390d3d1'></Logo>
                         {/* <Typography
                             className={classes.title}
@@ -267,10 +267,10 @@ class Nav extends React.Component {
                         <div className={classes.sectionDesktop}>
                             {!this.state.loggedIn && (
                                 <>
-                                    <Button style={{ color: "#ffffff" }} onClick={this.openLogin}>
+                                    <Button style={{ color: "#ffffff", cursor: 'pointer' }} onClick={this.openLogin}>
                                         Login
                                     </Button>
-                                    <Button style={{ color: "#ffffff" }} onClick={this.openRegister}>
+                                    <Button style={{ color: "#ffffff", cursor: 'pointer' }} onClick={this.openRegister}>
                                         Register
                                     </Button>
                                 </>
@@ -296,10 +296,10 @@ class Nav extends React.Component {
                         <div className={classes.sectionMobile}>
                             {!this.state.loggedIn && (
                                 <>
-                                    <Button onClick={this.openLogin}>
+                                    <Button style={{ color: "#ffffff", cursor: 'pointer' }} onClick={this.openLogin}>
                                         Login
                                     </Button>
-                                    <Button onClick={this.openRegister}>
+                                    <Button style={{ color: "#ffffff", cursor: 'pointer' }} onClick={this.openRegister}>
                                         Register
                                     </Button>
                                 </>
@@ -321,7 +321,7 @@ class Nav extends React.Component {
                 </AppBar>
                 {renderMenu}
                 {renderMobileMenu}
-                <Modal
+                <Modal 
                     className={classes.modalWrapper}
                     open={this.state.modal}
                     onClose={this.closeModal}

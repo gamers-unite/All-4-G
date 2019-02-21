@@ -124,6 +124,7 @@ const RequestModalButtons = styled.div`
     padding-top: 1em;
     width 85%;
     padding-left: 1em;
+    cursor: pointer;
 `;
 
 // const Modal = styled.div`

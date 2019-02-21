@@ -104,7 +104,7 @@ const GamePage = props => {
             </GameInfo>
             <Requests img='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c'>
                 {props.user.email && (
-                    <Button className='request_btn' variant='contained' onClick={openRequest}>Create Request</Button>
+                    <Button className='request_btn'style={{cursor: 'pointer'}} variant='contained' onClick={openRequest}>Create Request</Button>
                 )}
                 {modal && (
                     <Modal
@@ -121,7 +121,7 @@ const GamePage = props => {
                         />
                     </Modal>
                 )}
-                <h1>Requests</h1>
+                <RequestsTitle src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FRequests.png?alt=media&token=66913499-e907-4f3c-9331-6939ee429f39'></RequestsTitle>
                 <div className='request_map'>{requestMap}</div>
                 
             </Requests>
@@ -206,19 +206,20 @@ const Requests = styled.div`
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    width: 100vw;
+    width: 100%;
     color: white;
     box-shadow: inset 0px 15px 25px 8px rgba(0,0,0,0.75);
 
-    h1 {
-        position: absolute;
-        margin: 2%;
-    }
+    // h1 {
+    //     position: absolute;
+    //     margin: 2%;
+    // }
 
     .request_btn {
         position: absolute;
         right: 0;
         margin: 2%;
+        cursor: pointer;
     }
 
     .request_map {
@@ -230,4 +231,14 @@ const Requests = styled.div`
 `
 const MiniProfileFormat = styled.div`
     color: #000000;
+`
+const RequestsTitle = styled.img`
+    // position: absolute;
+    z-index: 1;
+    height: 20em;
+    width: 60em;
+    transform: rotate(-38deg);
+    margin-top: -12em;
+    margin-bottom: -5em;
+    margin-left: -2em;
 `

@@ -182,12 +182,12 @@ const Profile = props => {
             </UserPlatforms>
             <Doughnut data={data} options={options} />
             {removable && (
-                <Button variant='contained' onClick={removeTeamMember}>Remove From Team</Button>
+                <Button variant='contained' style={{cursor: 'pointer'}} onClick={removeTeamMember}>Remove From Team</Button>
             )}
             {props.user && reportable && !reported && (
-                <Button variant='contained' onClick={openReport}>Report User</Button>
+                <Button variant='contained' style={{cursor: 'pointer'}} onClick={openReport}>Report User</Button>
             )}
-            {reportable && reported && <Button variant='contained' disabled>Report Sent</Button>}
+            {reportable && reported && <Button variant='contained' style={{cursor: 'pointer'}} disabled>Report Sent</Button>}
             {modal && (
                 <Modal
                     className={classes.modalWrapper}

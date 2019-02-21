@@ -142,7 +142,7 @@ const Profile = props => {
                     <p>{totalCount}</p>
                 </IdFormat>
                 <Doughnut data={data} options={options} />
-                {!modal && <Button variant='contained' onClick={openEdit}>Edit</Button>}
+                {!modal && <Button variant='contained' style={{cursor: 'pointer'}} onClick={openEdit}>Edit</Button>}
                 {modal && (
                     <Modal
                         className={classes.modalWrapper}

@@ -31,7 +31,7 @@ const Login = props => {
                 </>
             </LoginFormat>
             <SignIn>
-                <Button variant='contained' onClick={handleLogin}>Sign In</Button>
+                <Button variant='contained' style={{cursor: 'pointer'}} onClick={handleLogin}>Sign In</Button>
             </SignIn>
         </div>
     );

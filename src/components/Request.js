@@ -44,7 +44,8 @@ const styles = theme => ({
     card: {
         maxWidth: 1000,
         maxHeight: 400,
-        margin: '5px'
+        margin: '5px',
+        cursor: 'pointer'
     },
     media: {
         height: 0,
@@ -65,10 +66,12 @@ const styles = theme => ({
     },
     avatar: {
         backgroundColor: blueGrey[900],
+        cursor: 'pointer'
     },
     mini_avatar: {
         height: 35,
         width: 35,
+        cursor: 'pointer'
     },
     player: {
         height: 29,
@@ -184,9 +187,9 @@ const Request = props => {
                         <Avatar aria-label="Recipe" src={props.creatorImg} className={classes.avatar} />
                     }
                     action={props.user.id && !creator && member ?
-                        <Button variant='contained' style={{ height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={leaveTeam}>Leave Team</Button>
+                        <Button variant='contained' style={{ height: '2.5em', width: '11em', fontSize: '.5em', cursor: 'pointer' }} onClick={leaveTeam}>Leave Team</Button>
                         : props.user.id && !creator && !member ?
-                            <Button variant='contained' style={{ height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={handleJoin}>Join Team!</Button>
+                            <Button variant='contained' style={{ height: '2.5em', width: '10em', fontSize: '.5em', cursor: 'pointer' }} onClick={handleJoin}>Join Team!</Button>
                             : null
                     }
                     title={props.creatorName}
@@ -197,7 +200,7 @@ const Request = props => {
                         {request[0].info}
                     </Typography>
                 </CardContent>
-                <CardActions className={classes.actions} disableActionSpacing style={{}}>
+                <CardActions className={classes.actions} disableActionSpacing style={{cursor: 'pointer'}}>
                     <Team className="team_bar">
                         <div>
                             {renderTeam(request[0].team_length, request)}
@@ -216,8 +219,8 @@ const Request = props => {
                 </CardActions>
                 {props.user.id && creator && <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
-                        {props.user.id && creator && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={deleteTeam}>Cancel Team</Button>}
-                        {props.user.id && creator && roomFull && <Button variant='contained' style={{ height: '5em', width: '7em' }} onClick={acceptTeam}>Accept Team</Button>}
+                        {props.user.id && creator && <Button variant='contained' style={{ height: '5em', width: '7em', cursor: 'pointer' }} onClick={deleteTeam}>Cancel Team</Button>}
+                        {props.user.id && creator && roomFull && <Button variant='contained' style={{ height: '5em', width: '7em', cursor: 'pointer' }} onClick={acceptTeam}>Accept Team</Button>}
                     </CardContent>
                 </Collapse>}
             </Card>)}

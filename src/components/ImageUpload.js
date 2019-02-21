@@ -8,7 +8,7 @@ const ImageUpload = props => {
     return (
         <UploadFormat>
             {props.image && 
-            <Button variant='contained' onClick={props.handleUpload}>Upload</Button>}
+            <Button variant='contained' style={{cursor: 'pointer'}} onClick={props.handleUpload}>Upload</Button>}
             <Avatar
                 src={props.url || props.avatar}
                 alt="Uploaded img"
@@ -16,7 +16,7 @@ const ImageUpload = props => {
                 width="100"
                 paddingottom="1em"
             />
-            <input type="file" onChange={props.handleFileChange} />
+            <input type="file" style={{cursor: 'pointer'}} onChange={props.handleFileChange} />
         </UploadFormat>
     );
 };

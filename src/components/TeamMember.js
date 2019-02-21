@@ -49,6 +49,7 @@ const TeamMember = props => {
                 src={props.request.avatar}
                 alt="mini"
                 onClick={openModal}
+                style={{cursor: 'pointer'}}
             />
             <Modal
                 className={classes.modalWrapper}

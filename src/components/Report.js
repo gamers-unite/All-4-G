@@ -47,8 +47,8 @@ const Report = props => {
     return (
         <div className={classes.modal}>
             <input name="reason" onChange={onChange} />
-            <Button variant='contained' onClick={submitReport}>Submit</Button>
-            <Button variant='contained' onClick={props.closeReport}>Cancel</Button>
+            <Button variant='contained' style={{cursor: 'pointer'}} onClick={submitReport}>Submit</Button>
+            <Button variant='contained' style={{cursor: 'pointer'}} onClick={props.closeReport}>Cancel</Button>
         </div>
     );
 };
