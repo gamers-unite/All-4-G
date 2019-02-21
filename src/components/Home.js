@@ -52,49 +52,31 @@ export const mapStateToProps = state => {
 export default connect(mapStateToProps, { allGames })(Home);
 
 const GameCards = styled.div`
-//   width: 100%;
-//   border: 2em solid black;
-//   border-radius: 25%;
-//   margin: 4em auto;
-//   // height: 15em;
-//   // width: 12em;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   text-shadow: 2em 2em black;
+
 `;
 
 const GameList = styled.div`
   display: flex;
   width: 100%;
-  // background: blue;
   flex-wrap: wrap;
   justify-content: center;
   padding-top: 3vh;
 `;
 
 const GameWrap = styled.div`
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: center;
-  // align-items: space-between;
   width: 100vw;
-  // overflow: hidden;
-  // flex-wrap: wrap;
-  // overflow: scroll;
   
   .home_div {
     display: flex;
     flex-direction: column;
     align-items: center;
-    // background: blue;
-    // background: #333333;
     background: url('https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
     box-shadow: inset 0px 15px 25px 8px rgba(0,0,0,0.75);
+    padding: 2% 0 2% 0;
   }
 
   h1 {
