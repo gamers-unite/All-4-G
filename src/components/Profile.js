@@ -85,86 +85,94 @@ const Profile = props => {
         legend: {
             position: 'left',
             labels: {
-                boxWidth: 10
+                boxWidth: 20,
+                boxHeight: 20,
+                fontColor: 'black',
+                fontSize: 20
             }
         }
     }
 
     return (
-        <ProfileFormat>
-            <AvatarStyle>
-                <Avatar src={props.user.avatar} alt="avatar" style={{ height: '10em', width: '10em' }} />
-            </AvatarStyle>
-            <UserInfo>
-                <h1>{props.user.display_name}</h1>
-                <IdFormat>
-                    <h2>Email: </h2>
-                    <p>{props.user.email}</p>
-                </IdFormat>
-                {props.user.blizzard && (
+        <ProfilePage>
+            <div className='fog'/>
+            <ProfileFormat>
+                <AvatarStyle>
+                    <Avatar src={props.user.avatar} alt="avatar" style={{ height: '10em', width: '10em' }} />
+                </AvatarStyle>
+                <UserInfo>
+                    <h1>{props.user.display_name}</h1>
                     <IdFormat>
-                        <h2>Blizzard: </h2>
-                        <p>{props.user.blizzard}</p>
+                        <h2>Email: </h2>
+                        <p>{props.user.email}</p>
                     </IdFormat>
-                )}
-                {props.user.epic && (
+                    {props.user.blizzard && (
+                        <IdFormat>
+                            <h2>Blizzard: </h2>
+                            <p>{props.user.blizzard}</p>
+                        </IdFormat>
+                    )}
+                    {props.user.epic && (
+                        <IdFormat>
+                            <h2>Epic: </h2>
+                            <p>{props.user.epic}</p>
+                        </IdFormat>
+                    )}
+                    {props.user.ps4 && (
+                        <IdFormat>
+                            <h2>PlayStation: </h2>
+                            <p>{props.user.ps4}</p>
+                        </IdFormat>
+                    )}
+                    {props.user.riot && (
+                        <IdFormat>
+                            <h2>Riot: </h2>
+                            <p>{props.user.riot}</p>
+                        </IdFormat>
+                    )}
+                    {props.user.steam && (
+                        <IdFormat>
+                            <h2>Steam: </h2>
+                            <p>{props.user.steam}</p>
+                        </IdFormat>
+                    )}
+                    {props.user.xbox && (
+                        <IdFormat>
+                            <h2>Xbox: </h2>
+                            <p>{props.user.xbox}</p>
+                        </IdFormat>
+                    )}
                     <IdFormat>
-                        <h2>Epic: </h2>
-                        <p>{props.user.epic}</p>
+                        <h2>Total Games: </h2>
+                        <p>{totalCount}</p>
                     </IdFormat>
-                )}
-                {props.user.ps4 && (
-                    <IdFormat>
-                        <h2>PlayStation: </h2>
-                        <p>{props.user.ps4}</p>
-                    </IdFormat>
-                )}
-                {props.user.riot && (
-                    <IdFormat>
-                        <h2>Riot: </h2>
-                        <p>{props.user.riot}</p>
-                    </IdFormat>
-                )}
-                {props.user.steam && (
-                    <IdFormat>
-                        <h2>Steam: </h2>
-                        <p>{props.user.steam}</p>
-                    </IdFormat>
-                )}
-                {props.user.xbox && (
-                    <IdFormat>
-                        <h2>Xbox: </h2>
-                        <p>{props.user.xbox}</p>
-                    </IdFormat>
-                )}
-                <IdFormat>
-                    <h2>Total Games: </h2>
-                    <p>{totalCount}</p>
-                </IdFormat>
-                <Doughnut data={data} options={options} />
-                {!modal && <Button variant='contained' style={{cursor: 'pointer'}} onClick={openEdit}>Edit</Button>}
-                {modal && (
-                    <Modal
-                        className={classes.modalWrapper}
-                        open={modal}
-                        onClose={closeEdit}
-                    >
-                        <EditProfile
-                            email={props.user.email}
-                            closeEdit={closeEdit}
-                            display_name={props.user.display_name}
-                            avatar={props.user.avatar}
-                            blizzard={props.user.blizzard}
-                            epic={props.user.epic}
-                            ps4={props.user.ps4}
-                            riot={props.user.riot}
-                            steam={props.user.steam}
-                            xbox={props.user.xbox}
-                        />
-                    </Modal>
-                )}
-            </UserInfo>
-        </ProfileFormat>
+                    {!modal && <Button variant='contained' onClick={openEdit}>Edit</Button>}
+                    {modal && (
+                        <Modal
+                            className={classes.modalWrapper}
+                            open={modal}
+                            onClose={closeEdit}
+                        >
+                            <EditProfile
+                                email={props.user.email}
+                                closeEdit={closeEdit}
+                                display_name={props.user.display_name}
+                                avatar={props.user.avatar}
+                                blizzard={props.user.blizzard}
+                                epic={props.user.epic}
+                                ps4={props.user.ps4}
+                                riot={props.user.riot}
+                                steam={props.user.steam}
+                                xbox={props.user.xbox}
+                            />
+                        </Modal>
+                    )}
+                </UserInfo>
+            </ProfileFormat>
+            <DoughnutDiv>
+                <Doughnut data={data} options={options} width='600' height='600' textColor='black'/>
+            </DoughnutDiv>
+        </ProfilePage>
     );
 };
 
@@ -181,20 +189,49 @@ export default connect(
     { getCurrentUser }
 )(withStyles(styles)(Profile));
 
+const ProfilePage = styled.div`
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    background: url('https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+
+    .fog {
+        position: absolute;
+        background: rgba(250,250,250, 0.3);
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+    }
+`
+
+const DoughnutDiv = styled.div`
+    display: flex;
+    align-items: center;
+    margin-right: 10vw;
+`
 
 const IdFormat = styled.div`
-display: flex;
-justify-content: space-between;
-align-items: center;
-width: 100%;
-padding-left: 10vw;
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding-left: 10vw;
 `;
 
 const ProfileFormat = styled.div`
-    padding-left: 5vw;
+    padding: 4em 0 0 5vw;
+    height: 100%;
     width: 40%;
-
 `;
 
 const UserInfo = styled.div`
@@ -203,7 +240,7 @@ const UserInfo = styled.div`
 `;
 const AvatarStyle = styled.div`
     width: 50%;
-    height: 60%
+    height: 60%;
     display: flex;
     justify-content: flex-end;
     align-items: center;

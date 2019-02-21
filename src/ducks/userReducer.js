@@ -101,7 +101,7 @@ export function getCurrentUser() {
 }
 
 export default function reducer(state = initialState, action) {
-    console.log(action.type, action.payload);
+    // console.log(action.type, action.payload);
     switch (action.type) {
         case LOGIN + "_FULFILLED":
             return { ...state, user: action.payload.data };

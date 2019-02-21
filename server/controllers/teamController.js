@@ -25,7 +25,7 @@ module.exports = {
         const { req_id } = req.body;
         req.app
             .get("db")
-            .teams.delete_team(req_id)
+            .requests.deactivate_request(req_id)
             .then(response => {
                 res.status(200).json(response);
             })

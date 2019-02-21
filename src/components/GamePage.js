@@ -10,6 +10,7 @@ import MiniProfile from "./MiniProfile";
 import CreateRequest from "./CreateRequest";
 import { getCurrentUser } from "../ducks/userReducer";
 import Button from '@material-ui/core/Button';
+import { request } from "http";
 
 const styles = theme => ({
     modalWrapper: {
@@ -39,53 +40,87 @@ const styles = theme => ({
 
 const GamePage = props => {
     const { classes } = props;
-    const [game, updateGame] = useState({});
+    const [game, updateGame] = useState({ platform: [] });
     const [allRequest, updateAllRequest] = useState([]);
+    const [filteredRequest, updateFilteredRequest] = useState([])
+    const [platform, updatePlatform] = useState('All')
     const [modal, setModal] = useState(false);
 
+    //RETRIEVE GAME DATA
     const fillGame = async () => {
         let url = props.location.pathname.replace("/", "");
         let result = await axios.post("/api/games/url", { url });
         updateGame(result.data[0]);
     };
 
-    const fillRequest = async () => {
+    //RETRIEVE ALL ACTIVE REQUESTS FOR GAME
+    const fillRequests = async () => {
         if (game.game_id) {
             let fillReq = await axios.post("/api/requests/game", {
                 game_id: game.game_id
             });
             updateAllRequest(fillReq.data);
+            updateFilteredRequest(fillReq.data)
         }
     };
+
+    //CHANGE PLATFORM STATE WHEN DROP DOWN MENU OPTION IS SELECTED
+    const changePlatform = e => {
+        updatePlatform(e.target.value);
+    };
+
+    //MODAL FUNCTIONS
 
     const openRequest = () => {
         setModal(true);
     };
 
     const closeRequest = () => {
+        fillRequests();
         setModal(false);
-        fillRequest();
     };
 
     useEffect(() => {
         fillGame();
     }, []);
+
     useEffect(() => {
-        fillRequest();
+        fillRequests();
     }, [game]);
 
-    const requestMap = allRequest.map((e, i) => {
+    //IF PLATFORM CHANGES, FILTER THROUGH ALL REQUESTS AND RETURN FILTERED REQUESTS
+    useEffect(() => {
+        if (platform !== 'All') {
+            const filtered = allRequest.filter(req => req.platform === platform)
+            updateFilteredRequest(filtered)
+        }
+        if (platform === 'All') {
+            updateFilteredRequest(allRequest)
+        }
+    }, [platform])
+
+    //MAP OVER FILTERED REQUEST ARRAY
+    const requestMap = filteredRequest.map((e, i) => {
         return (
             <Request
                 key={i}
                 id={e.req_id}
                 creatorImg={e.avatar}
                 creatorName={e.display_name}
-                fillGame={fillGame}
+                fillRequests={fillRequests}
             />
         );
     });
 
+    //CREATE DROP DOWN OPTIONS TO FILTER REQUESTS BY GAMING PLATFORM
+    const optionMap = game.platform.map(platform => {
+        return (
+            <option name="platform" value={platform}>
+                {platform}
+            </option>
+        )
+    }
+    )
     return (
         <>
             <GameInfo img={game.background_img}>
@@ -102,7 +137,11 @@ const GamePage = props => {
                     </div>
                 </div>
             </GameInfo>
-            <Requests img='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c'>
+            {console.log(request)}
+            <Requests 
+                img='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c'
+                primary={ allRequest.length > 1 }
+            >
                 {props.user.email && (
                     <Button className='request_btn'style={{cursor: 'pointer'}} variant='contained' onClick={openRequest}>Create Request</Button>
                 )}
@@ -117,15 +156,22 @@ const GamePage = props => {
                             max_party={game.max_party}
                             game_id={game.game_id}
                             closeRequest={closeRequest}
+                            fillRequests={fillRequests}
                             style={classes.modal}
                         />
                     </Modal>
                 )}
                 <RequestsTitle src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FRequests4.png?alt=media&token=09a3374a-13de-43f5-86da-9d7ead60629f'></RequestsTitle>
+                <div className='select_platform'>
+                    <select name='platform' onChange={changePlatform}>
+                        <option name='platform' value='All'>All</option>
+                        {optionMap}
+                    </select>
+                </div>
                 <div className='request_map'>{requestMap}</div>
-                
+
             </Requests>
-            {game.platform && 
+            {game.platform &&
                 <MiniProfileFormat>
                     <MiniProfile platforms={game.platform} />
                 </MiniProfileFormat>}
@@ -157,7 +203,6 @@ const GameInfo = styled.div`
     overflow: hidden;
     background: url(${props => props.img}) no-repeat center center;
     background-size: cover;
-    // color: white;
 
     .fog {
         position: absolute;
@@ -180,6 +225,7 @@ const GameInfo = styled.div`
         margin: auto 1% auto 1%;
         height: 90%;
         width: auto;
+        border-radius: 2px;
     }
 
     .game_info {
@@ -207,6 +253,9 @@ const Requests = styled.div`
     -o-background-size: cover;
     background-size: cover;
     width: 100%;
+    height: ${ props =>
+        props.primary ? 'auto' : '60vh'
+    };
     color: white;
     box-shadow: inset 0px 15px 25px 8px rgba(0,0,0,0.75);
 
@@ -228,6 +277,21 @@ const Requests = styled.div`
         justify-content: center;
         flex-wrap: wrap;
     }
+
+    .select_platform {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+        select {
+            width: 15em;
+            height: 5em;
+            background: rgba(255,255,255, 0.5);
+            border: none;
+            margin-top: 2em;
+        }
+    }
+
 `
 const MiniProfileFormat = styled.div`
     color: #000000;

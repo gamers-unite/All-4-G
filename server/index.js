@@ -13,6 +13,7 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 // Imports 
+const { getChatByReq, addToChat } = require("./controllers/chatController");
 const { currentSession } = require("./middleware/authMiddleware");
 const {
     addUser,
@@ -89,7 +90,7 @@ app.post("/api/games/url", getGameByUrl);
 // app.get("/api/requests/request", getRequest);
 app.post("/api/requests/game", getRequestsByGameId);
 app.post("/api/requests/id", getRequestsByReqId);
-app.post("/api/requests/add", addRequest);
+app.post('/api/requests/add', addRequest);
 app.put("/api/requests", editRequest);
 app.delete("/api/requests", deleteRequest);
 app.put("/api/requests/deactivate", deactivateRequest);
@@ -107,6 +108,10 @@ app.get('/api/teams/count/game/:id', getUserGameCount)
 app.get("/api/reports/:id", getAllReports);
 app.get("/api/reports/current/:id", getReports);
 app.post("/api/reports", addReport);
+
+// CHAT ENDPOINTS
+app.post("/api/chat", getChatByReq)
+app.post("/api/chat/add", addToChat)
 
 // Socket Listeners
 io.on('connection', socket => {
@@ -134,6 +139,12 @@ io.on('connection', socket => {
 
     socket.on('kick', () => {
         io.emit('Kicked Player')
+    })
+
+    socket.on("Talking", data => {
+        console.log(`${data.room} chatted`)
+        io.to(data.room).emit('Received Chat', data)
+
     })
 });
 
