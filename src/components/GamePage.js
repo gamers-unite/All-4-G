@@ -10,7 +10,6 @@ import MiniProfile from "./MiniProfile";
 import CreateRequest from "./CreateRequest";
 import { getCurrentUser } from "../ducks/userReducer";
 import Button from '@material-ui/core/Button';
-import { request } from "http";
 
 const styles = theme => ({
     modalWrapper: {
@@ -36,7 +35,7 @@ const styles = theme => ({
         mozBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
         boxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)"
     }
-});
+})
 
 const GamePage = props => {
     const { classes } = props;
@@ -137,10 +136,9 @@ const GamePage = props => {
                     </div>
                 </div>
             </GameInfo>
-            {console.log(request)}
-            <Requests 
+            <Requests
                 img='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2Fbackground.jpg?alt=media&token=88fde558-e096-4a32-9b76-c7bb9eeb3b3c'
-                primary={ allRequest.length > 1 }
+                primary={allRequest.length > 1}
             >
                 {props.user.email && (
                     <Button className='request_btn' variant='contained' onClick={openRequest}>Create Request</Button>

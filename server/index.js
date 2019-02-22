@@ -87,7 +87,6 @@ app.get("/api/games", getGame);
 app.post("/api/games/url", getGameByUrl);
 
 //REQUEST ENDPOINTS
-// app.get("/api/requests/request", getRequest);
 app.post("/api/requests/game", getRequestsByGameId);
 app.post("/api/requests/id", getRequestsByReqId);
 app.post('/api/requests/add', addRequest);

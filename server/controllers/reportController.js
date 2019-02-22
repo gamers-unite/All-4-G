@@ -33,16 +33,5 @@ module.exports = {
                 res.status(200).json(response);
             })
             .catch(err => console.log(err));
-    },
-
-    getReportedStatus: (req, res) => {
-        const { id } = req.body;
-        req.app
-            .get("db")
-            .reports.get_reported_status(req.session.user.id, id)
-            .then(response => {
-                res.status(200).json(response);
-            })
-            .catch(err => console.log(err));
     }
 };
