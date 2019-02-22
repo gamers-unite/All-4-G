@@ -84,7 +84,9 @@ const Profile = props => {
     }, [refresh === true]);
 
     useEffect(() => {
-        if (user) getReports();
+        if (user) {
+            getReports()
+        };
     }, [user])
 
     const openReport = () => {
@@ -137,18 +139,18 @@ const Profile = props => {
             <h2>Games Played: {totalCount}</h2>
             <UserPlatforms>
                 <div>
-                {user.blizzard && (
-                    <>
-                        <h1>Blizzard: </h1>
-                        <p>{user.blizzard}</p>
-                    </>
-                )}
-                {user.epic && (
-                    <>
-                        <h1>Epic: </h1>
-                        <p>{user.epic}</p>
-                    </>
-                )}
+                    {user.blizzard && (
+                        <>
+                            <h1>Blizzard: </h1>
+                            <p>{user.blizzard}</p>
+                        </>
+                    )}
+                    {user.epic && (
+                        <>
+                            <h1>Epic: </h1>
+                            <p>{user.epic}</p>
+                        </>
+                    )}
                 </div>
                 <div>
                     {user.ps4 && (

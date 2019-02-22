@@ -37,15 +37,12 @@ const Chat = props => {
 
   const setUp = async () => {
     const result = await axios.post("/api/chat", { req_id: props.id })
-    setChat(result.data)
+    setChat(result.data.reverse())
   }
 
   useEffect(() => {
     setUp()
     socket.emit('Enter Room', { room: props.id })
-  }, [])
-
-  useEffect(() => {
     socket.on('Received Chat', () => {
       setUp()})
   }, [])
@@ -61,19 +58,21 @@ const Chat = props => {
   };
 
   const handleClick = async () => {
-    const obj = {
-      text: inputs.multiline,
-      user_id: props.user_id,
-      req_id: props.id
+    if (inputs.multiline !== '') {
+      const obj = {
+        text: inputs.multiline,
+        user_id: props.user_id,
+        req_id: props.id
+      }
+      await axios.post("api/chat/add", obj)
+      socket.emit('Talking', { room: props.id })
+      setInputs({ multiline: '' })
     }
-    await axios.post("api/chat/add", obj)
-    socket.emit('Talking', { room: props.id })
-    setInputs({multiline: ''})
   }
 
   const { classes } = props;
 
-  const chatMap = chat.map( (e, i) => {
+  const chatMap = chat.map((e, i) => {
     return (
       <div className='ind_chat' key={i}>
         <Avatar aria-label="Avatar" src={e.avatar} />
@@ -109,8 +108,8 @@ const Chat = props => {
           onKeyPress={keyPress}
         />
         <Fab color="secondary" aria-label="Add" className={classes.fab}>
-          <AddIcon onClick={handleClick}/>
-        </Fab>        
+          <AddIcon onClick={handleClick} />
+        </Fab>
       </div>
     </ChatDiv>
   );
@@ -133,7 +132,10 @@ const ChatDiv = styled.div`
 
 /* ---- Messages Within the Chat Field ---- */
   .discussion {
-    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
     width: 90%;
     height: 78%;
     margin: 1% 0;
@@ -146,6 +148,7 @@ const ChatDiv = styled.div`
 
   .ind_input {
     margin-left: 2%;
+    width: 80%;
   }
 
   .chat_field {

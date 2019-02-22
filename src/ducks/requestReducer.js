@@ -15,30 +15,23 @@ const REQUESTS_BY_GAME = "REQUESTS_BY_GAME";
 const REQUEST_BY_ID = "REQUEST_BY_ID";
 const CLEAN_REQUEST = 'CLEAN_REQUEST';
 
-export function cleanRequest(){
+export function cleanRequest() {
     return {
         type: CLEAN_REQUEST,
     }
 }
 
-export function getRequestById(req_id){
+export function getRequestById(req_id) {
     return {
         type: REQUEST_BY_ID,
-        payload:axios.post("/api/requests/id", { req_id })
+        payload: axios.post("/api/requests/id", { req_id })
     }
 }
 
 export function getRequestsByGame(game_id) {
     return {
         type: REQUESTS_BY_GAME,
-        payload: axios.post("/api/requests/game", {game_id})
-    };
-}
-
-export function getRequest(id) {
-    return {
-        type: REQUEST,
-        payload: axios.post("/api/requests/request", {})
+        payload: axios.post("/api/requests/game", { game_id })
     };
 }
 
@@ -75,10 +68,10 @@ export default function reducer(state = initialState, action) {
         case CLEAN_REQUEST:
             return { idRequest: {}, gameRequests: [], request: {} }
         case REQUEST_BY_ID + "_FULFILLED":
-            return { ...state, idRequest: action.payload.data};
+            return { ...state, idRequest: action.payload.data };
 
         case REQUEST_BY_ID + "_REJECTED":
-            return { ...state, error: "Unable to get request"};
+            return { ...state, error: "Unable to get request" };
 
         case REQUEST + "_FULFILLED":
             return { ...state, request: action.payload.data };

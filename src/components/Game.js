@@ -28,21 +28,21 @@ const Game = props => {
   // takes you to top of selected game page
   const handleRedirect = () => {
     setRedirect(true)
-    return window.scrollTo(0,0);
+    return window.scrollTo(0, 0);
   }
 
-  if(redirect){
-    return <Redirect to={`/${props.url}`}/>
+  if (redirect) {
+    return <Redirect to={`/${props.url}`} />
   }
 
   return (
-    <Card className={classes.card} onClick={handleRedirect} style={{boxShadow: '5px 5px 15px 5px rgba(0,0,0,0.65)'}}>
+    <Card className={classes.card} onClick={handleRedirect} style={{ boxShadow: '5px 5px 15px 5px rgba(0,0,0,0.65)' }}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
           image={props.logo}
         />
-        <CardContent style={{height: '300px', background: 'rgb(230, 230, 230)'}}>
+        <CardContent style={{ height: '300px', background: 'rgb(230, 230, 230)' }}>
           <Typography gutterBottom variant="h5" component="h2">
             {props.title}
           </Typography>

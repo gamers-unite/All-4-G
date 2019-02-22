@@ -34,17 +34,5 @@ module.exports = {
                 res.status(200).json(response);
             })
             .catch(err => console.log(err));
-    },
-
-    // gets all reports for user passed in params
-    getReportedStatus: (req, res) => {
-        const { id } = req.body;
-        req.app
-            .get("db")
-            .reports.get_reported_status(req.session.user.id, id)
-            .then(response => {
-                res.status(200).json(response);
-            })
-            .catch(err => console.log(err));
     }
 };
