@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import socketIOClient from 'socket.io-client';
 import { getCurrentUser } from "../ducks/userReducer";
 import Report from "./Report";
 import { Doughnut } from 'react-chartjs-2';
@@ -14,8 +13,6 @@ import Modal from "@material-ui/core/Modal";
 
 //MODAL TO DISPLAY USER INFO FROM REQUEST PAGE
 //VIEWER CAN REPORT USER, AND CREATOR CAN REMOVE USER FROM TEAM
-
-const socket = socketIOClient();
 
 const styles = theme => ({
     modalWrapper: {
@@ -70,13 +67,6 @@ const Profile = props => {
             setReports(response.data)
         });
     };
-
-    const removeTeamMember = async () => {
-        const { user_id } = user;
-        const { req_id } = props;
-        await axios.delete('/api/teams/user', { data: { user_id, req_id } })
-        socket.emit('kick')
-    }
 
     useEffect(() => {
         getUserData();
@@ -183,12 +173,12 @@ const Profile = props => {
             </UserPlatforms>
             <Doughnut data={data} options={options} />
             {removable && (
-                <Button variant='contained' style={{cursor: 'pointer'}} onClick={removeTeamMember}>Remove From Team</Button>
+                <Button variant='contained' style={{ cursor: 'pointer' }} onClick={() => props.removeTeamMember(user.user_id)}>Remove From Team</Button>
             )}
             {props.user && reportable && !reported && (
-                <Button variant='contained' style={{cursor: 'pointer'}} onClick={openReport}>Report User</Button>
+                <Button variant='contained' style={{ cursor: 'pointer' }} onClick={openReport}>Report User</Button>
             )}
-            {reportable && reported && <Button variant='contained' style={{cursor: 'pointer'}} disabled>Report Sent</Button>}
+            {reportable && reported && <Button variant='contained' style={{ cursor: 'pointer' }} disabled>Report Sent</Button>}
             {modal && (
                 <Modal
                     className={classes.modalWrapper}

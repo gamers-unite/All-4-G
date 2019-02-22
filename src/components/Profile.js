@@ -95,13 +95,13 @@ const Profile = props => {
 
     return (
         <ProfilePage>
-            <div className='fog'/>
+            <div className='fog' />
             <ProfileFormat>
                 <AvatarStyle>
-                    <Avatar src={props.user.avatar} alt="avatar" style={{ height: '10em', width: '10em' }} />
+                    <h1>{props.user.display_name}</h1>
+                    <Avatar src={props.user.avatar} alt="avatar" className='user_avatar' />
                 </AvatarStyle>
                 <UserInfo>
-                    <h1>{props.user.display_name}</h1>
                     <IdFormat>
                         <h2>Email: </h2>
                         <p>{props.user.email}</p>
@@ -170,7 +170,7 @@ const Profile = props => {
                 </UserInfo>
             </ProfileFormat>
             <DoughnutDiv>
-                <Doughnut data={data} options={options} width='600' height='600' textColor='black'/>
+                <Doughnut data={data} options={options} width='600' height='600' textColor='black' />
             </DoughnutDiv>
         </ProfilePage>
     );
@@ -224,25 +224,40 @@ const IdFormat = styled.div`
     justify-content: space-between;
     align-items: center;
     height: 100%;
-    width: 100%;
-    padding-left: 10vw;
+    width: 15vw;
 `;
 
 const ProfileFormat = styled.div`
+    position: relative;
     padding: 4em 0 0 5vw;
     height: 100%;
     width: 40%;
 `;
 
 const UserInfo = styled.div`
-    width: 40%;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    width: 20%;
 `;
 
 const AvatarStyle = styled.div`
-    width: 50%;
-    height: 60%;
     display: flex;
+    flex-direction: column;
+    width: 20em;
+    align-items: space-between;
     justify-content: flex-end;
-    align-items: center;
-    position: absolute;
+    float: left;
+    top: 5em;
+    left: 0;
+    margin: 2em;
+
+    h1 {
+        margin-right: 2em;
+    }
+
+    .user_avatar {
+        height: 10em;
+        width: 10em;
+    }
 `;
