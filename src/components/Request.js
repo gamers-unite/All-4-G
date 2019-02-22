@@ -27,13 +27,14 @@ import Modal from "@material-ui/core/Modal";
 
 const socket = socketIOClient();
 
-export const renderTeam = (num, request) => {
+export const renderTeam = (num, request, fn) => {
     let team = [];
     for (let i = 0; i < num; i++) {
         if (request[i]) {
             team.push(
                 <TeamMember key={i}
                     request={request[i]}
+                    removeTeamMember={fn}
                 />
             );
         } else {
@@ -129,6 +130,12 @@ const Request = props => {
                 setMember(true)
             }
         }
+    }
+
+    const removeTeamMember = async (id) => {
+        const req_id = props.id;
+        await axios.delete('/api/teams/user', { data: { user_id: id, req_id } })
+        socket.emit('kick')
     }
 
     //MODAL FUNCTIONS
@@ -245,10 +252,10 @@ const Request = props => {
                         {request[0].info}
                     </Typography>
                 </CardContent>
-                <CardActions className={classes.actions} disableActionSpacing style={{cursor: 'pointer'}}>
+                <CardActions className={classes.actions} disableActionSpacing >
                     <Team className="team_bar">
                         <div>
-                            {renderTeam(request[0].team_length, request)}
+                            {renderTeam(request[0].team_length, request, removeTeamMember)}
                         </div>
                     </Team>
                     {props.user.id && member && <IconButton

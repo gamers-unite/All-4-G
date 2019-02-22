@@ -48,7 +48,7 @@ const TeamMember = props => {
                 src={props.request.avatar}
                 alt="mini"
                 onClick={openModal}
-                style={{cursor: 'pointer'}}
+                style={{ cursor: 'pointer' }}
             />
             <Modal
                 className={classes.modalWrapper}
@@ -59,6 +59,7 @@ const TeamMember = props => {
                     <User creator_id={props.request.creator_id}
                         email={props.request.email}
                         req_id={props.request.req_id}
+                        removeTeamMember={props.removeTeamMember}
                     />
                 </div>
             </Modal>
