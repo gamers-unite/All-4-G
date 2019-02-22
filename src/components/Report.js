@@ -12,7 +12,6 @@ const styles = theme => ({
         top: "50%",
         transform: "translate(-50%, -50%)",
         width: theme.spacing.unit * 40,
-        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
         background: "rgba(192, 192, 192, 0.9)",
         borderRadius: "5%",
@@ -47,8 +46,8 @@ const Report = props => {
     return (
         <div className={classes.modal}>
             <input name="reason" onChange={onChange} />
-            <Button variant='contained' onClick={submitReport}>Submit</Button>
-            <Button variant='contained' onClick={props.closeReport}>Cancel</Button>
+            <Button variant='contained' style={{cursor: 'pointer'}} onClick={submitReport}>Submit</Button>
+            <Button variant='contained' style={{cursor: 'pointer'}} onClick={props.closeReport}>Cancel</Button>
         </div>
     );
 };

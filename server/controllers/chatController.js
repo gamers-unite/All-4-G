@@ -1,4 +1,6 @@
 module.exports = {
+
+  // gets all of chat per request
   getChatByReq: (req, res) => {
     const { req_id } = req.body;
     req.app
@@ -9,6 +11,7 @@ module.exports = {
       })
       .catch(err => console.log(err))
   },
+  
   addToChat: ( req, res ) => {
     const { text, user_id, req_id } = req.body;
     req.app

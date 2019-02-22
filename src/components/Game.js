@@ -13,7 +13,8 @@ const styles = {
   card: {
     maxWidth: 300,
     maxHeight: 500,
-    margin: 15
+    margin: 15,
+    cursor: 'pointer'
   },
   media: {
     height: 300,
@@ -24,6 +25,7 @@ const Game = props => {
   const [redirect, setRedirect] = useState(false)
   const { classes } = props;
 
+  // takes you to top of selected game page
   const handleRedirect = () => {
     setRedirect(true)
     return window.scrollTo(0, 0);

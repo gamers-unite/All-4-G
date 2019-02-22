@@ -1,4 +1,6 @@
 module.exports = {
+
+    // gets user team history
     getTeams: (req, res) => {
         const { user_id } = req.body;
         req.app
@@ -32,6 +34,7 @@ module.exports = {
             .catch(err => console.log(err));
     },
 
+    // allows owner of team to remove specific player from team
     deleteTeamMember: (req, res) => {
         const { user_id, req_id } = req.body;
         req.app
@@ -54,6 +57,7 @@ module.exports = {
             .catch(err => console.log(err));
     },
 
+    // returns count of teams user has participated in
     getUserTeamCount: (req, res) => {
         const { id } = req.params;
         req.app.get('db').teams.user_team_count(id)
@@ -63,11 +67,11 @@ module.exports = {
             .catch(err => console.log(err));
     },
 
+    // returns count of teams user has participated in by game
     getUserGameCount: (req, res) => {
         const { id } = req.params;
         req.app.get('db').teams.user_game_count(id)
             .then(response => {
-                console.log(response)
                 const data = response[0]
                 const gameArr = [+data.leagueoflegends, +data.smite, +data.diablo3, +data.destiny2, +data.overwatch];
                 res.status(200).json(gameArr);

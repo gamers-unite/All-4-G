@@ -1,10 +1,11 @@
-const path = require("path");
 require("dotenv").config();
+
+const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const massive = require("massive");
 const { json } = require("body-parser");
-// const cors = require("cors");
+
 const port = process.env.SERVER_PORT;
 const app = express();
 
@@ -15,37 +16,14 @@ const io = require('socket.io')(server);
 // Imports 
 const { getChatByReq, addToChat } = require("./controllers/chatController");
 const { currentSession } = require("./middleware/authMiddleware");
-const {
-    addUser,
-    logInUser,
-    getUser,
-    authAccount,
-    updateUser,
-    logout
-} = require("./controllers/authController");
-const {
-    getGame,
-    getGames,
-    getGameByUrl
-} = require("./controllers/gameController");
-const {
-    getRequestsByReqId,
-    getRequestsByGameId,
-    addRequest,
-    editRequest,
-    deleteRequest,
-    deactivateRequest
-} = require("./controllers/requestController");
-const {
-    getTeams,
-    addTeam,
-    deleteTeam, deleteTeamMember, getTeamMember, getUserTeamCount, getUserGameCount
-} = require("./controllers/teamController");
+const { addUser, logInUser, getUser, authAccount, updateUser, logout } = require("./controllers/authController");
+const { getGame, getGames, getGameByUrl } = require("./controllers/gameController");
+const { getRequestsByReqId, getRequestsByGameId, addRequest, editRequest, deleteRequest, deactivateRequest } = require("./controllers/requestController");
+const { getTeams, addTeam, deleteTeam, deleteTeamMember, getTeamMember, getUserTeamCount, getUserGameCount } = require("./controllers/teamController");
 const { getAllReports, getReports, addReport } = require("./controllers/reportController");
 
-
 app.use(json());
-// app.use(cors());
+
 app.use(express.static(`${__dirname}/../build`));
 
 massive(process.env.CONNECTION_STRING)
@@ -68,14 +46,7 @@ app.use(
 
 //AUTH ENDPOINTS
 app.post("/users/register", addUser);
-app.post(
-    "/users/login",
-    (req, res, next) => {
-        console.log("hit");
-        next();
-    },
-    logInUser
-);
+app.post("/users/login", logInUser);
 app.get("/users/current", currentSession, authAccount);
 app.get("/users/:email", getUser);
 app.put("/users/update", updateUser);
@@ -118,7 +89,7 @@ io.on('connection', socket => {
 
     socket.on('Enter Room', data => {
         socket.join(data.room)
-        console.log(`Entered Room ${data.room}`)
+        // console.log(`Entered Room ${data.room}`)
     })
 
     socket.on('Joined', data => {
@@ -147,8 +118,7 @@ io.on('connection', socket => {
     })
 });
 
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../build/index.html"));
+app.get("*", (req, res) => { res.sendFile(path.join(__dirname, "../build/index.html"));
 });
 
 server.listen(port, console.log(`Listening on ${port}`));

@@ -1,4 +1,6 @@
 module.exports = {
+
+    // returns individual game by game id
     getGame: (req, res) => {
         const { game_id } = req.body;
         req.app
@@ -10,6 +12,7 @@ module.exports = {
             .catch(err => console.log(err));
     },
 
+    // returns all games in database
     getGames: (req, res) => {
         req.app
             .get("db")
@@ -19,6 +22,8 @@ module.exports = {
             })
             .catch(err => console.log(err));
     },
+
+    // gets indiviual game by URL
     getGameByUrl: (req, res) => {
         req.app
             .get("db")

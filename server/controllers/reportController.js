@@ -1,6 +1,7 @@
 module.exports = {
+
+    //gets all reports for individual user by id
     getAllReports: (req, res) => {
-        console.log('get all reports hit')
         const { id } = req.params;
         req.app
             .get("db")
@@ -11,9 +12,8 @@ module.exports = {
             .catch(err => console.log(err));
     },
 
+    // checks to see if user on session has previously reported user on params 
     getReports: (req, res) => {
-        console.log('get reports hit')
-        console.log(req.params)
         const { id } = req.params;
         req.app
             .get("db")
@@ -24,6 +24,7 @@ module.exports = {
             .catch(err => console.log(err));
     },
 
+    // adds a report
     addReport: (req, res) => {
         const { user_id, reason } = req.body;
         req.app

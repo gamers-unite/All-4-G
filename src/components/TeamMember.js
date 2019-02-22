@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from "prop-types";
+import User from './User'
 import Modal from "@material-ui/core/Modal";
 import { withStyles } from "@material-ui/core/styles";
-import User from './User'
 
 const styles = theme => ({
     modalWrapper: {
@@ -19,7 +19,6 @@ const styles = theme => ({
         top: "50%",
         transform: "translate(-50%, -50%)",
         width: theme.spacing.unit * 40,
-        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
         background: "rgba(192, 192, 192, 0.9)",
         borderRadius: "5%",
@@ -49,6 +48,7 @@ const TeamMember = props => {
                 src={props.request.avatar}
                 alt="mini"
                 onClick={openModal}
+                style={{cursor: 'pointer'}}
             />
             <Modal
                 className={classes.modalWrapper}
@@ -56,12 +56,10 @@ const TeamMember = props => {
                 onClose={closeModal}
             >
                 <div className={classes.modal}>
-
                     <User creator_id={props.request.creator_id}
                         email={props.request.email}
                         req_id={props.request.req_id}
                     />
-
                 </div>
             </Modal>
         </div>

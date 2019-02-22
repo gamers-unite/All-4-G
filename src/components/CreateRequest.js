@@ -3,36 +3,8 @@ import axios from "axios";
 import { connect } from "react-redux";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
-// import { withStyles } from "@material-ui/core/styles";
-// import Modal from "@material-ui/core/Modal";
 
-//Display as modal in parent component
-
-// const styles = theme => ({
-//     modalWrapper: {
-//         width: "100vw",
-//         height: "100vh",
-//         alignItems: "center",
-//         justifyContent: "center"
-//     },
-
-//     modal: {
-//         position: "absolute",
-//         float: "left",
-//         left: "50%",
-//         top: "50%",
-//         transform: "translate(-50%, -50%)",
-//         width: theme.spacing.unit * 40,
-//         // boxShadow: theme.shadows[10],
-//         padding: theme.spacing.unit * 4,
-//         background: "rgba(192, 192, 192, 0.9)",
-//         borderRadius: "5%",
-//         outline: "none",
-//         webkitBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
-//         mozBoxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)",
-//         boxShadow: "24px 22px 23px 9px rgba(0,0,0,0.75)"
-//     }
-// });
+//Modal styling in parent component
 
 //RETURN ARRAY OF NUMBERS REPRESENTING PARTY SIZE OPTIONS
 export const createNumArray = num => {
@@ -58,18 +30,12 @@ const CreateRequest = props => {
         const { game_id } = props;
         const user_id = props.user.id;
         const { team_length, platform, info } = inputs;
-        let result = await axios.post("/api/requests/add", {
-            team_length,
-            game_id,
-            platform,
-            info
-        });
+        let result = await axios.post("/api/requests/add", { team_length, game_id, platform, info });
         const { req_id } = result.data[0];
         await axios.post("/api/teams", { user_id, req_id })
         props.closeRequest();
         props.fillRequests();
     };
-
 
     //CREATE DROP DOWN OPTIONS TO SELECT PARTY SIZE
     const numberOptions = createNumArray(props.max_party).map(num => {
@@ -126,11 +92,5 @@ const RequestModalButtons = styled.div`
     padding-top: 1em;
     width: 85%;
     padding-left: 1em;
+    cursor: pointer;
 `;
-
-// const Modal = styled.div`
-//     background: #333333;
-//     border: .5em solid black;
-//     borderRadius: 10%;
-//     outline: none;
-// `

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Avatar from "@material-ui/core/Avatar";
+import axios from "axios";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
+import { Doughnut } from 'react-chartjs-2';
 import { getCurrentUser } from "../ducks/userReducer";
 import EditProfile from "./EditProfile";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
-import axios from "axios";
-import { Doughnut } from 'react-chartjs-2';
+import Avatar from "@material-ui/core/Avatar";
+import Modal from "@material-ui/core/Modal";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
     modalWrapper: {
@@ -211,13 +211,13 @@ const ProfilePage = styled.div`
         width: 100%;
         z-index: -1;
     }
-`
+`;
 
 const DoughnutDiv = styled.div`
     display: flex;
     align-items: center;
     margin-right: 10vw;
-`
+`;
 
 const IdFormat = styled.div`
     display: flex;
@@ -236,8 +236,8 @@ const ProfileFormat = styled.div`
 
 const UserInfo = styled.div`
     width: 40%;
-
 `;
+
 const AvatarStyle = styled.div`
     width: 50%;
     height: 60%;
@@ -246,4 +246,3 @@ const AvatarStyle = styled.div`
     align-items: center;
     position: absolute;
 `;
-

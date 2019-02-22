@@ -60,7 +60,7 @@ const Register = props => {
                 <input name="steam" onChange={onChange} />
                 <p>Xbox</p>
                 <input name="xbox" onChange={onChange} />
-                <Button variant='contained' onClick={handleRegister}>Submit</Button>
+                <Button variant='contained' style={{cursor: 'pointer'}} onClick={handleRegister}>Submit</Button>
             </form>
         </RegisterStyle>
     );

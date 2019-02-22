@@ -1,11 +1,8 @@
 import React, { useEffect, useReducer } from 'react';
-// import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import 'material-design-icons';
 
-
 //HOOKS AND REDUCER
-
 const Carousel = (props) => {
   let [state, dispatch] = useReducer(
     (state, action) => {
@@ -55,7 +52,7 @@ const Carousel = (props) => {
     <div>
       <ImageContainer>
         <CarouselImg>
-          <img src={props.games[state.currentIndex].background_img} alt='background' max-width='100%' height='auto'></img>
+          <img src={props.games[state.currentIndex].background_img} alt='background' max-width='100%' height='100%'></img>
           <CarouselNav>
             <Prev >
               <Button className="material-icons" name='PREV' onClick={handleClick}>skip_previous</Button>
@@ -82,7 +79,7 @@ const Button = styled.button`
   background: none;
   border: none;
   outline: none;
-  color: lightgrey;
+  color: #c0c0c0;
   font-size: 5em;
   text-shadow: 3px 3px black;
   opacity: .5;
@@ -91,34 +88,30 @@ const Button = styled.button`
 
 const Play = styled.div`
   height: 90vh;
-  width: 5vw;
   z-index: 2;
   display: flex;
-  justify-content: center;
   align-items: flex-end;
-  padding-right: 2vw;
+  padding-right: 4em;
 `;
 
 const Pause = styled.div`
   height: 90vh;
-  width: 5vw;
   z-index: 2;
   display: flex;
-  justify-content: center;
   align-items: flex-end;
-  padding-left: 2vw;
+  padding-left: 4em;
 `;
 
 const Prev = styled.div`
   height: 5vh;
-  width: 40vw;
+  width: 45vw;
   z-index: 2;
   display: flex;
 `;
 
 const Next = styled.div`
   height: 5vh;
-  width: 40vw;
+  width: 45vw;
   z-index: 2;
   display: flex;
   justify-content: flex-end;
@@ -137,7 +130,6 @@ const CarouselNav = styled.div`
 const ImageContainer = styled.div`
   position: relative;
   height: 93vh;
-  width: 100vw;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -150,11 +142,6 @@ const CarouselImg = styled.div`
   align-items: center;
   height: 100%;
   width: 100%;
-
-  img {
-    height: 100%;
-  }
-
   max-width: auto;
   overflow: hidden;
   margin: 0 auto;

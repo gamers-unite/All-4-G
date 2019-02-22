@@ -30,7 +30,6 @@ export function allGames(){
 }
 
 export default function reducer(state=initialState, action){
-    // console.log(action.type, action.payload)
     switch(action.type){
         case CLEAN_GAME:
             return { game: {}, allOfGames: [] }

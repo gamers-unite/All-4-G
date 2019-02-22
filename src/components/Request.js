@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import axios from "axios";
-import styled from "styled-components";
+import { connect } from 'react-redux';
 import socketIOClient from 'socket.io-client';
+import PropTypes from 'prop-types';
 // Component Imports
 import TeamMember from './TeamMember'
 import User from './User'
 import Chat from './Chat';
-// Material UI Imports
-import PropTypes from 'prop-types';
+// Styling
+import styled from "styled-components";
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -57,7 +57,6 @@ const styles = theme => ({
         top: "50%",
         transform: "translate(-50%, -50%)",
         width: theme.spacing.unit * 40,
-        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
         background: "rgba(192, 192, 192, 0.9)",
         borderRadius: "5%",
@@ -89,10 +88,12 @@ const styles = theme => ({
     },
     avatar: {
         backgroundColor: blueGrey[900],
+        cursor: 'pointer'
     },
     mini_avatar: {
         height: 35,
         width: 35,
+        cursor: 'pointer'
     },
     player: {
         height: 29,
@@ -171,13 +172,11 @@ const Request = props => {
         socket.on('Player Joined', data => {
             if (props.id === data.room) {
                 fillRequest()
-                console.log('Join data: ', data)
             }
         });
         socket.on('Player Left', data => {
             if (props.id === data.room) {
                 fillRequest()
-                console.log('Left data: ', data)
             }
         });
         socket.on("Kicked Player", (data) => {
@@ -187,7 +186,6 @@ const Request = props => {
 
     const handleJoin = () => {
         axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then(() => {
-            // fillRequest();
             setMember(true)
         })
         socket.emit('Joined', { room: props.id })
@@ -205,7 +203,6 @@ const Request = props => {
     }
 
     //FORMAT DATE TO DISPLAY ON GAME REQUEST
-
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"];
 
     const myDate = (date) => {
@@ -248,7 +245,7 @@ const Request = props => {
                         {request[0].info}
                     </Typography>
                 </CardContent>
-                <CardActions className={classes.actions} disableActionSpacing style={{}}>
+                <CardActions className={classes.actions} disableActionSpacing style={{cursor: 'pointer'}}>
                     <Team className="team_bar">
                         <div>
                             {renderTeam(request[0].team_length, request)}
@@ -308,27 +305,27 @@ const ChatBox = styled.div`
     justify-content: center;
     height: 700px;
     width: auto;
-`
+`;
 
 const Team = styled.div`
-display: flex;
-justify-content: center;
-width: 100%;
-
-div {
     display: flex;
-}
+    justify-content: center;
+    width: 100%;
 
-.mini_avatar {
-    height: 35px;
-    width: 35px;
-    border-radius: 50%;
-}
+    div {
+        display: flex;
+    }
 
-.player {
-    height: 29px;
-    width: 29px;
-    background: black;
-    margin: 2px;
-}
-`
+    .mini_avatar {
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+    }
+
+    .player {
+        height: 29px;
+        width: 29px;
+        background: black;
+        margin: 2px;
+    }
+`;

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+
 import { storage } from "./firebase";
 import ImageUpload from "./ImageUpload";
+
 import styled from 'styled-components';
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
     modal: {
@@ -15,7 +17,6 @@ const styles = theme => ({
         top: "50%",
         transform: "translate(-50%, -50%)",
         width: theme.spacing.unit * 40,
-        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
         background: "rgba(192, 192, 192, 0.9)",
         borderRadius: "5%",
@@ -60,21 +61,17 @@ const EditProfile = props => {
             .put(inputs.image);
         uploadTask.on(
             "state_changed",
-            snapshot => {
-                //progress function
+            snapshot => { //progress function 
             },
-            error => {
-                //error function
+            error => { //error function
                 console.log(error);
             },
-            () => {
-                //complete function
+            () => { //complete function
                 storage
                     .ref("images/avatars")
                     .child(email)
                     .getDownloadURL()
                     .then(url => {
-                        console.log(url);
                         setInputs({ ...inputs, avatar: url, url });
                     });
             }
@@ -83,36 +80,17 @@ const EditProfile = props => {
 
     const submitEdit = e => {
         e.preventDefault();
-        const {
-            display_name,
-            avatar,
-            blizzard,
-            epic,
-            ps4,
-            riot,
-            steam,
-            xbox
-        } = inputs;
+        const { display_name, avatar, blizzard, epic, ps4, riot, steam, xbox } = inputs;
         axios
-            .put("/users/update", {
-                display_name,
-                avatar,
-                blizzard,
-                epic,
-                ps4,
-                riot,
-                steam,
-                xbox
-            })
-            .then(() => {
-                props.closeEdit();
+            .put("/users/update", { display_name, avatar, blizzard, epic, ps4, riot, steam, xbox })
+            .then(() => { props.closeEdit();
             });
     };
 
     return (
         <>
             <Form className={classes.modal} onSubmit={submitEdit}>
-            <Logo src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FLogo.png?alt=media&token=205cab94-8e86-4908-8d4b-1ad20390d3d1'></Logo>
+                <Logo src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FLogo.png?alt=media&token=205cab94-8e86-4908-8d4b-1ad20390d3d1'></Logo>
                 <p>Display Name</p>
                 <input
                     name="display_name"
@@ -165,8 +143,8 @@ const EditProfile = props => {
                     />
                 </ImageUploadFormat>
                 <ButtonFormat>
-                    <Button onClick={submitEdit} variant='contained'>Submit</Button>
-                    <Button onClick={props.closeEdit} variant='contained'>Cancel</Button>
+                    <Button style={{cursor: 'pointer'}} onClick={submitEdit} variant='contained'>Submit</Button>
+                    <Button style={{cursor: 'pointer'}} onClick={props.closeEdit} variant='contained'>Cancel</Button>
                 </ButtonFormat>
             </Form>
         </>
@@ -183,7 +161,6 @@ const Form = styled.form`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    // flex-wrap: wrap;
     flex-direction: column;
     font-weight: bold;
 `;
@@ -191,18 +168,19 @@ const Form = styled.form`
 const Logo = styled.img`
     height: 3em;
     width: 125%;
-`
+`;
 
 const ButtonFormat = styled.div`
     display: flex;
     width: 100%;
     padding-top: 1em;
     justify-content: space-evenly;
-`
+`;
+
 const ImageUploadFormat = styled.div`
     display: felx;
     width: 100%;
     align-items: space-evenly;
     justify-content: center;
     width: 100%;
-`
+`;

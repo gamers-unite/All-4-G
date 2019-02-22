@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+
 import { allGames } from "../ducks/gamesReducer";
-import styled from "styled-components";
 import Carousel from "./Carousel";
 import Game from "./Game";
+
+import styled from "styled-components";
 
 const Home = props => {
   useEffect(() => {
@@ -14,7 +16,7 @@ const Home = props => {
   if (props.games) {
     gameMap = props.games.map((e, i) => {
       return (
-        <GameCards>
+        <div>
           <Game
             key={i}
             game_id={e.game_id}
@@ -24,7 +26,7 @@ const Home = props => {
             logo={e.logo}
             url={e.url}
           />
-        </GameCards>
+        </div>
       );
     });
   }
@@ -50,10 +52,6 @@ export const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, { allGames })(Home);
-
-const GameCards = styled.div`
-
-`;
 
 const GameList = styled.div`
   display: flex;

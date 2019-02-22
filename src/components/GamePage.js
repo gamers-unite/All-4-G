@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { connect } from "react-redux";
-import Modal from "@material-ui/core/Modal";
 import PropTypes from "prop-types";
+// local
+import { getCurrentUser } from "../ducks/userReducer";
+import Request from "./Request";
+import CreateRequest from "./CreateRequest";
+// import { request } from "http";
+// styling
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
-import axios from "axios";
-import Request from "./Request";
-import MiniProfile from "./MiniProfile";
-import CreateRequest from "./CreateRequest";
-import { getCurrentUser } from "../ducks/userReducer";
+import Modal from "@material-ui/core/Modal";
 import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
@@ -26,7 +28,6 @@ const styles = theme => ({
         top: "50%",
         transform: "translate(-50%, -50%)",
         width: theme.spacing.unit * 40,
-        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
         background: "rgba(192, 192, 192, 0.9)",
         borderRadius: "5%",
@@ -69,7 +70,6 @@ const GamePage = props => {
     };
 
     //MODAL FUNCTIONS
-
     const openRequest = () => {
         setModal(true);
     };
@@ -141,7 +141,7 @@ const GamePage = props => {
                 primary={allRequest.length > 1}
             >
                 {props.user.email && (
-                    <Button className='request_btn' variant='contained' onClick={openRequest}>Create Request</Button>
+                    <Button className='request_btn'style={{cursor: 'pointer'}} variant='contained' onClick={openRequest}>Create Request</Button>
                 )}
                 {modal && (
                     <Modal
@@ -159,7 +159,7 @@ const GamePage = props => {
                         />
                     </Modal>
                 )}
-                <h1>Requests</h1>
+                <RequestsTitle src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FRequests4.png?alt=media&token=09a3374a-13de-43f5-86da-9d7ead60629f'></RequestsTitle>
                 <div className='select_platform'>
                     <select name='platform' onChange={changePlatform}>
                         <option name='platform' value='All'>All</option>
@@ -167,12 +167,7 @@ const GamePage = props => {
                     </select>
                 </div>
                 <div className='request_map'>{requestMap}</div>
-
             </Requests>
-            {game.platform &&
-                <MiniProfileFormat>
-                    <MiniProfile platforms={game.platform} />
-                </MiniProfileFormat>}
         </>
     );
 };
@@ -250,22 +245,16 @@ const Requests = styled.div`
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    width: 100vw;
-    height: ${ props =>
-        props.primary ? 'auto' : '60vh'
-    };
+    width: 100%;
+    height: ${ props => props.primary ? 'auto' : '60vh' };
     color: white;
     box-shadow: inset 0px 15px 25px 8px rgba(0,0,0,0.75);
-
-    h1 {
-        position: absolute;
-        margin: 2%;
-    }
 
     .request_btn {
         position: absolute;
         right: 0;
         margin: 2%;
+        cursor: pointer;
     }
 
     .request_map {
@@ -276,9 +265,9 @@ const Requests = styled.div`
     }
 
     .select_platform {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+        width: 100%;
+        display: flex;
+        justify-content: center;
 
         select {
             width: 15em;
@@ -289,7 +278,14 @@ const Requests = styled.div`
         }
     }
 
-`
-const MiniProfileFormat = styled.div`
-    color: #000000;
-`
+`;
+
+const RequestsTitle = styled.img`
+    position: absolute;
+    z-index: 1;
+    height: 5em;
+    width: 20em;
+    transform: rotate(-42deg);
+    image-rendering: sharp;
+    margin-top: 5em;
+`;
