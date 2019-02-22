@@ -5,6 +5,7 @@ import styled from "styled-components";
 import socketIOClient from 'socket.io-client';
 // Component Imports
 import TeamMember from './TeamMember'
+import User from './User'
 import Chat from './Chat';
 // Material UI Imports
 import PropTypes from 'prop-types';
@@ -275,6 +276,17 @@ const Request = props => {
                     </ChatBox>
                 </Collapse>
             </Card>)}
+            {modal &&
+                <Modal className={classes.modalWrapper}
+                    open={modal}
+                    onClose={closeModal}>
+                    <div className={classes.modal}>
+                        <User
+                            creator_id={request[0].creator_id}
+                            email={request[0].email}
+                            req_id={request[0].req_id} />
+                    </div>
+                </Modal>}
         </>
     );
 }
