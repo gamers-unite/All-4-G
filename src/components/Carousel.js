@@ -1,11 +1,8 @@
 import React, { useEffect, useReducer } from 'react';
-// import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import 'material-design-icons';
 
-
 //HOOKS AND REDUCER
-
 const Carousel = (props) => {
   let [state, dispatch] = useReducer(
     (state, action) => {
@@ -55,7 +52,7 @@ const Carousel = (props) => {
     <div>
       <ImageContainer>
         <CarouselImg>
-          <img src={props.games[state.currentIndex].background_img} alt='background' max-width='100%' height='auto'></img>
+          <img src={props.games[state.currentIndex].background_img} alt='background' max-width='100%' height='100%'></img>
           <CarouselNav>
             <Prev >
               <Button className="material-icons" name='PREV' onClick={handleClick}>skip_previous</Button>
@@ -95,7 +92,6 @@ const Play = styled.div`
   display: flex;
   align-items: flex-end;
   padding-right: 4em;
-  // position: absolute;
 `;
 
 const Pause = styled.div`
@@ -104,7 +100,6 @@ const Pause = styled.div`
   display: flex;
   align-items: flex-end;
   padding-left: 4em;
-  // position: absolute;
 `;
 
 const Prev = styled.div`
@@ -135,7 +130,6 @@ const CarouselNav = styled.div`
 const ImageContainer = styled.div`
   position: relative;
   height: 93vh;
-  // width: 100vw;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -148,11 +142,6 @@ const CarouselImg = styled.div`
   align-items: center;
   height: 100%;
   width: 100%;
-
-  img {
-    height: 100%;
-  }
-
   max-width: auto;
   overflow: hidden;
   margin: 0 auto;

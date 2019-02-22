@@ -12,7 +12,6 @@ const styles = theme => ({
         top: "50%",
         transform: "translate(-50%, -50%)",
         width: theme.spacing.unit * 40,
-        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
         background: "rgba(192, 192, 192, 0.9)",
         borderRadius: "5%",

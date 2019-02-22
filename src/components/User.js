@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Avatar from "@material-ui/core/Avatar";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Button from '@material-ui/core/Button';
-import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
-import { Doughnut } from 'react-chartjs-2';
 import socketIOClient from 'socket.io-client';
 import { getCurrentUser } from "../ducks/userReducer";
 import Report from "./Report";
+import { Doughnut } from 'react-chartjs-2';
 import styled from 'styled-components';
+import Avatar from "@material-ui/core/Avatar";
+import { withStyles } from "@material-ui/core/styles";
+import Button from '@material-ui/core/Button';
+import Modal from "@material-ui/core/Modal";
 
 //MODAL TO DISPLAY USER INFO FROM REQUEST PAGE
 //VIEWER CAN REPORT USER, AND CREATOR CAN REMOVE USER FROM TEAM
@@ -56,7 +56,6 @@ const Profile = props => {
         setTotalCount(fullCount.data[0].count)
         const countObj = await axios.get(`/api/teams/count/game/${user_id}`)
         setGameCountArr(countObj.data);
-
     };
 
     const getReports = async () => {
@@ -238,4 +237,4 @@ const User = styled.div`
         height: 5em;
         width: 5em;
     }
-`
+`;

@@ -15,71 +15,25 @@ const GET_CURRENT_USER = "GET_CURRENT_USER";
 export function login(email, password) {
     return {
         type: LOGIN,
-        payload: axios.post("/users/login", {
-            email,
-            password
-        })
+        payload: axios.post("/users/login", { email, password })
     };
 }
 
-export function addUser(
-    display_name,
-    email,
-    password,
-    blizzard,
-    epic,
-    ps4,
-    riot,
-    steam,
-    xbox
-) {
+export function addUser( display_name, email, password, blizzard, epic, ps4, riot, steam, xbox) {
     return {
         type: ADD_USER,
-        payload: axios.post("/users/register", {
-            display_name,
-            email,
-            password,
-            blizzard,
-            epic,
-            ps4,
-            riot,
-            steam,
-            xbox
-        })
+        payload: axios.post("/users/register", { display_name, email, password, blizzard, epic, ps4, riot, steam, xbox })
     };
 }
 
-export function update(
-    display_name,
-    email,
-    password,
-    avatar,
-    blizzard,
-    epic,
-    ps4,
-    riot,
-    steam,
-    xbox
-) {
+export function update( display_name, email, password, avatar, blizzard, epic, ps4, riot, steam, xbox) {
     return {
         type: UPDATE,
-        payload: axios.put("/users/update", {
-            display_name,
-            email,
-            password,
-            avatar,
-            blizzard,
-            epic,
-            ps4,
-            riot,
-            steam,
-            xbox
-        })
+        payload: axios.put("/users/update", { display_name, email, password, avatar, blizzard, epic, ps4, riot, steam, xbox })
     };
 }
 
 export function getUser(email) {
-    // console.log(id);
     return {
         type: GET_USER,
         payload: axios.get(`/users/${email}`)
@@ -101,7 +55,6 @@ export function getCurrentUser() {
 }
 
 export default function reducer(state = initialState, action) {
-    // console.log(action.type, action.payload);
     switch (action.type) {
         case LOGIN + "_FULFILLED":
             return { ...state, user: action.payload.data };

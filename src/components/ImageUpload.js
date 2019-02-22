@@ -1,8 +1,8 @@
 import React from "react";
+
+import styled from 'styled-components';
 import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
-import styled from 'styled-components';
-
 
 const ImageUpload = props => {
     return (
@@ -29,4 +29,4 @@ const UploadFormat = styled.div`
     align-items: center;
     justify-content: space-evenly;
     justify-conetent: center;
-`
+`;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { login } from "../ducks/userReducer";
-import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 
 const Login = props => {
     const [inputs, setInputs] = useState({ email: "", password: "" });
@@ -49,12 +49,13 @@ const Logo = styled.img`
     justify-content: flex-end; 
     height: 4em;
     width: 100%;
-`
+`;
+
 const SignIn = styled.div`
     display: flex;
     justify-content: center;
     padding-top: 2em; 
-`
+`;
 
 const LoginFormat = styled.div`
     display: flex;
@@ -66,5 +67,4 @@ const LoginFormat = styled.div`
     input{
         width: 50%;
     }
-
-`
+`;

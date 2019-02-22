@@ -25,6 +25,7 @@ const Game = props => {
   const [redirect, setRedirect] = useState(false)
   const { classes } = props;
 
+  // takes you to top of selected game page
   const handleRedirect = () => {
     setRedirect(true)
     return window.scrollTo(0,0);

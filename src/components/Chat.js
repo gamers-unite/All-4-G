@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import socketIOClient from 'socket.io-client';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+//material ui imports
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
@@ -29,7 +30,6 @@ const styles = theme => ({
 });
 
 const Chat = props => {
-  
   const [chat, setChat] = useState([])
   const [inputs, setInputs] = useState({
     multiline: ''
@@ -37,7 +37,6 @@ const Chat = props => {
 
   const setUp = async () => {
     const result = await axios.post("/api/chat", { req_id: props.id })
-    console.log(result.data)
     setChat(result.data)
   }
 
@@ -45,11 +44,10 @@ const Chat = props => {
     setUp()
     socket.emit('Enter Room', { room: props.id })
   }, [])
-  useEffect(() => {
 
+  useEffect(() => {
     socket.on('Received Chat', () => {
-      setUp()
-    })
+      setUp()})
   }, [])
 
   const keyPress = e => {
@@ -63,7 +61,6 @@ const Chat = props => {
   };
 
   const handleClick = async () => {
-    console.log(inputs)
     const obj = {
       text: inputs.multiline,
       user_id: props.user_id,
@@ -78,10 +75,9 @@ const Chat = props => {
 
   const chatMap = chat.map( (e, i) => {
     return (
-      <div className='ind_chat'>
+      <div className='ind_chat' key={i}>
         <Avatar aria-label="Avatar" src={e.avatar} />
         <TextField
-          // disabled
           id="outlined-multiline-flexible"
           multiline
           rowsMax="4"
@@ -130,7 +126,6 @@ const ChatDiv = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
-  /* margin: 5%; */
   height: 100%;
   width: 700px;
   border: 1px solid black;
@@ -168,4 +163,4 @@ const ChatDiv = styled.div`
     width: 80%;
     margin-bottom: 2%;
   }
-`
+`;

@@ -2,33 +2,24 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
+import { getCurrentUser, logout } from "../ducks/userReducer.js";
+import Login from "./Login";
+import Register from "./Register";
+
+import styled from "styled-components";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-// import Typography from "@material-ui/core/Typography";
-// import InputBase from "@material-ui/core/InputBase";
 import Modal from "@material-ui/core/Modal";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import { withStyles } from "@material-ui/core/styles";
-// import MenuIcon from "@material-ui/icons/Menu";
-// import SearchIcon from "@material-ui/icons/Search";
-// import AccountCircle from "@material-ui/icons/AccountCircle";
-// import MoreIcon from "@material-ui/icons/MoreVert";
-import dark from "@material-ui/core/colors";
-import { getCurrentUser, logout } from "../ducks/userReducer.js";
-import Login from "./Login";
-import Register from "./Register";
-import styled from "styled-components";
-
 
 const styles = theme => ({
-    palette: {
-        type: dark
-    },
     root: {
         width: "100%"
     },
@@ -96,14 +87,12 @@ const styles = theme => ({
             display: "none"
         }
     },
-
     modalWrapper: {
         width: "100vw",
         height: "100vh",
         alignItems: "center",
         justifyContent: "center"
     },
-
     modal: {
         position: "absolute",
         float: "left",
@@ -111,7 +100,6 @@ const styles = theme => ({
         top: "50%",
         transform: "translate(-50%, -50%)",
         width: theme.spacing.unit * 30,
-        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
         background: "rgba(192, 192, 192, 0.9)",
         borderRadius: "5%",
@@ -233,36 +221,9 @@ class Nav extends React.Component {
             <div className={classes.root}>
                 <AppBar style={{ background: "rgb(20, 20, 20)" }} position="static">
                     <Toolbar>
-                        {/* <IconButton
-                            className={classes.menuButton}
-                            color="inherit"
-                            aria-label="Open drawer"
-                        >
-                            <MenuIcon />
-                        </IconButton> */}
                         <Link to='/' style={{ color: "#ffffff", textDecoration: "none", cursor: 'pointer'}}>
-                        <Logo src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FLogo.png?alt=media&token=205cab94-8e86-4908-8d4b-1ad20390d3d1'></Logo>
-                        {/* <Typography
-                            className={classes.title}
-                            variant="h6"
-                            color="inherit"
-                            noWrap
-                        >
-                            ALL.4.G
-                        </Typography> */}
+                            <Logo src='https://firebasestorage.googleapis.com/v0/b/all-4-g.appspot.com/o/images%2FLogo.png?alt=media&token=205cab94-8e86-4908-8d4b-1ad20390d3d1'></Logo>
                         </Link>
-                        {/* <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput
-                                }}
-                            />
-                        </div> */}
                         <div className={classes.grow} />
                         <div className={classes.sectionDesktop}>
                             {!this.state.loggedIn && (
@@ -363,6 +324,5 @@ export default connect(
 
 const Logo = styled.img`
     z-index: 1;
-    height: 4em;
-    
-`
+    height: 4em;  
+`;

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import axios from "axios";
-import styled from "styled-components";
+import { connect } from 'react-redux';
 import socketIOClient from 'socket.io-client';
+import PropTypes from 'prop-types';
 // Component Imports
 import TeamMember from './TeamMember'
 import Chat from './Chat';
-// Material UI Imports
-import PropTypes from 'prop-types';
+// Styling
+import styled from "styled-components";
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -56,7 +56,6 @@ const styles = theme => ({
         top: "50%",
         transform: "translate(-50%, -50%)",
         width: theme.spacing.unit * 40,
-        // boxShadow: theme.shadows[10],
         padding: theme.spacing.unit * 4,
         background: "rgba(192, 192, 192, 0.9)",
         borderRadius: "5%",
@@ -172,13 +171,11 @@ const Request = props => {
         socket.on('Player Joined', data => {
             if (props.id === data.room) {
                 fillRequest()
-                console.log('Join data: ', data)
             }
         });
         socket.on('Player Left', data => {
             if (props.id === data.room) {
                 fillRequest()
-                console.log('Left data: ', data)
             }
         });
         socket.on("Kicked Player", (data) => {
@@ -188,7 +185,6 @@ const Request = props => {
 
     const handleJoin = () => {
         axios.post("/api/teams", { req_id: props.id, user_id: props.user.id }).then(() => {
-            // fillRequest();
             setMember(true)
         })
         socket.emit('Joined', { room: props.id })
@@ -206,7 +202,6 @@ const Request = props => {
     }
 
     //FORMAT DATE TO DISPLAY ON GAME REQUEST
-
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"];
 
     const myDate = (date) => {
@@ -229,7 +224,7 @@ const Request = props => {
                         <Avatar aria-label="Recipe" src={props.creatorImg} className={classes.avatar} onClick={openModal} />
                     }
                     action={props.user.id && !creator && member ?
-                        <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em', cursor: 'pointer' }} onClick={leaveTeam}>Leave Team</Button>
+                        <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={leaveTeam}>Leave Team</Button>
                         : props.user.id && !creator && !member ?
                             <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={handleJoin}>Join Team!</Button>
                             : props.user.id && creator && !roomFull ?
@@ -298,27 +293,27 @@ const ChatBox = styled.div`
     justify-content: center;
     height: 700px;
     width: auto;
-`
+`;
 
 const Team = styled.div`
-display: flex;
-justify-content: center;
-width: 100%;
-
-div {
     display: flex;
-}
+    justify-content: center;
+    width: 100%;
 
-.mini_avatar {
-    height: 35px;
-    width: 35px;
-    border-radius: 50%;
-}
+    div {
+        display: flex;
+    }
 
-.player {
-    height: 29px;
-    width: 29px;
-    background: black;
-    margin: 2px;
-}
-`
+    .mini_avatar {
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+    }
+
+    .player {
+        height: 29px;
+        width: 29px;
+        background: black;
+        margin: 2px;
+    }
+`;
