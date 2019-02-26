@@ -46,7 +46,7 @@ const Profile = props => {
         if (props.user.id !== user_id) {
             setReportable(true);
         }
-        if (props.user.id === props.creator_id) {
+        if (props.user.id === props.creator_id && props.user.id !== user_id) {
             setRemovable(true)
         }
         const fullCount = await axios.get(`/api/teams/count/${user_id}`)
