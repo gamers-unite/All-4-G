@@ -15,7 +15,7 @@ This application was created to learn React Hooks and Socket.io, as well as to b
 
 <br/>
 
-![gif](utils/gifs/intro-gif-all.gif)
+![gif](utils/gifs/intro.gif)
 
 <br/>
 
