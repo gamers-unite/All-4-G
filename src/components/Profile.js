@@ -146,7 +146,7 @@ const Profile = props => {
                         <h2>Total Games: </h2>
                         <p>{totalCount}</p>
                     </IdFormat>
-                    {!modal && <Button variant='contained' onClick={openEdit}>Edit</Button>}
+                    {!modal && <Button variant='contained' style={{ position: 'relative', bottom: '-2em', height: '12em', width: '7em'}}onClick={openEdit}>Edit</Button>}
                     {modal && (
                         <Modal
                             className={classes.modalWrapper}
@@ -237,7 +237,7 @@ const ProfileFormat = styled.div`
 const UserInfo = styled.div`
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 85vh;
     width: 20%;
 `;
 
