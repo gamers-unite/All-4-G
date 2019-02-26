@@ -248,6 +248,9 @@ const Request = props => {
                     subheader={myDate(request[0].Date)}
                 />
                 <CardContent style={{ width: '1000px' }}>
+                    <Typography component="p" style={{ width: '93%', fontWeight: 'bold' }}>
+                        {request[0].platform}
+                    </Typography>
                     <Typography component="p" style={{ width: '93%', textAlign: 'center' }}>
                         {request[0].info}
                     </Typography>
