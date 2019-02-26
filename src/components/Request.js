@@ -233,7 +233,7 @@ const Request = props => {
                     }
                     action={props.user.id && !creator && member ?
                         <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={leaveTeam}>Leave Team</Button>
-                        : props.user.id && !creator && !member ?
+                        : props.user.id && !creator && !member && !roomFull ?
                             <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '10em', fontSize: '.5em' }} onClick={handleJoin}>Join Team!</Button>
                             : props.user.id && creator && !roomFull ?
                                 <Button variant='contained' style={{ margin: '0 3px', height: '2.5em', width: '11em', fontSize: '.5em' }} onClick={deleteTeam}>Cancel Team</Button>
